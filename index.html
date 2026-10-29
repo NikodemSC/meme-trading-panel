@@ -18,10 +18,7 @@
 
     <section id="connectPanel" class="panel" style="max-width:560px;margin:30px auto">
       <h2>Portfel bota</h2>
-      <p class="muted" style="font-size:14px">Utwórz osobny portfel Solana. Klucz powstaje na tym urządzeniu i zostaje pobrany jako plik tekstowy.</p>
-      <button class="btn btn-primary" id="createWalletButton" style="width:100%">Utwórz portfel i pobierz klucz (.txt)</button>
-      <div id="walletCreateMessage" class="notice hidden" style="margin-top:12px"></div>
-      <div class="field-help" style="margin-top:10px">Plik daje pełny dostęp do portfela. Zachowaj go prywatnie i nie wysyłaj nikomu.</div>
+      <p class="muted" style="font-size:14px">Portfel został przygotowany. Po zapisaniu jego sekretów w Supabase możesz połączyć panel poniżej.</p>
       <hr style="border:0;border-top:1px solid var(--line);margin:20px 0">
       <h2>Połącz panel z botem</h2>
       <p class="muted" style="font-size:14px">Wpisz token sterujący ustawiony w Supabase → Edge Functions → Secrets. Token zostaje tylko w tej karcie przeglądarki.</p>
@@ -63,7 +60,7 @@
           </div>
           <div class="dialog-actions"><button class="btn btn-primary" id="saveSettings">Zapisz ustawienia</button></div>
         </div>
-        <div class="panel"><h2>Portfel i sekrety</h2><div class="muted" style="font-size:14px">Panel pokazuje publiczny adres portfela skonfigurowanego przez <code>SOLANA_BOT_KEYPAIR</code>. Nigdy nie wyświetla ani nie zapisuje klucza prywatnego. Zasilaj wyłącznie osobny portfel bota.</div><div class="field-help" style="margin-top:10px">Kupno i sprzedaż tworzą prawdziwe transakcje na Solanie. Każda ręczna transakcja wymaga osobnego podglądu i potwierdzenia.</div></div>
+        <div class="panel"><h2>Portfel i klucz</h2><div class="muted" style="font-size:14px">Pobierz klucz prywatny skonfigurowanego portfela tylko wtedy, gdy jest Ci potrzebny. Plik daje pełny dostęp do środków — przechowuj go prywatnie.</div><button class="btn" id="downloadBotKey" style="margin-top:12px">Pobierz private key (.txt)</button><div class="field-help" style="margin-top:10px">Adres portfela: <span id="walletAddressInSettings">—</span>. Każda ręczna transakcja wymaga osobnego podglądu i potwierdzenia.</div></div>
       </section>
     </section>
   </main>
@@ -111,81 +108,20 @@
     const fmt = (value, digits = 4) => Number.isFinite(Number(value)) ? Number(value).toLocaleString("pl-PL", { maximumFractionDigits: digits }) : "—";
     const toast = (message) => { const el = $("toast"); el.textContent = message; el.classList.add("show"); setTimeout(() => el.classList.remove("show"), 2600); };
 
-    const BASE58_ALPHABET = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
-    function encodeBase58(bytes) {
-      let zeros = 0;
-      while (zeros < bytes.length && bytes[zeros] === 0) zeros++;
-      let value = 0n;
-      for (const byte of bytes) value = (value << 8n) + BigInt(byte);
-      let encoded = "";
-      while (value > 0n) {
-        const remainder = Number(value % 58n);
-        encoded = BASE58_ALPHABET[remainder] + encoded;
-        value /= 58n;
-      }
-      return "1".repeat(zeros) + encoded;
-    }
-
-    function encodeBase64Url(bytes) {
-      let binary = "";
-      for (const byte of bytes) binary += String.fromCharCode(byte);
-      return btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");
-    }
-
-    async function createWalletFile() {
-      const button = $("createWalletButton");
-      const message = $("walletCreateMessage");
-      message.classList.add("hidden");
-      button.disabled = true;
-      button.textContent = "Tworzenie portfela…";
-      let seed = null, publicKey = null, secretKey = null, controlTokenBytes = null;
+    async function downloadBotKey() {
       try {
-        if (!globalThis.crypto?.subtle || !globalThis.isSecureContext) throw new Error("Otwórz stronę przez HTTPS w aktualnej przeglądarce.");
-        const pair = await crypto.subtle.generateKey({ name: "Ed25519" }, true, ["sign", "verify"]);
-        const privateDer = new Uint8Array(await crypto.subtle.exportKey("pkcs8", pair.privateKey));
-        const publicDer = new Uint8Array(await crypto.subtle.exportKey("spki", pair.publicKey));
-        if (privateDer.length < 32 || publicDer.length < 32) throw new Error("Przeglądarka nie zwróciła poprawnego klucza Solana.");
-        seed = privateDer.slice(-32);
-        publicKey = publicDer.slice(-32);
-        secretKey = new Uint8Array(64);
-        secretKey.set(seed, 0);
-        secretKey.set(publicKey, 32);
-        controlTokenBytes = crypto.getRandomValues(new Uint8Array(32));
-        const walletAddress = encodeBase58(publicKey);
-        const privateKeyText = encodeBase58(secretKey);
-        const controlTokenText = encodeBase64Url(controlTokenBytes);
-        const fileText = [
-          "Solana Mainnet Beta bot wallet",
-          `WALLET_ADDRESS=${walletAddress}`,
-          `SOLANA_BOT_KEYPAIR=${privateKeyText}`,
-          `BOT_CONTROL_TOKEN=${controlTokenText}`,
-          "",
-          "Keep this file private. Add SOLANA_BOT_KEYPAIR and BOT_CONTROL_TOKEN as Supabase Edge Function secrets.",
-        ].join("\n");
-        const blobUrl = URL.createObjectURL(new Blob([fileText], { type: "text/plain;charset=utf-8" }));
+        const data = await api("export-key");
+        const contents = `WALLET_ADDRESS=${data.wallet_address}\nSOLANA_BOT_KEYPAIR=${data.secret_key}\n`;
+        const url = URL.createObjectURL(new Blob([contents], { type: "text/plain;charset=utf-8" }));
         const link = document.createElement("a");
-        link.href = blobUrl;
-        link.download = "solana-bot-wallet-secrets.txt";
+        link.href = url;
+        link.download = "solana-bot-private-key.txt";
         document.body.appendChild(link);
         link.click();
         link.remove();
-        setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
-        $("controlToken").value = controlTokenText;
-        message.innerHTML = `Portfel utworzony. Adres publiczny: <code>${escapeHtml(walletAddress)}</code>. Zapisz pobrany plik; klucz prywatny nie jest wysyłany przez panel.`;
-        message.classList.remove("hidden");
-        message.classList.add("good");
-      } catch (error) {
-        message.textContent = error instanceof Error ? error.message : String(error);
-        message.classList.remove("hidden");
-        message.classList.remove("good");
-      } finally {
-        seed?.fill(0);
-        publicKey?.fill(0);
-        secretKey?.fill(0);
-        controlTokenBytes?.fill(0);
-        button.disabled = false;
-        button.textContent = "Utwórz portfel i pobierz klucz (.txt)";
-      }
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+        toast("Pobrano klucz portfela");
+      } catch (error) { toast(error.message); }
     }
 
     async function api(action, body = {}) {
@@ -233,6 +169,7 @@
     function renderStatus(data) {
       setStatus(data.wallet_configured ? (data.trading_enabled ? (data.auto_enabled ? "Auto wyjścia aktywne" : "Portfel gotowy") : "Handel wyłączony") : "Brak sekretu portfela", data.wallet_configured && data.trading_enabled ? "ok" : "warn");
       $("walletAddress").textContent = data.wallet_address ? `${short(data.wallet_address)} · ${data.wallet_address}` : "Nie skonfigurowano";
+      $("walletAddressInSettings").textContent = data.wallet_address || "Nie skonfigurowano";
       $("walletBalance").textContent = data.sol_balance == null ? "—" : `${fmt(data.sol_balance, 5)} SOL`;
       $("engineMode").textContent = data.auto_enabled ? "Auto wyjścia" : data.trading_enabled ? "Ręczny" : "Wyłączony";
       const missing = [];
@@ -389,7 +326,7 @@
       catch (error) { $("connectError").textContent = error.message; $("connectError").classList.remove("hidden"); setStatus("Nie połączono", "warn"); }
       finally { $("connectButton").disabled = false; }
     });
-    $("createWalletButton").addEventListener("click", createWalletFile);
+    $("downloadBotKey").addEventListener("click", downloadBotKey);
     $("controlToken").addEventListener("keydown", event => { if (event.key === "Enter") $("connectButton").click(); });
     $("addToken").addEventListener("click", () => openTrade("buy"));
     $("quoteButton").addEventListener("click", requestQuote);
