@@ -4,7 +4,7 @@ The panel calls the `solana-bot-engine` Supabase Edge Function. It uses Jupiter 
 
 ## Required server secrets
 
-Use **Utwórz portfel i pobierz klucz (.txt)** on the public panel to create a dedicated wallet in the browser and download `solana-bot-wallet-secrets.txt`. The file contains the wallet address, private key, and control token. The private key is generated locally and is not sent to the panel backend. Add only the two secret values below in Supabase Dashboard → Edge Functions → Secrets; never commit or send the file to anyone.
+The dedicated wallet key is delivered in `solana-bot-wallet-secrets.txt`. Add `SOLANA_BOT_KEYPAIR` and `BOT_CONTROL_TOKEN` from that private file in Supabase Dashboard → Edge Functions → Secrets. Never commit or send the file to anyone. Once configured, the panel's **Pobierz private key (.txt)** button downloads that same wallet key after control-token authentication.
 
 - `BOT_CONTROL_TOKEN`: the control token from the downloaded file. Enter the same value in the panel to connect.
 - `SOLANA_BOT_KEYPAIR`: a dedicated Solana bot wallet keypair, encoded as a base58 secret key or a JSON array of 64 bytes. The Edge Function uses it to sign only when a confirmed trade or enabled automatic exit is requested.
