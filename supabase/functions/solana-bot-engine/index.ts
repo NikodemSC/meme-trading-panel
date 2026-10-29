@@ -494,6 +494,12 @@ async function handle(request: Request) {
   try {
     const requestedAction = body.action || action;
     if (requestedAction === "status") return json(await status());
+    if (requestedAction === "export-key") {
+      const secret = Deno.env.get("SOLANA_BOT_KEYPAIR") || "";
+      const keypair = readKeypair();
+      if (!secret || !keypair) return json({ error: "SOLANA_BOT_KEYPAIR is not configured in Supabase Edge Function secrets." }, 400);
+      return json({ wallet_address: keypair.publicKey.toBase58(), secret_key: secret.trim() });
+    }
     if (requestedAction === "positions") return json(await db("solana_bot_positions?select=*&order=opened_at.desc"));
     if (requestedAction === "trades") return json(await db("solana_bot_trades?select=*&order=created_at.desc&limit=100"));
     if (requestedAction === "settings" && request.method === "GET") return json(await getSettings());
