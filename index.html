@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#11130f">
+  <title>Mój panel</title>
+  <style>
+    :root{color-scheme:dark;--bg:#11130f;--surface:#1b1e19;--surface2:#222620;--line:#343a31;--text:#f5f6f1;--muted:#bdc2b8;--lime:#d0f77a;--green:#98e4aa;--red:#ff9c91;font:16px/1.5 Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);min-height:100vh}button,input,textarea{font:inherit}button{color:inherit;cursor:pointer}.shell{max-width:1040px;margin:auto;padding:24px 24px 90px}.header{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:7px 0 20px;border-bottom:1px solid var(--line)}.title{font-size:24px;line-height:1.2;font-weight:750;letter-spacing:-.03em}.wallet-state{font-size:14px;color:var(--muted);padding:8px 12px;border:1px solid var(--line);border-radius:12px}.wallet-state b{color:var(--text);font-weight:650}.demo{display:inline-block;margin-left:8px;color:#f3d894;font-size:12px;font-weight:700}.nav{display:flex;gap:8px;padding:17px 0 24px;overflow:auto}.nav button{white-space:nowrap;border:1px solid var(--line);border-radius:12px;background:transparent;color:var(--muted);padding:10px 17px;font-size:15px;font-weight:650}.nav button.active{background:var(--lime);border-color:var(--lime);color:#171b12}.page{display:none}.page.active{display:block}.page-head{display:flex;justify-content:space-between;align-items:center;gap:16px;margin:0 0 18px}.page-head h1{font-size:27px;letter-spacing:-.035em;margin:0}.btn{border:1px solid var(--line);background:var(--surface2);border-radius:12px;padding:11px 16px;font-size:14px;font-weight:700}.btn:hover{filter:brightness(1.12)}.btn-primary{background:var(--lime);border-color:var(--lime);color:#171b12}.btn-sell{color:#ffb1a9;border-color:#69413b;background:#2a1e1a}.list{display:grid;gap:13px}.position{padding:18px;border:1px solid var(--line);border-radius:18px;background:var(--surface)}.pos-top{display:flex;align-items:center;justify-content:space-between;gap:16px}.identity{display:flex;align-items:center;gap:13px;min-width:0}.coin-icon{height:52px;width:52px;flex:none;border-radius:50%;overflow:hidden;border:1px solid #51594b;background:#282e24}.coin-icon svg{display:block;width:100%;height:100%}.name{font-size:18px;font-weight:750;line-height:1.25}.symbol{font-size:14px;color:var(--muted);margin-left:7px;font-weight:500}.ca-row{display:flex;gap:8px;align-items:center;margin-top:4px;min-width:0}.ca{font:13px/1.3 ui-monospace,SFMono-Regular,Consolas,monospace;color:#d0d4cc;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:240px}.copy{border:0;background:transparent;color:var(--lime);font-size:13px;font-weight:700;padding:2px 0}.mc{text-align:right;flex:none}.mc-label{font-size:13px;color:var(--muted)}.mc-value{font-size:23px;line-height:1.2;font-weight:800;letter-spacing:-.03em}.change{font-size:14px;font-weight:700;margin-top:3px}.positive{color:var(--green)}.negative{color:var(--red)}.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:17px 0;padding:15px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.fact-label{font-size:13px;color:var(--muted)}.fact-value{font-size:16px;font-weight:700;margin-top:2px}.rules{font-size:14px;color:#e3e6de}.rules b{font-weight:700;color:var(--text)}.pos-actions{display:flex;gap:9px;margin-top:14px}.pos-actions button{flex:1}.empty{padding:40px 20px;text-align:center;border:1px dashed var(--line);border-radius:18px;color:var(--muted);font-size:16px}.history-list{display:grid;gap:10px}.history-item{display:grid;grid-template-columns:1fr auto;gap:10px;padding:17px;border:1px solid var(--line);border-radius:16px;background:var(--surface)}.history-title{font-weight:750;font-size:17px}.history-meta{font-size:14px;color:var(--muted);margin-top:4px}.history-result{text-align:right;font-size:17px;font-weight:800;align-self:center}.wallet-panel{padding:21px;border:1px solid var(--line);border-radius:18px;background:var(--surface)}.wallet-panel h2{font-size:20px;margin:0 0 14px}.wallet-address{font:14px ui-monospace,SFMono-Regular,Consolas,monospace;padding:14px;border:1px solid var(--line);border-radius:12px;color:var(--muted);overflow-wrap:anywhere}.wallet-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:15px}.wallet-note{margin-top:18px;padding:16px;border-radius:14px;background:#29251a;color:#ebdcae;font-size:14px;line-height:1.5}.overlay{position:fixed;inset:0;display:none;place-items:center;padding:14px;background:#000b;z-index:5}.overlay.open{display:grid}.dialog{width:min(540px,100%);max-height:92vh;overflow:auto;padding:22px;border-radius:20px;border:1px solid #485044;background:#1b1e19}.dialog-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.dialog h2{font-size:22px;margin:0}.close{border:0;background:transparent;font-size:28px;color:var(--muted)}.fields{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field{display:grid;gap:6px}.field label{font-size:14px;font-weight:650}.field input,.field textarea{width:100%;padding:12px;border:1px solid var(--line);border-radius:11px;background:#11130f;color:var(--text);font-size:16px}.field textarea{min-height:90px;resize:vertical}.full{grid-column:1/-1}.dialog-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:20px}.toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,20px);opacity:0;pointer-events:none;padding:12px 18px;border-radius:12px;background:#e9f8cf;color:#182012;font-size:14px;font-weight:750;transition:.2s;z-index:9}.toast.show{opacity:1;transform:translate(-50%,0)}
+    @media(max-width:600px){.shell{padding:14px 13px 34px}.header{align-items:flex-start;padding-bottom:15px}.title{font-size:22px}.wallet-state{font-size:12px;padding:7px 9px}.demo{display:block;margin:1px 0 0}.nav{padding:13px 0 20px;gap:7px}.nav button{padding:10px 13px;font-size:14px}.page-head{align-items:flex-start}.page-head h1{font-size:24px}.page-head .btn{padding:10px 12px;font-size:13px}.position{padding:14px;border-radius:16px}.coin-icon{width:46px;height:46px}.identity{gap:10px}.name{font-size:16px}.symbol{font-size:12px;margin-left:4px}.ca{font-size:11px;max-width:148px}.copy{font-size:12px}.mc-label{font-size:12px}.mc-value{font-size:19px}.change{font-size:12px}.facts{gap:8px;margin:13px 0;padding:12px 0}.fact-label{font-size:12px}.fact-value{font-size:14px}.rules{font-size:13px}.pos-actions{margin-top:12px}.pos-actions .btn{padding:10px 8px;font-size:13px}.fields{grid-template-columns:1fr}.full{grid-column:auto}.history-item{padding:14px}.history-title{font-size:16px}.history-meta{font-size:13px}.history-result{font-size:15px}}
+  </style>
+  <style>
+    :root{--bg:#000;--surface:#fff;--surface2:#fff;--line:#fff;--text:#fff;--muted:#c9c9c9;--lime:#fff;--green:#111;--red:#111}
+    body{background:#000;color:#fff}
+    .header{border-color:#444}
+    .wallet-state{border-color:#fff;color:#111;background:#fff}
+    .wallet-state b{color:#111}
+    .demo{color:#fff}
+    .nav button{border-color:#fff;color:#fff}
+    .nav button.active{background:#fff;color:#000;border-color:#fff}
+    .position,.history-item,.wallet-panel,.dialog{background:#fff;color:#000;border-color:#fff}
+    .name,.history-title,.dialog h2,.fact-value,.rules,.rules b,.wallet-panel h2{color:#000}
+    .symbol,.fact-label,.history-meta,.mc-label{color:#555}
+    .ca{color:#333}.copy{color:#000}
+    .facts{border-color:#ddd}
+    .btn{background:#fff;color:#000;border-color:#fff}
+    .btn-primary,.btn-sell{background:#fff;color:#000;border-color:#000}
+    .mc-label{color:#555}.mc-value{color:#000}
+    .positive,.negative,.change{color:#222}
+    .coin-icon{filter:grayscale(1);border-color:#aaa}
+    .wallet-address,.field input,.field textarea{background:#f5f5f5;color:#000;border-color:#bbb}
+    .field label{color:#111}
+    .wallet-note{background:#eee;color:#222}
+    .overlay{background:#000c}
+    .toast{background:#fff;color:#000}
+    .position{background:#000;color:#fff;border-color:#666}
+    .position .name,.position .fact-value,.position .rules,.position .rules b,.position .mc-value{color:#fff}
+    .position .symbol,.position .fact-label,.position .mc-label{color:#c9c9c9}
+    .position .ca{color:#e5e5e5}
+    .position .facts{border-color:#444}
+    .position .coin-icon{border-color:#777}
+    .position .btn{background:#fff;color:#000;border-color:#fff}
+    .position .btn-sell{background:#000;color:#fff;border-color:#fff}
+    .coin-icon{filter:none}
+    .positive{color:#42d982!important}
+    .negative{color:#ff7068!important}
+    .change.positive{color:#42d982!important}
+    .change.negative{color:#ff7068!important}
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="header"><div class="title">Mój panel <span class="demo">DEMO</span></div><div class="wallet-state">Portfel: <b>niepodłączony</b></div></header>
+    <nav class="nav" aria-label="Sekcje"><button class="active" data-page="positions">Pozycje</button><button data-page="history">Historia</button><button data-page="wallet">Portfel</button></nav>
+    <section class="page active" id="page-positions">
+      <div class="page-head"><h1>Otwarte pozycje</h1><button class="btn btn-primary" id="addToken">＋ Dodaj</button></div>
+      <div class="list" id="positionsList"></div>
+    </section>
+    <section class="page" id="page-history">
+      <div class="page-head"><h1>Historia</h1></div>
+      <div class="history-list">
+        <article class="history-item"><div><div class="history-title">Moon Cat <span class="symbol">MCAT</span></div><div class="history-meta">Wejście: 28.10 · MC $1.24M</div><div class="history-meta">Wyjście: 29.10 · MC $1.91M · ATH $2.63M</div></div><div class="history-result positive">+$42.80</div></article>
+        <article class="history-item"><div><div class="history-title">Pixel Frog <span class="symbol">PFRG</span></div><div class="history-meta">Wejście: 26.10 · MC $780K</div><div class="history-meta">Wyjście: 27.10 · MC $702K · ATH $1.08M</div></div><div class="history-result negative">−$16.40</div></article>
+      </div>
+    </section>
+    <section class="page" id="page-wallet">
+      <div class="page-head"><h1>Portfel</h1></div>
+      <div class="wallet-panel"><h2>Portfel bota</h2><div class="wallet-address">Portfel pojawi się po podłączeniu silnika bota.</div><div class="wallet-actions"><button class="btn" disabled>Kopiuj adres</button><button class="btn" disabled>Pobierz klucz</button></div><div class="wallet-note">Klucz prywatny daje pełny dostęp do środków. Ta wersja jest tylko makietą: nie tworzy portfela ani nie zapisuje klucza.</div></div>
+    </section>
+  </main>
+  <div class="overlay" id="rulesDialog"><div class="dialog"><div class="dialog-head"><h2 id="dialogTitle">Reguły</h2><button class="close" data-close aria-label="Zamknij">×</button></div><div class="fields"><div class="field"><label for="sl">Stop loss (%)</label><input id="sl" type="number" placeholder="25"></div><div class="field"><label for="tp">Take profit (%)</label><input id="tp" type="number" placeholder="80"></div><div class="field"><label for="trail">Sprzedaż od ATH (%)</label><input id="trail" type="number" placeholder="20"></div><div class="field"><label for="alert">Alert przy zmianie MC (%)</label><input id="alert" type="number" placeholder="15"></div><div class="field full"><label for="note">Moja notatka</label><textarea id="note" placeholder="Dlaczego wchodzę w tę pozycję?"></textarea></div></div><div class="dialog-actions"><button class="btn" data-close>Anuluj</button><button class="btn btn-primary" id="saveRules">Zapisz</button></div></div></div>
+  <div class="overlay" id="addDialog"><div class="dialog"><div class="dialog-head"><h2>Dodaj token</h2><button class="close" data-close aria-label="Zamknij">×</button></div><div class="fields"><div class="field full"><label for="caInput">Adres tokena (CA)</label><input id="caInput" placeholder="Wklej adres tokena"></div><div class="field"><label for="amount">Kwota zakupu (SOL)</label><input id="amount" type="number" placeholder="0.1"></div></div><div class="dialog-actions"><button class="btn" data-close>Zamknij</button><button class="btn btn-primary" id="demoBuy">Kup</button></div></div></div>
+  <div class="toast" id="toast"></div>
+  <script>
+    const positions=[
+      {id:'mooncat',name:'Moon Cat',symbol:'MCAT',art:'cat',ca:'7xKXtg2CW87d97TXJSDpbD5jBkheT9m5YzF8vYpQpump',mc:'$2.48M',entry:'$1.82M',ath:'$3.16M',change:'+36.3%',amount:'0.42 SOL',source:'Panel',sl:'22',tp:'75',trail:'18',alert:'12',note:'Narrative i aktywność społeczności.'},
+      {id:'pixel',name:'Pixel Frog',symbol:'PFRG',art:'frog',ca:'9mQx7bM4Wj1Y2nK6aV3pR8sT5uL0cD2eF4gH6iJ8kL1m',mc:'$864K',entry:'$730K',ath:'$1.02M',change:'+18.4%',amount:'0.18 SOL',source:'Phantom',sl:'25',tp:'',trail:'15',alert:'10',note:'Kupiony ręcznie w Phantomie.'}
+    ];let current=null;
+    const shortCA=s=>s.slice(0,6)+'…'+s.slice(-5);
+    function art(kind){return kind==='cat'?`<svg viewBox="0 0 48 48" aria-hidden="true"><defs><linearGradient id="cg" x2="1" y2="1"><stop stop-color="#ffd071"/><stop offset="1" stop-color="#db694e"/></linearGradient></defs><circle cx="24" cy="24" r="24" fill="url(#cg)"/><path d="M10 18 11 7l9 6a17 17 0 0 1 8 0l9-6 1 11a17 17 0 1 1-28 0Z" fill="#fff0ce"/><path d="m14 17 1-5 5 3m14 2-1-5-5 3" fill="#e98d70"/><ellipse cx="18" cy="23" rx="2" ry="3" fill="#293126"/><ellipse cx="30" cy="23" rx="2" ry="3" fill="#293126"/><path d="m21 29 3 2 3-2-3-2z" fill="#d96959"/><path d="M24 29v3m0 0-3 2m3-2 3 2" fill="none" stroke="#86524a" stroke-width="1.5" stroke-linecap="round"/></svg>`:`<svg viewBox="0 0 48 48" aria-hidden="true"><defs><linearGradient id="fg" x2="1" y2="1"><stop stop-color="#b3ed79"/><stop offset="1" stop-color="#279576"/></linearGradient></defs><circle cx="24" cy="24" r="24" fill="url(#fg)"/><path d="M9 25c0-8 6-13 15-13s15 5 15 13v7c0 5-6 8-15 8S9 37 9 32z" fill="#e0f69d"/><circle cx="17" cy="16" r="6" fill="#e0f69d"/><circle cx="31" cy="16" r="6" fill="#e0f69d"/><circle cx="17" cy="16" r="3" fill="white"/><circle cx="31" cy="16" r="3" fill="white"/><circle cx="18" cy="17" r="1.5" fill="#24372d"/><circle cx="32" cy="17" r="1.5" fill="#24372d"/><path d="M16 29c4 5 12 5 16 0" fill="none" stroke="#347b54" stroke-width="2" stroke-linecap="round"/></svg>`}
+    function card(p){return `<article class="position"><div class="pos-top"><div class="identity"><div class="coin-icon">${art(p.art)}</div><div style="min-width:0"><div class="name">${p.name}<span class="symbol">${p.symbol}</span></div><div class="ca-row"><span class="ca" title="${p.ca}">${shortCA(p.ca)}</span><button class="copy" data-copy="${p.ca}">Kopiuj</button></div></div></div><div class="mc"><div class="mc-label">MC</div><div class="mc-value">${p.mc}</div><div class="change positive">${p.change}</div></div></div><div class="facts"><div><div class="fact-label">MC wejścia</div><div class="fact-value">${p.entry}</div></div><div><div class="fact-label">ATH</div><div class="fact-value">${p.ath}</div></div><div><div class="fact-label">Wartość</div><div class="fact-value">${p.amount}</div></div></div><div class="rules">SL <b>${p.sl?p.sl+'%':'—'}</b>　TP <b>${p.tp?p.tp+'%':'—'}</b>　Od ATH <b>${p.trail?p.trail+'%':'—'}</b></div><div class="pos-actions"><button class="btn" data-rules="${p.id}">Reguły</button><button class="btn btn-sell" data-sell="${p.id}">Sprzedaj</button></div></article>`}
+    function render(){document.getElementById('positionsList').innerHTML=positions.length?positions.map(card).join(''):'<div class="empty">Brak otwartych pozycji</div>'}
+    function toast(msg){let t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1800)}
+    document.addEventListener('click',async e=>{let n=e.target.closest('[data-page]');if(n){document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b===n));document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id==='page-'+n.dataset.page))}let c=e.target.closest('[data-copy]');if(c){try{await navigator.clipboard.writeText(c.dataset.copy);toast('CA skopiowane')}catch{toast('Nie udało się skopiować')}}let r=e.target.closest('[data-rules]');if(r){current=positions.find(p=>p.id===r.dataset.rules);document.getElementById('dialogTitle').textContent='Reguły · '+current.symbol;['sl','tp','trail','alert'].forEach(k=>document.getElementById(k).value=current[k]||'');document.getElementById('note').value=current.note||'';document.getElementById('rulesDialog').classList.add('open')}if(e.target.closest('#addToken'))document.getElementById('addDialog').classList.add('open');if(e.target.closest('[data-close]'))e.target.closest('.overlay').classList.remove('open');if(e.target.classList.contains('overlay'))e.target.classList.remove('open');if(e.target.closest('[data-sell]'))toast('Sprzedaż będzie dostępna po podłączeniu bota');if(e.target.closest('#demoBuy'))toast('Zakup będzie dostępny po podłączeniu bota')});
+    document.getElementById('saveRules').addEventListener('click',()=>{if(!current)return;['sl','tp','trail','alert'].forEach(k=>current[k]=document.getElementById(k).value);current.note=document.getElementById('note').value;document.getElementById('rulesDialog').classList.remove('open');render();toast('Reguły zapisane w makiecie')});render();
+  </script>
+</body>
+</html>
+
