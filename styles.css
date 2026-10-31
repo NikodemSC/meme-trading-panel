@@ -84,3 +84,36 @@ input:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(94
 .old-copy-row small,.old-copy-placeholder small,.old-copy-detail-title small,.old-copy-settings-line,.old-copy-performance span,.old-copy-detail-tabs button{font-size:13px}
 .account-actions{display:none!important}
 
+/* Ciemniejszy motyw i spójne kolory Copy Trading. */
+:root{--bg:#070b12;--surface:#0d141e;--surface-2:#111c29;--line:#1d3042;--muted:#a9b7c8;--accent:#4ed8c7;--accent-2:#239e98}
+body{background:radial-gradient(circle at 50% -25%,#142633 0,#0b111a 42%,#070b12 78%)}
+.topbar{background:rgba(7,11,18,.97);border-bottom-color:#17283a}
+.feed,.panel{background:rgba(13,20,30,.96);border-color:#1d3042}
+.columns,.panel-tabs{background:#0e1a27}
+.stat{background:linear-gradient(145deg,#101b28,#0b131e);border-color:#1e3448}
+.stat.primary{background:linear-gradient(145deg,#10373a,#0d2029);border-color:#24615f}
+.old-copy-layout .panel,.old-copy-list-panel,.old-copy-detail{background:#0c141f;border-color:#1d3042}
+.old-copy-type-tabs{background:#080e16;border:1px solid #1b2b3c}
+.old-copy-type-tabs button{color:#8392a4}
+.old-copy-type-tabs button.active{background:#123c3b;color:#c8fff8}
+.old-copy-type-tabs button:disabled{color:#4e5b6a;background:#0b1119;opacity:1}
+.old-copy-row{background:#0c141f;border-bottom-color:#1a2c3d;color:#eaf2fa}
+.old-copy-row:hover{background:#101d2b}
+.old-copy-row.selected{background:linear-gradient(90deg,#102b34,#0c1c28);box-shadow:inset 3px 0 var(--accent)}
+.old-copy-row small{color:#92a3b5}
+.old-copy-row-icon,.old-copy-empty>div{background:#123c3b;color:#b8fff5}
+.old-copy-detail-title .copy-mint,.old-copy-detail-title small{color:#93a9ba}
+.old-copy-settings-line{background:#0f1a26;border-color:#203549;color:#a9bacb}
+.old-copy-performance span,.old-copy-card{background:#0f1925;border-color:#203549;color:#99aabd}
+.old-copy-performance strong,.old-copy-card-values strong{color:#edf7fc}
+.old-copy-detail-tabs{border-bottom-color:#1f3346}
+.old-copy-detail-tabs button{color:#91a0b1}
+.old-copy-detail-tabs button.active{color:#bffff7;border-color:var(--accent)}
+.old-copy-detail-tabs span{color:#8edbd2}
+.old-copy-placeholder>span{color:var(--accent)}
+.old-copy-actions button,.old-copy-toggle{background:#101b28;border-color:#2a4055;color:#c8d5e2}
+.old-copy-actions button:hover{border-color:#4e7182}
+.old-copy-actions .danger{color:#ff9aaa;border-color:#5a303c;background:#25151c}
+.old-copy-toggle{color:#d6c58e}
+.old-copy-toggle.running{color:#a8f5d0;border-color:#2f6e5d;background:#102b27}
+
