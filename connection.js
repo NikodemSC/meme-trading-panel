@@ -1,7 +1,9 @@
 (() => {
   const configured = String(window.MEME_PILOT_CONFIG?.apiBase || "").replace(/\/$/, "");
   const local = ["localhost", "127.0.0.1", "[::1]"].includes(location.hostname);
-  const base = configured || (local && !window.MEME_PILOT_CONFIG?.staticPanel ? location.origin : "");
+  // A full app deployment serves the panel and API from the same origin.
+  // A GitHub Pages build sets staticPanel=true and must use the configured API URL.
+  const base = configured || (!window.MEME_PILOT_CONFIG?.staticPanel ? location.origin : "");
   const remote = Boolean(base && new URL(base).origin !== location.origin);
   const key = `meme-pilot:session:${base}`;
   let token = "";
