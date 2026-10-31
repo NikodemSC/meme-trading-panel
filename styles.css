@@ -224,4 +224,13 @@ input:focus,select:focus{border-color:#ddd;box-shadow:0 0 0 3px rgba(255,255,255
 .panel-tabs{background:#151515!important;border-bottom:1px solid #333!important}
 .panel-tab span,#positionBadge,#historyBadge{background:#333!important;color:#fff!important;border:0!important;box-shadow:none!important}
 .panel-tab.active{background:#292929!important;color:#fff!important}
+.old-copy-settings-line{background:#111!important;border:1px solid #333!important;color:#ddd!important}
+.old-copy-performance{border:0!important}
+.old-copy-performance span{background:#111!important;border:1px solid #333!important;color:#bdbdbd!important}
+.old-copy-performance span strong{color:#fff!important}
+.old-copy-detail-tabs{border-bottom:1px solid #333!important}
+.old-copy-detail-tabs button,.old-copy-detail-tabs button.active{background:transparent!important;color:#ddd!important;border-color:transparent!important}
+.old-copy-detail-tabs button.active{border-bottom-color:#fff!important}
+.old-copy-detail-tabs span{color:#fff!important}
+.old-copy-panel-head span{background:#333!important;color:#fff!important}
 
