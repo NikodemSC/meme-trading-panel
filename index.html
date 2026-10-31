@@ -7,6 +7,7 @@
   <title>Solana Paper Trader</title>
   <style>
     :root{color-scheme:dark;--bg:#12151b;--panel:#191e27;--panel2:#242b37;--line:#353d4b;--text:#f3f5f8;--muted:#aeb7c6;--lime:#adbed8;--green:#75c99b;--red:#f18484;--amber:#e4bc72;font:16px/1.5 Inter,system-ui,-apple-system,"Segoe UI",sans-serif}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:var(--bg);color:var(--text)}button,input,select,textarea{font:inherit}button{cursor:pointer;color:inherit}.shell{max-width:1080px;margin:auto;padding:24px 20px 72px}.header{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:4px 0 20px;border-bottom:1px solid var(--line)}.brand{font-size:23px;font-weight:800;letter-spacing:-.04em}.subtitle{font-size:13px;color:var(--muted);margin-top:2px}.status{display:flex;align-items:center;gap:9px;border:1px solid var(--line);border-radius:999px;padding:8px 12px;color:var(--muted);font-size:13px}.dot{height:8px;width:8px;border-radius:50%;background:#81877c}.dot.ok{background:var(--green);box-shadow:0 0 10px #75c99b66}.dot.warn{background:var(--amber)}.nav{display:flex;gap:8px;padding:18px 0 24px;overflow:auto}.nav button,.btn{border:1px solid var(--line);border-radius:12px;background:var(--panel2);padding:10px 15px;font-size:14px;font-weight:700}.nav button{white-space:nowrap;color:var(--muted);background:transparent}.nav button.active{background:var(--lime);border-color:var(--lime);color:#171c25}.btn:hover,.nav button:hover{filter:brightness(1.12)}.btn-primary{background:var(--lime);border-color:var(--lime);color:#171c25}.btn-danger{color:#ffb1a9;border-color:#70443e;background:#291d1a}.btn-small{padding:7px 10px;font-size:12px}.page{display:none}.page.active{display:block}.page-head{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:0 0 16px}.page-head h1{font-size:27px;line-height:1.2;letter-spacing:-.035em;margin:0}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px}.metric{border:1px solid var(--line);border-radius:16px;background:var(--panel);padding:15px}.metric-label{font-size:13px;color:var(--muted)}.metric-value{font-size:20px;font-weight:800;margin-top:3px}.position-list{display:grid;gap:12px}.position{border:1px solid var(--line);border-radius:17px;background:var(--panel);padding:17px}.pos-top{display:flex;justify-content:space-between;gap:16px}.identity{min-width:0}.token-name{font-weight:800;font-size:17px}.symbol{color:var(--muted);font-size:13px;margin-left:7px}.mint{color:var(--muted);font:12px ui-monospace,SFMono-Regular,Consolas,monospace;overflow-wrap:anywhere;margin-top:4px}.price{text-align:right;flex:none}.price-value{font-size:21px;font-weight:800}.price-change{font-size:13px;font-weight:700}.positive{color:var(--green)}.negative{color:var(--red)}.facts{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:12px 0;margin:14px 0}.fact-label{font-size:12px;color:var(--muted)}.fact-value{font-size:14px;font-weight:700;margin-top:2px;overflow-wrap:anywhere}.strategy{font-size:13px;color:var(--muted)}.actions{display:flex;gap:8px;margin-top:13px}.actions button{flex:1}.empty{border:1px dashed #485164;border-radius:16px;padding:35px 18px;text-align:center;color:var(--muted)}.history-list{display:grid;gap:9px}.trade{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:14px}.trade-title{font-weight:750}.trade-meta{font-size:12px;color:var(--muted);margin-top:3px}.trade a{color:var(--lime);text-decoration:none}.trade-status{text-align:right;font-weight:750;font-size:13px}.panel{border:1px solid var(--line);border-radius:16px;background:var(--panel);padding:18px;margin-bottom:13px}.panel h2{font-size:18px;margin:0 0 12px}.notice{border:1px solid #5b4e31;background:#2a261a;color:#f2dda6;border-radius:13px;padding:13px 15px;font-size:13px;margin-bottom:15px}.notice.good{border-color:#315a3d;background:#17271c;color:#b6f0c4}.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:13px}.field{display:grid;gap:5px}.field.full{grid-column:1/-1}.field label{font-size:13px;color:var(--muted);font-weight:650}.field input,.field textarea,.field select{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:#11151d;color:var(--text)}.field input:focus,.field textarea:focus{outline:2px solid #adbed866;border-color:var(--lime)}.field-help{font-size:12px;color:var(--muted)}.switch-row{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line)}.switch-row:last-child{border-bottom:0}.switch-label{font-weight:700}.switch-help{font-size:12px;color:var(--muted)}input[type=checkbox]{accent-color:var(--lime);height:18px;width:18px}.overlay{position:fixed;inset:0;display:none;place-items:center;padding:14px;background:#000b;z-index:5}.overlay.open{display:grid}.dialog{width:min(520px,100%);max-height:92vh;overflow:auto;padding:20px;border:1px solid #4b5347;border-radius:18px;background:#191e27;box-shadow:0 20px 70px #0009}.dialog-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:15px}.dialog h2{margin:0;font-size:21px}.close{border:0;background:transparent;color:var(--muted);font-size:27px}.dialog-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:17px}.quote-box{margin-top:14px;border:1px solid var(--line);border-radius:12px;padding:12px;background:#141922}.quote-row{display:flex;justify-content:space-between;gap:14px;font-size:13px;padding:4px 0}.toast{position:fixed;bottom:20px;left:50%;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#e5edf7;color:#18212b;border-radius:12px;padding:11px 16px;font-weight:750;font-size:13px;transition:.2s;z-index:9;max-width:calc(100vw - 30px)}.toast.show{opacity:1;transform:translate(-50%,0)}.muted{color:var(--muted)}.danger{color:var(--red)}.hidden{display:none!important}@media(max-width:650px){.shell{padding:14px 12px 42px}.header{align-items:flex-start}.brand{font-size:20px}.status{font-size:11px;padding:7px 9px}.nav{padding:14px 0 19px}.nav button{padding:9px 12px;font-size:13px}.page-head h1{font-size:23px}.cards{grid-template-columns:1fr 1fr}.metric:last-child{grid-column:1/-1}.position{padding:14px}.token-name{font-size:15px}.price-value{font-size:18px}.facts{grid-template-columns:repeat(2,1fr)}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.actions .btn{padding:9px 7px;font-size:12px}}
+    .cards{grid-template-columns:repeat(4,1fr)}.metric-subvalue{font-size:13px;color:var(--muted);margin-top:2px}.pos-identity{display:flex;gap:12px;align-items:center;min-width:0}.token-image,.token-image-fallback{width:46px;height:46px;flex:none;border-radius:13px;border:1px solid var(--line);background:#11151d;object-fit:cover}.token-image-fallback{display:grid;place-items:center;font-weight:800;color:var(--lime)}.pos-links{display:flex;gap:12px;flex-wrap:wrap;margin-top:4px;font-size:12px}.pos-links a{color:var(--lime);text-decoration:none}.mint-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.mint-row .mint{margin:4px 0 0}.value-stack{text-align:right}.value-stack .price-value{font-size:22px}.value-sol{font-size:13px;color:var(--muted)}.rules{border-top:1px solid var(--line);margin-top:13px;padding-top:9px}.rules summary{cursor:pointer;color:var(--lime);font-weight:700;font-size:13px}.rules-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}.rules-grid label{display:grid;gap:4px;color:var(--muted);font-size:12px}.rules-grid input{width:100%;padding:8px;border:1px solid var(--line);border-radius:8px;background:#11151d;color:var(--text)}.rules-actions{display:flex;justify-content:flex-end;margin-top:10px}.rule-state{font-size:12px;color:var(--muted);margin-top:7px}.fee-preview{font-size:12px;color:var(--muted);grid-column:1/-1}.price-change{margin-top:2px}@media(max-width:800px){.cards{grid-template-columns:repeat(2,1fr)}}@media(max-width:650px){.cards{grid-template-columns:repeat(2,1fr)}.metric:last-child{grid-column:auto}.pos-top{align-items:flex-start}.pos-identity{gap:9px}.token-image,.token-image-fallback{width:38px;height:38px;border-radius:11px}.value-stack .price-value{font-size:17px}.rules-grid{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
@@ -20,9 +21,10 @@
     </nav>
     <section class="page active" id="page-positions">
       <div class="cards">
-        <div class="metric"><div class="metric-label">Wirtualne saldo</div><div class="metric-value" id="cashBalance">—</div></div>
-        <div class="metric"><div class="metric-label">Wartość pozycji</div><div class="metric-value" id="positionValue">—</div></div>
-        <div class="metric"><div class="metric-label">Łączny wynik</div><div class="metric-value" id="totalPnl">—</div></div>
+        <div class="metric"><div class="metric-label">Wirtualne saldo</div><div class="metric-value" id="cashBalance">—</div><div class="metric-subvalue" id="cashUsd">—</div></div>
+        <div class="metric"><div class="metric-label">Wartość pozycji</div><div class="metric-value" id="positionValue">—</div><div class="metric-subvalue" id="positionValueSol">—</div></div>
+        <div class="metric"><div class="metric-label">Portfel razem</div><div class="metric-value" id="walletValue">—</div><div class="metric-subvalue" id="walletValueSol">—</div></div>
+        <div class="metric"><div class="metric-label">Łączny wynik</div><div class="metric-value" id="totalPnl">—</div><div class="metric-subvalue" id="totalPnlUsd">—</div></div>
       </div>
       <div class="panel">
         <h2>Nowy zakup demo</h2>
@@ -30,10 +32,11 @@
           <div class="field full"><label for="mintInput">Adres tokena Solana</label><input id="mintInput" maxlength="64" autocomplete="off" spellcheck="false" placeholder="Wklej adres tokena"></div>
           <div class="field"><label for="amountInput">Kwota wirtualna (SOL)</label><input id="amountInput" type="number" min="0.001" step="0.001" value="0.1"></div>
           <div class="field" style="align-self:end"><button class="btn btn-primary" id="buyToken">Kup demo</button></div>
+          <div class="fee-preview" id="feePreview">Szacowana opłata symulowana: —</div>
         </div>
         <div id="tradeError" class="notice hidden" style="margin-top:12px;margin-bottom:0"></div>
       </div>
-      <div class="page-head"><h1>Otwarte pozycje</h1><span class="field-help">Cena rynkowa · SOL</span></div>
+      <div class="page-head"><h1>Otwarte pozycje</h1><span class="field-help">Wartość pozycji · USD / SOL</span></div>
       <div id="positionsList" class="position-list"></div>
     </section>
     <section class="page" id="page-history">
@@ -41,7 +44,7 @@
     </section>
     <section class="page" id="page-settings">
       <div class="page-head"><h1>Ustawienia</h1></div>
-      <div class="panel"><h2>Kapitał demo</h2><p class="muted" style="font-size:14px">Pozycje i historia zapisują się w tej przeglądarce. Notowania są pobierane z DEX Screener, gdy strona jest otwarta.</p><div class="field" style="max-width:320px"><label for="startingBalance">Wirtualny kapitał początkowy (SOL)</label><input id="startingBalance" type="number" min="0.01" step="0.1"></div><div class="dialog-actions"><button class="btn btn-danger" id="resetDemo">Wyczyść symulację</button></div></div>
+      <div class="panel"><h2>Kapitał demo</h2><p class="muted" style="font-size:14px">Pozycje i historia zapisują się w tej przeglądarce. Notowania są pobierane z DEX Screener, gdy strona jest otwarta.</p><div class="form-grid"><div class="field"><label for="startingBalance">Wirtualny kapitał początkowy (SOL)</label><input id="startingBalance" type="number" min="0.01" step="0.1"></div><div class="field"><label for="buyFeePct">Symulowana opłata kupna (%)</label><input id="buyFeePct" type="number" min="0" max="5" step="0.01"><div class="field-help">Pobierana z wirtualnego salda przy każdym kupnie.</div></div></div><div class="dialog-actions"><button class="btn btn-danger" id="resetDemo">Wyczyść symulację</button></div></div>
     </section>
   </main>
   <div class="toast" id="toast"></div>
@@ -58,22 +61,27 @@
     const fmt = (value, digits = 4) => Number.isFinite(Number(value)) ? Number(value).toLocaleString("pl-PL", { maximumFractionDigits: digits }) : "—";
     const escapeHtml = (value) => String(value ?? "").replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
     const toast = (message) => { const el = $("toast"); el.textContent = message; el.classList.add("show"); setTimeout(() => el.classList.remove("show"), 2600); };
-    function freshState(balance = DEFAULT_BALANCE) { return { startingBalance: balance, cash: balance, positions: [], trades: [], lastUpdatedAt: null }; }
+    function freshState(balance = DEFAULT_BALANCE) { return { startingBalance: balance, cash: balance, positions: [], trades: [], lastUpdatedAt: null, buyFeePct: 0.3, solUsdPrice: null }; }
     function loadState() {
       try { const saved = JSON.parse(localStorage.getItem(STORAGE_KEY)); if (saved && Number.isFinite(Number(saved.startingBalance)) && Number.isFinite(Number(saved.cash)) && Array.isArray(saved.positions) && Array.isArray(saved.trades)) return saved; } catch (_) {}
       return freshState();
     }
     let state = loadState();
-    let refreshBusy = false, buyBusy = false, rateLimitedUntil = 0;
+    let refreshBusy = false, buyBusy = false, rateLimitedUntil = 0, lastEmptyRefreshAt = 0;
     function setMarketStatus(text, ok) { $("marketStatus").textContent = text; $("marketDot").className = "dot " + (ok ? "ok" : "warn"); }
     function persist() { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); render(); }
     function positionValue() { return state.positions.reduce((sum, p) => sum + Number(p.quantity) * Number(p.currentPriceSol || 0), 0); }
+    const fmtUsd = (value, digits = 2) => Number.isFinite(Number(value)) ? "$" + Number(value).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: digits }) : "—";
+    function safeImageUrl(value) { try { const url = new URL(value); return url.protocol === "https:" && /(^|\.)dexscreener\.com$/i.test(url.hostname) ? url.href : ""; } catch (_) { return ""; } }
+    function updateFeePreview() { const amount = Number($("amountInput").value), pct = Number(state.buyFeePct ?? 0.3); $("feePreview").textContent = "Szacowana symulowana opłata kupna: " + fmt(Number.isFinite(amount) ? amount * pct / 100 : 0, 6) + " SOL (" + fmt(pct, 2) + "%)"; }
     function render() {
-      const holdingsValue = positionValue();
-      $("cashBalance").textContent = fmt(state.cash, 5) + " SOL";
-      $("positionValue").textContent = fmt(holdingsValue, 5) + " SOL";
-      const pnl = Number(state.cash) + holdingsValue - Number(state.startingBalance);
-      $("totalPnl").textContent = (pnl > 0 ? "+" : "") + fmt(pnl, 5) + " SOL";
+      const holdingsValue = positionValue(), solUsd = Number(state.solUsdPrice) || 0, holdingsUsd = state.positions.reduce((sum, p) => sum + Number(p.quantity) * Number(p.currentPriceUsd || 0), 0);
+      const walletSol = Number(state.cash) + holdingsValue, walletUsd = solUsd > 0 ? walletSol * solUsd : 0;
+      $("cashBalance").textContent = fmt(state.cash, 5) + " SOL"; $("cashUsd").textContent = solUsd > 0 ? fmtUsd(Number(state.cash) * solUsd) : "Kurs SOL: —";
+      $("positionValue").textContent = fmtUsd(holdingsUsd); $("positionValueSol").textContent = fmt(holdingsValue, 5) + " SOL";
+      $("walletValue").textContent = solUsd > 0 ? fmtUsd(walletUsd) : "—"; $("walletValueSol").textContent = fmt(walletSol, 5) + " SOL";
+      const pnl = walletSol - Number(state.startingBalance), pnlUsd = solUsd > 0 ? pnl * solUsd : 0;
+      $("totalPnl").textContent = (pnl > 0 ? "+" : "") + fmt(pnl, 5) + " SOL"; $("totalPnlUsd").textContent = solUsd > 0 ? (pnlUsd > 0 ? "+" : "") + fmtUsd(pnlUsd) : "Kurs SOL: —";
       $("totalPnl").className = "metric-value " + (pnl >= 0 ? "positive" : "negative");
       const root = $("positionsList");
       if (!state.positions.length) root.innerHTML = '<div class="empty">Brak otwartych pozycji. Wklej adres tokena powyżej i kliknij „Kup demo”.</div>';
@@ -81,13 +89,17 @@
         const cost = Number(p.cost), value = Number(p.quantity) * Number(p.currentPriceSol || 0), change = Number(p.entryPriceUsd) > 0 && Number(p.currentPriceUsd) > 0 ? (Number(p.currentPriceUsd) / Number(p.entryPriceUsd) - 1) * 100 : 0;
         const color = change >= 0 ? "positive" : "negative";
         const stamp = p.stale ? "cena nieaktualna" : (p.updatedAt ? "odświeżono " + new Date(p.updatedAt).toLocaleTimeString("pl-PL") : "oczekuje na dane");
-        const pairLink = p.pairAddress ? ' · <a href="https://dexscreener.com/solana/' + encodeURIComponent(p.pairAddress) + '" target="_blank" rel="noopener">DEX ↗</a>' : "";
-        return '<article class="position"><div class="pos-top"><div class="identity"><div class="token-name">' + escapeHtml(p.name) + '<span class="symbol">' + escapeHtml(p.symbol) + '</span></div><div class="mint">' + escapeHtml(p.mint) + '</div></div><div class="price"><div class="price-value">' + fmt(p.currentPriceSol, 10) + ' SOL</div><div class="price-change ' + color + '">' + (change >= 0 ? '+' : '') + fmt(change, 2) + '% od zakupu</div></div></div><div class="facts"><div><div class="fact-label">Wirtualny zakup</div><div class="fact-value">' + fmt(cost, 5) + ' SOL</div></div><div><div class="fact-label">Wartość teraz</div><div class="fact-value">' + fmt(value, 5) + ' SOL</div></div><div><div class="fact-label">Ilość tokenów</div><div class="fact-value">' + fmt(p.quantity, 8) + '</div></div><div><div class="fact-label">Płynność puli</div><div class="fact-value">$' + fmt(p.liquidityUsd, 0) + '</div></div></div><div class="strategy">Cena $' + fmt(p.currentPriceUsd, 8) + ' · 24h ' + (Number(p.change24h) >= 0 ? '+' : '') + fmt(p.change24h, 2) + '% · wolumen $' + fmt(p.volume24hUsd, 0) + ' · odświeżono ' + stamp + pairLink + '</div><div class="actions"><button class="btn btn-danger btn-small" data-sell="' + escapeHtml(p.id) + '">Zamknij pozycję po cenie teraz</button></div></article>';
+        const pairLink = p.pairAddress ? '<a href="https://dexscreener.com/solana/' + encodeURIComponent(p.pairAddress) + '" target="_blank" rel="noopener">DEX Screener ↗</a>' : '';
+        const image = safeImageUrl(p.imageUrl), imageNode = image ? '<img class="token-image" src="' + escapeHtml(image) + '" alt="" loading="lazy" onerror="this.hidden=true;this.nextElementSibling.hidden=false"><span class="token-image-fallback hidden">' + escapeHtml((p.symbol || "?").slice(0, 2)) + '</span>' : '<span class="token-image-fallback">' + escapeHtml((p.symbol || "?").slice(0, 2)) + '</span>';
+        const mc = Number(p.marketCapUsd) > 0 ? fmtUsd(p.marketCapUsd, 0) : '—';
+        const rules = '<details class="rules"><summary>Ustawienia wyjścia · SL / TP / trailing stop</summary><div class="rule-state">' + (p.stopLossPct ? 'SL ' + fmt(p.stopLossPct, 2) + '%' : 'SL —') + ' · ' + (p.takeProfitPct ? 'TP ' + fmt(p.takeProfitPct, 2) + '%' : 'TP —') + ' · ' + (p.trailingStopPct ? 'trailing ' + fmt(p.trailingStopPct, 2) + '% od ATH' : 'trailing —') + '</div><form class="rules-grid" id="rules-' + escapeHtml(p.id) + '"><label>Stop loss (%)<input name="stopLossPct" type="number" min="0" max="99" step="0.1" value="' + (p.stopLossPct ?? '') + '" placeholder="wyłączony"></label><label>Take profit (%)<input name="takeProfitPct" type="number" min="0" max="9999" step="0.1" value="' + (p.takeProfitPct ?? '') + '" placeholder="wyłączony"></label><label>Trailing od ATH (%)<input name="trailingStopPct" type="number" min="0" max="99" step="0.1" value="' + (p.trailingStopPct ?? '') + '" placeholder="wyłączony"></label></form><div class="rules-actions"><button class="btn btn-small" data-save-rules="' + escapeHtml(p.id) + '">Zapisz reguły</button></div></details>';
+        return '<article class="position"><div class="pos-top"><div class="pos-identity">' + imageNode + '<div class="identity"><div class="token-name">' + escapeHtml(p.name) + '<span class="symbol">' + escapeHtml(p.symbol) + '</span></div><div class="mint-row"><div class="mint" title="' + escapeHtml(p.mint) + '">CA: ' + escapeHtml(p.mint.slice(0, 6) + '…' + p.mint.slice(-5)) + '</div><button class="btn btn-small" data-copy="' + escapeHtml(p.mint) + '">Kopiuj CA</button></div><div class="pos-links"><a href="https://axiom.trade/pulse" target="_blank" rel="noopener">Axiom ↗</a>' + (pairLink ? ' · ' + pairLink : '') + '</div></div></div><div class="value-stack"><div class="price-value">~' + fmtUsd(Number(p.quantity) * Number(p.currentPriceUsd || 0)) + '</div><div class="value-sol">' + fmt(value, 5) + ' SOL</div><div class="price-change ' + color + '">' + (change >= 0 ? '+' : '') + fmt(change, 2) + '% od zakupu</div></div></div><div class="facts"><div><div class="fact-label">Wirtualny zakup</div><div class="fact-value">' + fmt(cost, 5) + ' SOL</div></div><div><div class="fact-label">MC</div><div class="fact-value">' + mc + '</div></div><div><div class="fact-label">Ilość tokenów</div><div class="fact-value">' + fmt(p.quantity, 8) + '</div></div><div><div class="fact-label">Fee kupna (sym.)</div><div class="fact-value">' + fmt(p.feesSol || 0, 6) + ' SOL</div></div></div><div class="strategy">24h ' + (Number(p.change24h) >= 0 ? '+' : '') + fmt(p.change24h, 2) + '% · płynność ' + fmtUsd(p.liquidityUsd, 0) + ' · wolumen ' + fmtUsd(p.volume24hUsd, 0) + ' · ' + stamp + '</div>' + rules + '<div class="actions"><button class="btn btn-danger btn-small" data-sell="' + escapeHtml(p.id) + '">Zamknij pozycję teraz</button></div></article>';
       }).join("");
       const history = $("historyList");
       if (!state.trades.length) history.innerHTML = '<div class="empty">Nie ma jeszcze transakcji demo.</div>';
-      else history.innerHTML = state.trades.slice().reverse().map(t => '<article class="trade"><div><div class="trade-title">' + (t.side === "buy" ? "Kupno demo" : "Sprzedaż demo") + ' · ' + escapeHtml(t.symbol) + '</div><div class="trade-meta">' + new Date(t.createdAt).toLocaleString("pl-PL") + ' · ' + fmt(t.amountSol, 6) + ' SOL · cena $' + fmt(t.priceUsd, 8) + ' · ' + fmt(t.quantity, 6) + ' tokenów</div></div><div class="trade-status ' + (t.side === "buy" ? "positive" : "muted") + '">Demo</div></article>').join("");
+      else history.innerHTML = state.trades.slice().reverse().map(t => '<article class="trade"><div><div class="trade-title">' + (t.side === "buy" ? "Kupno demo" : "Sprzedaż demo") + ' · ' + escapeHtml(t.symbol) + (t.exitReason ? ' · ' + escapeHtml(t.exitReason) : '') + '</div><div class="trade-meta">' + new Date(t.createdAt).toLocaleString("pl-PL") + ' · ' + fmt(t.amountSol, 6) + ' SOL' + (t.feeSol ? ' · fee ' + fmt(t.feeSol, 6) + ' SOL' : '') + ' · cena $' + fmt(t.priceUsd, 8) + ' · ' + fmt(t.quantity, 6) + ' tokenów</div></div><div class="trade-status ' + (t.side === "buy" ? "positive" : "muted") + '">Demo</div></article>').join("");
       $("startingBalance").value = state.startingBalance;
+      $("buyFeePct").value = state.buyFeePct ?? 0.3; updateFeePreview();
     }
     function tokenAddressOk(value) { return /^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(value); }
     async function getPairs(addresses) {
@@ -117,7 +129,7 @@
         const baseUsd = Number(pair.priceUsd), native = Number(pair.priceNative);
         const priceUsd = isBase ? baseUsd : (native > 0 ? baseUsd / native : 0);
         const token = isBase ? pair.baseToken : pair.quoteToken;
-        return { mint: address, name: token?.name || "Token", symbol: token?.symbol || "TOKEN", priceUsd, liquidityUsd: Number(pair.liquidity?.usd || 0), volume24hUsd: Number(pair.volume?.h24 || 0), change24h: Number(pair.priceChange?.h24 || 0), pairAddress: pair.pairAddress || "", dexId: pair.dexId || "" };
+        return { mint: address, name: token?.name || "Token", symbol: token?.symbol || "TOKEN", priceUsd, liquidityUsd: Number(pair.liquidity?.usd || 0), volume24hUsd: Number(pair.volume?.h24 || 0), change24h: Number(pair.priceChange?.h24 || 0), marketCapUsd: Number(pair.marketCap || 0), imageUrl: safeImageUrl(pair.info?.imageUrl || ""), pairAddress: pair.pairAddress || "", dexId: pair.dexId || "" };
       }).filter(q => Number.isFinite(q.priceUsd) && q.priceUsd > 0).sort((a,b) => b.liquidityUsd - a.liquidityUsd);
       return candidates[0] || null;
     }
@@ -132,7 +144,8 @@
       $("tradeError").classList.add("hidden");
       if (!tokenAddressOk(mint)) { setTradeError("Wklej poprawny adres tokena Solana (mint)."); return; }
       if (!Number.isFinite(amount) || amount <= 0) { setTradeError("Wpisz wirtualną kwotę SOL większą od zera."); return; }
-      if (amount > state.cash) { setTradeError("Kwota jest większa niż dostępne saldo demo."); return; }
+      const feePct = Number(state.buyFeePct ?? 0.3), fee = amount * feePct / 100, debit = amount + fee;
+      if (debit > state.cash) { setTradeError("Kwota razem z opłatą jest większa niż dostępne saldo demo."); return; }
       if (!state.positions.some(p => p.mint.toLowerCase() === mint.toLowerCase()) && state.positions.length >= MAX_TRACKED_TOKENS) { setTradeError("Możesz mieć jednocześnie maksymalnie 29 śledzonych pozycji."); return; }
       buyBusy = true; $("buyToken").disabled = true; $("buyToken").textContent = "Sprawdzam token…"; setMarketStatus("Pobieram aktualne notowania…", false);
       try {
@@ -143,34 +156,48 @@
         const quantity = amount * sol.priceUsd / token.priceUsd;
         const existing = state.positions.find(p => p.mint.toLowerCase() === mint.toLowerCase());
         if (existing) {
-          const newQuantity = Number(existing.quantity) + quantity, newCost = Number(existing.cost) + amount;
+          const newQuantity = Number(existing.quantity) + quantity, newCost = Number(existing.cost) + debit;
           existing.entryPriceUsd = (Number(existing.entryPriceUsd) * Number(existing.quantity) + token.priceUsd * quantity) / newQuantity;
-          existing.quantity = newQuantity; existing.cost = newCost;
+          existing.quantity = newQuantity; existing.cost = newCost; existing.feesSol = Number(existing.feesSol || 0) + fee;
         } else {
-          state.positions.push({ id: crypto.randomUUID(), mint, name: token.name, symbol: token.symbol, quantity, cost: amount, entryPriceUsd: token.priceUsd, currentPriceUsd: token.priceUsd, currentPriceSol: token.priceUsd / sol.priceUsd, liquidityUsd: token.liquidityUsd, volume24hUsd: token.volume24hUsd, change24h: token.change24h, pairAddress: token.pairAddress, updatedAt: new Date().toISOString() });
+          state.positions.push({ id: crypto.randomUUID(), mint, name: token.name, symbol: token.symbol, imageUrl: token.imageUrl, quantity, cost: debit, feesSol: fee, entryPriceUsd: token.priceUsd, currentPriceUsd: token.priceUsd, currentPriceSol: token.priceUsd / sol.priceUsd, marketCapUsd: token.marketCapUsd, liquidityUsd: token.liquidityUsd, volume24hUsd: token.volume24hUsd, change24h: token.change24h, pairAddress: token.pairAddress, athPriceUsd: token.priceUsd, updatedAt: new Date().toISOString() });
         }
         const position = state.positions.find(p => p.mint.toLowerCase() === mint.toLowerCase());
-        position.currentPriceUsd = token.priceUsd; position.currentPriceSol = token.priceUsd / sol.priceUsd; position.liquidityUsd = token.liquidityUsd; position.volume24hUsd = token.volume24hUsd; position.change24h = token.change24h; position.pairAddress = token.pairAddress; position.updatedAt = new Date().toISOString();
-        state.cash -= amount;
-        state.trades.push({ side: "buy", mint, symbol: token.symbol, amountSol: amount, quantity, priceUsd: token.priceUsd, createdAt: new Date().toISOString() });
+        position.name = token.name; position.imageUrl = token.imageUrl || position.imageUrl; position.currentPriceUsd = token.priceUsd; position.currentPriceSol = token.priceUsd / sol.priceUsd; position.marketCapUsd = token.marketCapUsd; position.liquidityUsd = token.liquidityUsd; position.volume24hUsd = token.volume24hUsd; position.change24h = token.change24h; position.pairAddress = token.pairAddress; position.athPriceUsd = Math.max(Number(position.athPriceUsd || 0), token.priceUsd); position.updatedAt = new Date().toISOString();
+        state.cash -= debit; state.solUsdPrice = sol.priceUsd;
+        state.trades.push({ side: "buy", mint, symbol: token.symbol, amountSol: amount, feeSol: fee, quantity, priceUsd: token.priceUsd, createdAt: new Date().toISOString() });
         $("mintInput").value = ""; persist(); setMarketStatus("Dane live · ostatni odczyt " + new Date().toLocaleTimeString("pl-PL"), true); toast("Kupno demo zapisane po aktualnej cenie");
       } catch (error) { setMarketStatus("Nie udało się pobrać notowań", false); setTradeError(error.name === "AbortError" ? "Serwis notowań nie odpowiedział na czas. Spróbuj ponownie." : error.message || "Nie można połączyć się z serwisem notowań."); }
       finally { buyBusy = false; $("buyToken").disabled = false; $("buyToken").textContent = "Kup demo"; }
     }
     async function refreshPrices() {
-      if (refreshBusy || !state.positions.length || document.hidden || Date.now() < rateLimitedUntil) return;
+      if (refreshBusy || document.hidden || Date.now() < rateLimitedUntil) return;
+      if (!state.positions.length && Date.now() - lastEmptyRefreshAt < 5000) return;
+      if (!state.positions.length) lastEmptyRefreshAt = Date.now();
       refreshBusy = true;
       try {
         const addresses = state.positions.map(p => p.mint);
         const quotes = await currentQuotes([...addresses, SOL_MINT]);
         const sol = quotes.get(SOL_MINT);
         if (!sol || sol.priceUsd <= 0) throw new Error("Nie udało się pobrać notowania SOL.");
-        let updated = false;
+        let updated = true;
+        state.solUsdPrice = sol.priceUsd;
+        const kept = [];
         for (const p of state.positions) {
           const q = quotes.get(p.mint);
-          if (!q) { p.stale = true; continue; }
-          p.currentPriceUsd = q.priceUsd; p.currentPriceSol = q.priceUsd / sol.priceUsd; p.liquidityUsd = q.liquidityUsd; p.volume24hUsd = q.volume24hUsd; p.change24h = q.change24h; p.pairAddress = q.pairAddress; p.updatedAt = new Date().toISOString(); p.stale = false; updated = true;
+          if (!q) { p.stale = true; kept.push(p); continue; }
+          p.name = q.name; p.imageUrl = q.imageUrl || p.imageUrl; p.currentPriceUsd = q.priceUsd; p.currentPriceSol = q.priceUsd / sol.priceUsd; p.marketCapUsd = q.marketCapUsd; p.liquidityUsd = q.liquidityUsd; p.volume24hUsd = q.volume24hUsd; p.change24h = q.change24h; p.pairAddress = q.pairAddress; p.updatedAt = new Date().toISOString(); p.stale = false; p.athPriceUsd = Math.max(Number(p.athPriceUsd || p.entryPriceUsd || 0), q.priceUsd); updated = true;
+          const slHit = Number(p.stopLossPct) > 0 && q.priceUsd <= Number(p.entryPriceUsd) * (1 - Number(p.stopLossPct) / 100);
+          const tpHit = Number(p.takeProfitPct) > 0 && q.priceUsd >= Number(p.entryPriceUsd) * (1 + Number(p.takeProfitPct) / 100);
+          const trailingHit = Number(p.trailingStopPct) > 0 && Number(p.athPriceUsd) > Number(p.entryPriceUsd) && q.priceUsd <= Number(p.athPriceUsd) * (1 - Number(p.trailingStopPct) / 100);
+          if (slHit || tpHit || trailingHit) {
+            const proceeds = Number(p.quantity) * Number(p.currentPriceSol || 0), reason = slHit ? "Stop loss" : tpHit ? "Take profit" : "Trailing stop";
+            state.cash += proceeds; state.trades.push({ side: "sell", mint: p.mint, symbol: p.symbol, amountSol: proceeds, quantity: p.quantity, priceUsd: q.priceUsd, exitReason: reason, createdAt: new Date().toISOString() });
+            toast(reason + " uruchomiony dla " + p.symbol); continue;
+          }
+          kept.push(p);
         }
+        state.positions = kept;
         state.lastUpdatedAt = new Date().toISOString(); localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); render();
         setMarketStatus((updated ? "Aktualizacja live · " : "Brak świeżej ceny · ") + new Date().toLocaleTimeString("pl-PL"), updated);
       } catch (error) { setMarketStatus(error.message || "Błąd pobierania notowań", false); }
@@ -178,6 +205,12 @@
     }
     $("buyToken").addEventListener("click", buyPaper);
     $("mintInput").addEventListener("keydown", event => { if (event.key === "Enter") buyPaper(); });
+    $("amountInput").addEventListener("input", updateFeePreview);
+    $("buyFeePct").addEventListener("change", () => {
+      const value = Number($("buyFeePct").value);
+      if (!Number.isFinite(value) || value < 0 || value > 5) { $("buyFeePct").value = state.buyFeePct ?? 0.3; toast("Opłata musi mieścić się w zakresie 0–5%"); return; }
+      state.buyFeePct = value; persist(); toast("Zapisano symulowaną opłatę kupna");
+    });
     document.addEventListener("click", event => {
       const page = event.target.closest("[data-page]");
       if (page) { document.querySelectorAll(".nav button").forEach(button => button.classList.toggle("active", button === page)); document.querySelectorAll(".page").forEach(section => section.classList.toggle("active", section.id === "page-" + page.dataset.page)); }
@@ -189,6 +222,16 @@
         state.cash += proceeds; state.trades.push({ side: "sell", mint: p.mint, symbol: p.symbol, amountSol: proceeds, quantity: p.quantity, priceUsd: p.currentPriceUsd, createdAt: new Date().toISOString() });
         state.positions.splice(index, 1); persist(); toast("Pozycja demo zamknięta po ostatniej cenie");
       }
+      const copy = event.target.closest("[data-copy]");
+      if (copy) navigator.clipboard.writeText(copy.dataset.copy).then(() => toast("Adres CA skopiowany"), () => toast("Nie udało się skopiować CA"));
+      const saveRules = event.target.closest("[data-save-rules]");
+      if (saveRules) {
+        const p = state.positions.find(item => item.id === saveRules.dataset.saveRules), form = $("rules-" + saveRules.dataset.saveRules); if (!p || !form) return;
+        const read = name => { const raw = form.elements[name].value.trim(); if (!raw) return null; const value = Number(raw); if (!Number.isFinite(value) || value < 0) return NaN; return value; };
+        const sl = read("stopLossPct"), tp = read("takeProfitPct"), trail = read("trailingStopPct");
+        if ([sl, tp, trail].some(value => Number.isNaN(value)) || sl > 99 || tp > 9999 || trail > 99) { toast("Sprawdź wartości procentowe reguł"); return; }
+        p.stopLossPct = sl; p.takeProfitPct = tp; p.trailingStopPct = trail; persist(); toast("Zapisano reguły wyjścia");
+      }
       if (event.target.closest("[data-close]") || event.target.classList.contains("overlay")) event.target.closest(".overlay")?.classList.remove("open");
     });
     $("startingBalance").addEventListener("change", () => {
@@ -199,7 +242,7 @@
     });
     $("resetDemo").addEventListener("click", () => { if (!confirm("Wyczyścić pozycje i historię symulacji?")) return; state = freshState(Number(state.startingBalance) || DEFAULT_BALANCE); persist(); setMarketStatus("Oczekuję na token", false); toast("Wyczyszczono symulację"); });
     render();
-    if (state.positions.length) refreshPrices();
+    refreshPrices();
     setInterval(refreshPrices, 1000);
     document.addEventListener("visibilitychange", () => { if (!document.hidden) refreshPrices(); });
   </script>
