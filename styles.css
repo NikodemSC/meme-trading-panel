@@ -233,4 +233,6 @@ input:focus,select:focus{border-color:#ddd;box-shadow:0 0 0 3px rgba(255,255,255
 .old-copy-detail-tabs button.active{border-bottom-color:#fff!important}
 .old-copy-detail-tabs span{color:#fff!important}
 .old-copy-panel-head span{background:#333!important;color:#fff!important}
+.eyebrow,.old-copy-detail-title small,.old-copy-placeholder small{display:none!important}
+.old-copy-heading>div>p,.old-copy-empty>p,.old-copy-placeholder>p,.manager-add p{display:none!important}
 
