@@ -193,4 +193,9 @@ input:focus,select:focus{border-color:#ddd;box-shadow:0 0 0 3px rgba(255,255,255
 .create-wallet-dialog{background:#0b0b0b;border-color:#444}
 .create-wallet-dialog::backdrop{background:#000d}
 .old-copy-close{color:#ddd}
+.old-copy-panel-head span,.old-copy-row-icon,.old-copy-empty>div{background:#202020!important;color:#fff!important}
+.old-copy-detail-title small,.old-copy-placeholder small,.old-copy-detail-title .copy-mint{color:#d8d8d8!important}
+.old-copy-detail-tabs span{color:#d8d8d8!important}
+.old-copy-type-tabs button.active{background:#f1f1f1!important;color:#050505!important}
+.old-copy-row.selected{background:#181818!important;box-shadow:inset 3px 0 #fff!important}
 
