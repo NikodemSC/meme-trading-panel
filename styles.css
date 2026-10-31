@@ -221,4 +221,7 @@ input:focus,select:focus{border-color:#ddd;box-shadow:0 0 0 3px rgba(255,255,255
 .check{background:#151515!important}
 .check input{accent-color:#fff!important}
 .input-unit b,.time-unit{color:#ddd!important}
+.panel-tabs{background:#151515!important;border-bottom:1px solid #333!important}
+.panel-tab span,#positionBadge,#historyBadge{background:#333!important;color:#fff!important;border:0!important;box-shadow:none!important}
+.panel-tab.active{background:#292929!important;color:#fff!important}
 
