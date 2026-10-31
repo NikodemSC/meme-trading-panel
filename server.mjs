@@ -21,6 +21,8 @@ const allowedOrigins=String(config.MEME_PILOT_FRONTEND_ORIGINS||"").split(",").m
 const dataDir=resolve(config.MEME_PILOT_DATA_DIR||fileURLToPath(new URL("data/",root)));
 mkdirSync(dataDir,{recursive:true});
 const accounts=new AccountStore(dataDir);
+// Public paper-trading mode: one shared guest workspace, no password or account picker.
+const publicUser={id:"public",name:""};
 const programs=["TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA","TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"];
 const tokens=[],queue=[],seen=new Set(),mints=new Set(),subscriptions=new Set();
 const status={connected:false,message:"Łączenie z Solaną…",detected:0,missed:0,lastEvent:null};
@@ -36,7 +38,7 @@ let marketNoticeTimer=null;
 function publishEvent(type,payload={}){
   const frame=`data: ${JSON.stringify({type,payload,at:new Date().toISOString()})}\n\n`;
   for(const client of eventClients){
-    if(!accounts.resolve(client.token)){client.res.end();eventClients.delete(client);continue;}
+    if(!client.public&&!accounts.resolve(client.token)){client.res.end();eventClients.delete(client);continue;}
     if(payload.userId&&payload.userId!==client.userId)continue;
     try{client.res.write(frame)}catch{eventClients.delete(client)}
   }
@@ -352,7 +354,7 @@ const server=createServer(async(req,res)=>{
     const remoteFrontend=allowedOrigins.includes(req.headers.origin);
     if(req.method==="GET"&&path==="/api/health"){json(res,200,{ok:true,service:"meme-pilot"});return}
     if(!["GET","HEAD"].includes(req.method)&&req.headers["x-meme-pilot-request"]!=="1"){json(res,403,{error:"Niedozwolone żądanie."});return}
-    const token=sessionToken(req),user=accounts.resolve(token);
+    const token=sessionToken(req),user=accounts.resolve(token)||publicUser;
     if(req.method==="GET"&&path==="/api/auth/setup"){json(res,200,{accounts:accounts.slots()});return}
     if(req.method==="POST"&&path==="/api/auth/register"){
       const body=await readJson(req);
@@ -370,12 +372,8 @@ const server=createServer(async(req,res)=>{
       json(res,200,{user:login.user,...(remoteFrontend?{token:login.token}:{})});return;
     }
     if(req.method==="GET"&&["/login","/login.html","/login.js","/styles.css","/connection.js","/frontend-config.js"].includes(path)){
-      if(path==="/login"&&user){res.writeHead(302,{Location:"/"});res.end();return}
+      if(path==="/login"||path==="/login.html"){res.writeHead(302,{Location:"/"});res.end();return}
       serveFile(res,path);return;
-    }
-    if(!user){
-      if(req.method==="GET"&&["/","/index.html"].includes(path)){res.writeHead(302,{Location:"/login"});res.end();return}
-      json(res,401,{error:"Zaloguj się ponownie."});return;
     }
     if(req.method==="GET"&&path==="/api/auth/me"){json(res,200,{user});return}
     if(req.method==="POST"&&path==="/api/auth/logout"){
@@ -391,7 +389,7 @@ const server=createServer(async(req,res)=>{
     if(req.method==="DELETE"&&path==="/api/paper/wallets"){json(res,200,paper.remove(walletId));return}
     if(req.method==="GET"&&path==="/api/paper/catalog"){json(res,200,strategyFieldCatalog);return}
     if(req.method==="GET"&&path==="/api/events"){
-      res.writeHead(200,{"Content-Type":"text/event-stream","Cache-Control":"no-cache","Connection":"keep-alive"});res.write(`data: ${JSON.stringify({type:"connected",at:new Date().toISOString()})}\n\n`);const client={res,userId:user.id,token};eventClients.add(client);req.on("close",()=>eventClients.delete(client));return;
+      res.writeHead(200,{"Content-Type":"text/event-stream","Cache-Control":"no-cache","Connection":"keep-alive"});res.write(`data: ${JSON.stringify({type:"connected",at:new Date().toISOString()})}\n\n`);const client={res,userId:user.id,token,public:user===publicUser};eventClients.add(client);req.on("close",()=>eventClients.delete(client));return;
     }
     if(req.method==="PUT"&&path==="/api/paper/config"){json(res,200,{...paper.get(walletId).updateConfig(await readJson(req)),walletId});return}
     if(req.method==="POST"&&path==="/api/paper/config/reset"){json(res,200,{...paper.get(walletId).clearConfig(),walletId});return}
