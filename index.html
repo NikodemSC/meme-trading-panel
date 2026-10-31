@@ -12,8 +12,8 @@
 <body>
   <main class="shell">
     <header class="header">
-      <div><div class="brand">Solana Paper Trader</div><div class="subtitle">Symulacja transakcji · bez portfela i prawdziwych zleceń</div></div>
-      <div class="status"><span class="dot ok"></span><span>Tryb demo · dane zapisane w tej przeglądarce</span></div>
+      <div><div class="brand">Solana Paper Trader</div><div class="subtitle">Wklej adres tokena · aktualizacja co sekundę, gdy strona jest otwarta</div></div>
+      <div class="status"><span class="dot warn" id="marketDot"></span><span id="marketStatus">Oczekuję na token</span></div>
     </header>
     <nav class="nav" aria-label="Sekcje">
       <button class="active" data-page="positions">Portfel demo</button><button data-page="history">Historia</button><button data-page="settings">Ustawienia</button>
@@ -24,101 +24,186 @@
         <div class="metric"><div class="metric-label">Wartość pozycji</div><div class="metric-value" id="positionValue">—</div></div>
         <div class="metric"><div class="metric-label">Łączny wynik</div><div class="metric-value" id="totalPnl">—</div></div>
       </div>
-      <div class="page-head"><h1>Pozycje demo</h1><button class="btn btn-primary" id="addToken">＋ Symuluj zakup</button></div>
+      <div class="panel">
+        <h2>Nowy zakup demo</h2>
+        <div class="form-grid">
+          <div class="field full"><label for="mintInput">Adres tokena Solana</label><input id="mintInput" maxlength="64" autocomplete="off" spellcheck="false" placeholder="Wklej adres tokena"></div>
+          <div class="field"><label for="amountInput">Kwota wirtualna (SOL)</label><input id="amountInput" type="number" min="0.001" step="0.001" value="0.1"></div>
+          <div class="field" style="align-self:end"><button class="btn btn-primary" id="buyToken">Kup demo</button></div>
+        </div>
+        <div id="tradeError" class="notice hidden" style="margin-top:12px;margin-bottom:0"></div>
+      </div>
+      <div class="page-head"><h1>Otwarte pozycje</h1><span class="field-help">Cena rynkowa · SOL</span></div>
       <div id="positionsList" class="position-list"></div>
     </section>
     <section class="page" id="page-history">
-      <div class="page-head"><h1>Historia symulacji</h1></div><div id="historyList" class="history-list"></div>
+      <div class="page-head"><h1>Historia demo</h1></div><div id="historyList" class="history-list"></div>
     </section>
     <section class="page" id="page-settings">
       <div class="page-head"><h1>Ustawienia</h1></div>
-      <div class="panel"><h2>Symulator</h2><p class="muted" style="font-size:14px">Wirtualny kapitał i historia są przechowywane tylko w pamięci tej przeglądarki. Nie są synchronizowane między urządzeniami. Każdy zakup i sprzedaż wymaga ręcznego wpisania ceny.</p><div class="field" style="max-width:320px"><label for="startingBalance">Wirtualny kapitał początkowy (SOL)</label><input id="startingBalance" type="number" min="0.01" step="0.1"></div><div class="dialog-actions"><button class="btn btn-danger" id="resetDemo">Wyczyść symulację i zacznij od nowa</button></div></div>
+      <div class="panel"><h2>Kapitał demo</h2><p class="muted" style="font-size:14px">Pozycje i historia zapisują się w tej przeglądarce. Notowania są pobierane z DEX Screener, gdy strona jest otwarta.</p><div class="field" style="max-width:320px"><label for="startingBalance">Wirtualny kapitał początkowy (SOL)</label><input id="startingBalance" type="number" min="0.01" step="0.1"></div><div class="dialog-actions"><button class="btn btn-danger" id="resetDemo">Wyczyść symulację</button></div></div>
     </section>
   </main>
-  <div class="overlay" id="tradeDialog"><div class="dialog">
-    <div class="dialog-head"><h2 id="tradeTitle">Symuluj zakup</h2><button class="close" data-close aria-label="Zamknij">×</button></div>
-    <div class="form-grid">
-      <div class="field full"><label for="mintInput">Adres tokena (opcjonalnie)</label><input id="mintInput" maxlength="64" placeholder="Mint Solana"></div>
-      <div class="field"><label for="nameInput">Nazwa</label><input id="nameInput" maxlength="80" placeholder="Nazwa tokena"></div>
-      <div class="field"><label for="symbolInput">Symbol</label><input id="symbolInput" maxlength="24" placeholder="TOKEN"></div>
-      <div class="field"><label for="amountInput">Kwota wirtualna (SOL)</label><input id="amountInput" type="number" min="0.001" step="0.001" placeholder="0.05"></div>
-      <div class="field"><label for="priceInput">Cena tokena (SOL)</label><input id="priceInput" type="number" min="0.0000000001" step="any" placeholder="0.0001"></div>
-    </div>
-    <div class="field-help" style="margin-top:10px">W symulacji ilość tokenów jest obliczana z kwoty SOL podzielonej przez wpisaną cenę. To nie jest wycena rynkowa.</div>
-    <div id="tradeError" class="notice hidden" style="margin-top:12px"></div>
-    <div class="dialog-actions"><button class="btn" data-close>Anuluj</button><button class="btn btn-primary" id="confirmTrade">Zapisz symulację</button></div>
-  </div></div>
   <div class="toast" id="toast"></div>
   <script>
-    const STORAGE_KEY = "meme-trading-paper-v1";
+    const STORAGE_KEY = "meme-trading-paper-v2";
     const DEFAULT_BALANCE = 5;
+    const SOL_MINT = "So11111111111111111111111111111111111111112";
+    const SUPABASE_URL = "https://odqgoejynyfqksazibwk.supabase.co";
+    const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_6wd7RGf40ilsLR04-GixbA_o1MhHV3u";
+    const SUPABASE_ANON_JWT = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9kcWdvZWp5bnlmcWtzYXppYndrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMyMDc5NTcsImV4cCI6MjEwODc4Mzk1N30.JxSXLMSIVjMUU85Di60xn0jAl_4535Icxk3VL4rxt-w";
+    const MARKET_FUNCTION = SUPABASE_URL + "/functions/v1/paper-market-data";
+    const MAX_TRACKED_TOKENS = 29;
     const $ = (id) => document.getElementById(id);
     const fmt = (value, digits = 4) => Number.isFinite(Number(value)) ? Number(value).toLocaleString("pl-PL", { maximumFractionDigits: digits }) : "—";
     const escapeHtml = (value) => String(value ?? "").replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
     const toast = (message) => { const el = $("toast"); el.textContent = message; el.classList.add("show"); setTimeout(() => el.classList.remove("show"), 2600); };
-    function freshState(balance = DEFAULT_BALANCE) { return { startingBalance: balance, cash: balance, positions: [], trades: [] }; }
+    function freshState(balance = DEFAULT_BALANCE) { return { startingBalance: balance, cash: balance, positions: [], trades: [], lastUpdatedAt: null }; }
     function loadState() {
-      try {
-        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
-        if (saved && Number.isFinite(Number(saved.startingBalance)) && Number.isFinite(Number(saved.cash)) && Array.isArray(saved.positions) && Array.isArray(saved.trades)) return saved;
-      } catch (_) {}
+      try { const saved = JSON.parse(localStorage.getItem(STORAGE_KEY)); if (saved && Number.isFinite(Number(saved.startingBalance)) && Number.isFinite(Number(saved.cash)) && Array.isArray(saved.positions) && Array.isArray(saved.trades)) return saved; } catch (_) {}
       return freshState();
     }
     let state = loadState();
+    let refreshBusy = false, buyBusy = false, rateLimitedUntil = 0;
+    function setMarketStatus(text, ok) { $("marketStatus").textContent = text; $("marketDot").className = "dot " + (ok ? "ok" : "warn"); }
     function persist() { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); render(); }
-    function positionValue() { return state.positions.reduce((sum, p) => sum + Number(p.quantity) * Number(p.currentPrice), 0); }
+    function positionValue() { return state.positions.reduce((sum, p) => sum + Number(p.quantity) * Number(p.currentPriceSol || 0), 0); }
     function render() {
+      const holdingsValue = positionValue();
       $("cashBalance").textContent = fmt(state.cash, 5) + " SOL";
-      $("positionValue").textContent = fmt(positionValue(), 5) + " SOL";
-      const pnl = state.cash + positionValue() - Number(state.startingBalance);
+      $("positionValue").textContent = fmt(holdingsValue, 5) + " SOL";
+      const pnl = Number(state.cash) + holdingsValue - Number(state.startingBalance);
       $("totalPnl").textContent = (pnl > 0 ? "+" : "") + fmt(pnl, 5) + " SOL";
       $("totalPnl").className = "metric-value " + (pnl >= 0 ? "positive" : "negative");
       const root = $("positionsList");
-      if (!state.positions.length) root.innerHTML = '<div class="empty">Nie masz jeszcze pozycji demo. Dodaj token, wpisz przykładową kwotę i cenę, aby zasymulować zakup.</div>';
+      if (!state.positions.length) root.innerHTML = '<div class="empty">Brak otwartych pozycji. Wklej adres tokena powyżej i kliknij „Kup demo”.</div>';
       else root.innerHTML = state.positions.map(p => {
-        const cost = Number(p.cost), value = Number(p.quantity) * Number(p.currentPrice), change = cost ? (value / cost - 1) * 100 : 0;
-        return '<article class="position"><div class="pos-top"><div class="identity"><div class="token-name">' + escapeHtml(p.name) + '<span class="symbol">' + escapeHtml(p.symbol) + '</span></div><div class="mint">' + (p.mint ? escapeHtml(p.mint) : 'bez adresu tokena') + '</div></div><div class="price"><div class="price-value">' + fmt(p.currentPrice, 10) + ' SOL</div><div class="price-change ' + (change >= 0 ? 'positive' : 'negative') + '">' + (change >= 0 ? '+' : '') + fmt(change, 2) + '%</div></div></div><div class="facts"><div><div class="fact-label">Włożono</div><div class="fact-value">' + fmt(cost, 5) + ' SOL</div></div><div><div class="fact-label">Wartość demo</div><div class="fact-value">' + fmt(value, 5) + ' SOL</div></div><div><div class="fact-label">Ilość tokenów</div><div class="fact-value">' + fmt(p.quantity, 8) + '</div></div><div><div class="fact-label">Wynik</div><div class="fact-value ' + (value >= cost ? 'positive' : 'negative') + '">' + (value >= cost ? '+' : '') + fmt(value - cost, 5) + ' SOL</div></div></div><div class="actions"><button class="btn btn-small" data-price="' + escapeHtml(p.id) + '">Zmień cenę demo</button><button class="btn btn-danger btn-small" data-sell="' + escapeHtml(p.id) + '">Zamknij pozycję</button></div></article>';
+        const cost = Number(p.cost), value = Number(p.quantity) * Number(p.currentPriceSol || 0), change = Number(p.entryPriceUsd) > 0 && Number(p.currentPriceUsd) > 0 ? (Number(p.currentPriceUsd) / Number(p.entryPriceUsd) - 1) * 100 : 0;
+        const color = change >= 0 ? "positive" : "negative";
+        const stamp = p.stale ? "cena nieaktualna" : (p.updatedAt ? "odświeżono " + new Date(p.updatedAt).toLocaleTimeString("pl-PL") : "oczekuje na dane");
+        const pairLink = p.pairAddress ? ' · <a href="https://dexscreener.com/solana/' + encodeURIComponent(p.pairAddress) + '" target="_blank" rel="noopener">DEX ↗</a>' : "";
+        return '<article class="position"><div class="pos-top"><div class="identity"><div class="token-name">' + escapeHtml(p.name) + '<span class="symbol">' + escapeHtml(p.symbol) + '</span></div><div class="mint">' + escapeHtml(p.mint) + '</div></div><div class="price"><div class="price-value">' + fmt(p.currentPriceSol, 10) + ' SOL</div><div class="price-change ' + color + '">' + (change >= 0 ? '+' : '') + fmt(change, 2) + '% od zakupu</div></div></div><div class="facts"><div><div class="fact-label">Wirtualny zakup</div><div class="fact-value">' + fmt(cost, 5) + ' SOL</div></div><div><div class="fact-label">Wartość teraz</div><div class="fact-value">' + fmt(value, 5) + ' SOL</div></div><div><div class="fact-label">Ilość tokenów</div><div class="fact-value">' + fmt(p.quantity, 8) + '</div></div><div><div class="fact-label">Płynność puli</div><div class="fact-value">$' + fmt(p.liquidityUsd, 0) + '</div></div></div><div class="strategy">Cena $' + fmt(p.currentPriceUsd, 8) + ' · 24h ' + (Number(p.change24h) >= 0 ? '+' : '') + fmt(p.change24h, 2) + '% · wolumen $' + fmt(p.volume24hUsd, 0) + ' · odświeżono ' + stamp + pairLink + '</div><div class="actions"><button class="btn btn-danger btn-small" data-sell="' + escapeHtml(p.id) + '">Zamknij pozycję po cenie teraz</button></div></article>';
       }).join("");
       const history = $("historyList");
-      if (!state.trades.length) history.innerHTML = '<div class="empty">Historia symulacji jest pusta.</div>';
-      else history.innerHTML = state.trades.slice().reverse().map(t => '<article class="trade"><div><div class="trade-title">' + (t.side === 'buy' ? 'Kupno demo' : 'Sprzedaż demo') + ' · ' + escapeHtml(t.symbol) + '</div><div class="trade-meta">' + new Date(t.createdAt).toLocaleString('pl-PL') + ' · ' + fmt(t.amount, 6) + ' SOL · cena ' + fmt(t.price, 10) + ' SOL</div></div><div class="trade-status ' + (t.side === 'buy' ? 'positive' : 'muted') + '">Symulacja</div></article>').join("");
+      if (!state.trades.length) history.innerHTML = '<div class="empty">Nie ma jeszcze transakcji demo.</div>';
+      else history.innerHTML = state.trades.slice().reverse().map(t => '<article class="trade"><div><div class="trade-title">' + (t.side === "buy" ? "Kupno demo" : "Sprzedaż demo") + ' · ' + escapeHtml(t.symbol) + '</div><div class="trade-meta">' + new Date(t.createdAt).toLocaleString("pl-PL") + ' · ' + fmt(t.amountSol, 6) + ' SOL · cena $' + fmt(t.priceUsd, 8) + ' · ' + fmt(t.quantity, 6) + ' tokenów</div></div><div class="trade-status ' + (t.side === "buy" ? "positive" : "muted") + '">Demo</div></article>').join("");
       $("startingBalance").value = state.startingBalance;
     }
-    function logTrade(side, symbol, amount, price) { state.trades.push({ side, symbol, amount, price, createdAt: new Date().toISOString() }); }
-    function openBuy() {
-      $("tradeTitle").textContent = "Symuluj zakup";
-      $("tradeError").classList.add("hidden");
-      $("mintInput").value = ""; $("nameInput").value = ""; $("symbolInput").value = "";
-      $("amountInput").value = ""; $("priceInput").value = "";
-      $("tradeDialog").classList.add("open");
+    function tokenAddressOk(value) { return /^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(value); }
+    async function getPairs(addresses) {
+      const list = Array.from(new Set(addresses.map(value => value.trim())));
+      if (!list.length || list.length > 30) throw new Error("Można sprawdzać maksymalnie 30 adresów naraz.");
+      const controller = new AbortController(), timeout = setTimeout(() => controller.abort(), 10000);
+      let response;
+      try {
+        response = await fetch(MARKET_FUNCTION, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", apikey: SUPABASE_PUBLISHABLE_KEY, Authorization: "Bearer " + SUPABASE_ANON_JWT },
+          body: JSON.stringify({ addresses: list }),
+          cache: "no-store",
+          signal: controller.signal,
+        });
+      } catch (error) { if (error.name === "AbortError") throw new Error("Supabase nie odpowiedziało na czas."); throw new Error("Nie można połączyć się z serwisem notowań."); }
+      finally { clearTimeout(timeout); }
+      if (response.status === 429) { rateLimitedUntil = Date.now() + 10000; throw new Error("Limit zapytań do notowań. Spróbuję ponownie za kilka sekund."); }
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(data.error || "Serwis notowań odpowiedział błędem " + response.status + ".");
+      return Array.isArray(data) ? data : [];
     }
-    $("addToken").addEventListener("click", openBuy);
-    $("confirmTrade").addEventListener("click", () => {
-      const amount = Number($("amountInput").value), price = Number($("priceInput").value);
-      if (!Number.isFinite(amount) || amount <= 0 || !Number.isFinite(price) || price <= 0) { $("tradeError").textContent = "Wpisz poprawną kwotę SOL i cenę tokena większą od zera."; $("tradeError").classList.remove("hidden"); return; }
-      if (amount > state.cash) { $("tradeError").textContent = "Kwota przekracza dostępne wirtualne saldo."; $("tradeError").classList.remove("hidden"); return; }
-      const mint = $("mintInput").value.trim(), symbol = $("symbolInput").value.trim() || "TOKEN", name = $("nameInput").value.trim() || symbol;
-      const existing = state.positions.find(p => p.mint && mint && p.mint === mint);
-      const quantity = amount / price;
-      if (existing) { const totalCost = existing.cost + amount; existing.quantity += quantity; existing.cost = totalCost; existing.currentPrice = totalCost / existing.quantity; }
-      else state.positions.push({ id: crypto.randomUUID(), mint, symbol, name, cost: amount, quantity, currentPrice: price });
-      state.cash -= amount; logTrade("buy", symbol, amount, price); persist(); $("tradeDialog").classList.remove("open"); toast("Zapisano wirtualny zakup");
-    });
+    function bestQuote(pairs, address) {
+      const key = address.toLowerCase();
+      const candidates = pairs.filter(pair => pair.chainId === "solana" && (pair.baseToken?.address?.toLowerCase() === key || pair.quoteToken?.address?.toLowerCase() === key)).map(pair => {
+        const isBase = pair.baseToken?.address?.toLowerCase() === key;
+        const baseUsd = Number(pair.priceUsd), native = Number(pair.priceNative);
+        const priceUsd = isBase ? baseUsd : (native > 0 ? baseUsd / native : 0);
+        const token = isBase ? pair.baseToken : pair.quoteToken;
+        return { mint: address, name: token?.name || "Token", symbol: token?.symbol || "TOKEN", priceUsd, liquidityUsd: Number(pair.liquidity?.usd || 0), volume24hUsd: Number(pair.volume?.h24 || 0), change24h: Number(pair.priceChange?.h24 || 0), pairAddress: pair.pairAddress || "", dexId: pair.dexId || "" };
+      }).filter(q => Number.isFinite(q.priceUsd) && q.priceUsd > 0).sort((a,b) => b.liquidityUsd - a.liquidityUsd);
+      return candidates[0] || null;
+    }
+    async function currentQuotes(addresses) {
+      const pairs = await getPairs(addresses);
+      return new Map(addresses.map(address => [address, bestQuote(pairs, address)]));
+    }
+    function setTradeError(text) { $("tradeError").textContent = text; $("tradeError").classList.remove("hidden"); }
+    async function buyPaper() {
+      if (buyBusy) return;
+      const mint = $("mintInput").value.trim(), amount = Number($("amountInput").value);
+      $("tradeError").classList.add("hidden");
+      if (!tokenAddressOk(mint)) { setTradeError("Wklej poprawny adres tokena Solana (mint)."); return; }
+      if (!Number.isFinite(amount) || amount <= 0) { setTradeError("Wpisz wirtualną kwotę SOL większą od zera."); return; }
+      if (amount > state.cash) { setTradeError("Kwota jest większa niż dostępne saldo demo."); return; }
+      if (!state.positions.some(p => p.mint.toLowerCase() === mint.toLowerCase()) && state.positions.length >= MAX_TRACKED_TOKENS) { setTradeError("Możesz mieć jednocześnie maksymalnie 29 śledzonych pozycji."); return; }
+      buyBusy = true; $("buyToken").disabled = true; $("buyToken").textContent = "Sprawdzam token…"; setMarketStatus("Pobieram aktualne notowania…", false);
+      try {
+        const quotes = await currentQuotes([mint, SOL_MINT]);
+        const token = quotes.get(mint), sol = quotes.get(SOL_MINT);
+        if (!token) throw new Error("Nie znaleziono aktywnej puli z ceną dla tego adresu. Sprawdź mint tokena i spróbuj później.");
+        if (!sol || sol.priceUsd <= 0) throw new Error("Nie udało się pobrać aktualnej ceny SOL. Spróbuj ponownie za chwilę.");
+        const quantity = amount * sol.priceUsd / token.priceUsd;
+        const existing = state.positions.find(p => p.mint.toLowerCase() === mint.toLowerCase());
+        if (existing) {
+          const newQuantity = Number(existing.quantity) + quantity, newCost = Number(existing.cost) + amount;
+          existing.entryPriceUsd = (Number(existing.entryPriceUsd) * Number(existing.quantity) + token.priceUsd * quantity) / newQuantity;
+          existing.quantity = newQuantity; existing.cost = newCost;
+        } else {
+          state.positions.push({ id: crypto.randomUUID(), mint, name: token.name, symbol: token.symbol, quantity, cost: amount, entryPriceUsd: token.priceUsd, currentPriceUsd: token.priceUsd, currentPriceSol: token.priceUsd / sol.priceUsd, liquidityUsd: token.liquidityUsd, volume24hUsd: token.volume24hUsd, change24h: token.change24h, pairAddress: token.pairAddress, updatedAt: new Date().toISOString() });
+        }
+        const position = state.positions.find(p => p.mint.toLowerCase() === mint.toLowerCase());
+        position.currentPriceUsd = token.priceUsd; position.currentPriceSol = token.priceUsd / sol.priceUsd; position.liquidityUsd = token.liquidityUsd; position.volume24hUsd = token.volume24hUsd; position.change24h = token.change24h; position.pairAddress = token.pairAddress; position.updatedAt = new Date().toISOString();
+        state.cash -= amount;
+        state.trades.push({ side: "buy", mint, symbol: token.symbol, amountSol: amount, quantity, priceUsd: token.priceUsd, createdAt: new Date().toISOString() });
+        $("mintInput").value = ""; persist(); setMarketStatus("Dane live · ostatni odczyt " + new Date().toLocaleTimeString("pl-PL"), true); toast("Kupno demo zapisane po aktualnej cenie");
+      } catch (error) { setMarketStatus("Nie udało się pobrać notowań", false); setTradeError(error.name === "AbortError" ? "Serwis notowań nie odpowiedział na czas. Spróbuj ponownie." : error.message || "Nie można połączyć się z serwisem notowań."); }
+      finally { buyBusy = false; $("buyToken").disabled = false; $("buyToken").textContent = "Kup demo"; }
+    }
+    async function refreshPrices() {
+      if (refreshBusy || !state.positions.length || document.hidden || Date.now() < rateLimitedUntil) return;
+      refreshBusy = true;
+      try {
+        const addresses = state.positions.map(p => p.mint);
+        const quotes = await currentQuotes([...addresses, SOL_MINT]);
+        const sol = quotes.get(SOL_MINT);
+        if (!sol || sol.priceUsd <= 0) throw new Error("Nie udało się pobrać notowania SOL.");
+        let updated = false;
+        for (const p of state.positions) {
+          const q = quotes.get(p.mint);
+          if (!q) { p.stale = true; continue; }
+          p.currentPriceUsd = q.priceUsd; p.currentPriceSol = q.priceUsd / sol.priceUsd; p.liquidityUsd = q.liquidityUsd; p.volume24hUsd = q.volume24hUsd; p.change24h = q.change24h; p.pairAddress = q.pairAddress; p.updatedAt = new Date().toISOString(); p.stale = false; updated = true;
+        }
+        state.lastUpdatedAt = new Date().toISOString(); localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); render();
+        setMarketStatus((updated ? "Aktualizacja live · " : "Brak świeżej ceny · ") + new Date().toLocaleTimeString("pl-PL"), updated);
+      } catch (error) { setMarketStatus(error.message || "Błąd pobierania notowań", false); }
+      finally { refreshBusy = false; }
+    }
+    $("buyToken").addEventListener("click", buyPaper);
+    $("mintInput").addEventListener("keydown", event => { if (event.key === "Enter") buyPaper(); });
     document.addEventListener("click", event => {
       const page = event.target.closest("[data-page]");
       if (page) { document.querySelectorAll(".nav button").forEach(button => button.classList.toggle("active", button === page)); document.querySelectorAll(".page").forEach(section => section.classList.toggle("active", section.id === "page-" + page.dataset.page)); }
+      const sell = event.target.closest("[data-sell]");
+      if (sell) {
+        const index = state.positions.findIndex(p => p.id === sell.dataset.sell); if (index < 0) return;
+        const p = state.positions[index], proceeds = Number(p.quantity) * Number(p.currentPriceSol || 0);
+        if (!(proceeds > 0)) { toast("Brak dostępnej ceny do zamknięcia pozycji"); return; }
+        state.cash += proceeds; state.trades.push({ side: "sell", mint: p.mint, symbol: p.symbol, amountSol: proceeds, quantity: p.quantity, priceUsd: p.currentPriceUsd, createdAt: new Date().toISOString() });
+        state.positions.splice(index, 1); persist(); toast("Pozycja demo zamknięta po ostatniej cenie");
+      }
       if (event.target.closest("[data-close]") || event.target.classList.contains("overlay")) event.target.closest(".overlay")?.classList.remove("open");
-      const priceButton = event.target.closest("[data-price]");
-      if (priceButton) { const p = state.positions.find(item => item.id === priceButton.dataset.price); if (!p) return; const value = prompt("Wpisz nową cenę demo tokena w SOL:", String(p.currentPrice)); if (value === null) return; const price = Number(value); if (!Number.isFinite(price) || price <= 0) { toast("Cena musi być większa od zera"); return; } p.currentPrice = price; persist(); toast("Zaktualizowano cenę demo"); }
-      const sellButton = event.target.closest("[data-sell]");
-      if (sellButton) { const index = state.positions.findIndex(item => item.id === sellButton.dataset.sell); if (index < 0) return; const p = state.positions[index], amount = Number(p.quantity) * Number(p.currentPrice); state.cash += amount; logTrade("sell", p.symbol, amount, p.currentPrice); state.positions.splice(index, 1); persist(); toast("Zamknięto pozycję w symulacji"); }
     });
-    $("startingBalance").addEventListener("change", () => { const value = Number($("startingBalance").value); if (!Number.isFinite(value) || value <= 0) { $("startingBalance").value = state.startingBalance; toast("Kapitał musi być większy od zera"); return; } if (state.positions.length || state.trades.length) { $("startingBalance").value = state.startingBalance; toast("Aby zmienić kapitał, najpierw wyczyść symulację"); return; } state = freshState(value); persist(); toast("Ustawiono kapitał demo"); });
-    $("resetDemo").addEventListener("click", () => { if (!confirm("Wyczyścić całe demo, pozycje i historię w tej przeglądarce?")) return; state = freshState(Number(state.startingBalance) || DEFAULT_BALANCE); persist(); toast("Wyczyszczono symulację"); });
+    $("startingBalance").addEventListener("change", () => {
+      const value = Number($("startingBalance").value);
+      if (!Number.isFinite(value) || value <= 0) { $("startingBalance").value = state.startingBalance; toast("Kapitał musi być większy od zera"); return; }
+      if (state.positions.length || state.trades.length) { $("startingBalance").value = state.startingBalance; toast("Aby zmienić kapitał, najpierw wyczyść symulację"); return; }
+      state = freshState(value); persist(); toast("Ustawiono kapitał demo");
+    });
+    $("resetDemo").addEventListener("click", () => { if (!confirm("Wyczyścić pozycje i historię symulacji?")) return; state = freshState(Number(state.startingBalance) || DEFAULT_BALANCE); persist(); setMarketStatus("Oczekuję na token", false); toast("Wyczyszczono symulację"); });
     render();
+    if (state.positions.length) refreshPrices();
+    setInterval(refreshPrices, 1000);
+    document.addEventListener("visibilitychange", () => { if (!document.hidden) refreshPrices(); });
   </script>
 </body>
 </html>
-
 
 
