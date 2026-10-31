@@ -82,4 +82,5 @@ input:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(94
 .engine-status{background:#3c3217;color:#ffe9ad;border-bottom-color:#7a652b;font-size:15px}
 .account-choices,.selected-account{display:none}
 .old-copy-row small,.old-copy-placeholder small,.old-copy-detail-title small,.old-copy-settings-line,.old-copy-performance span,.old-copy-detail-tabs button{font-size:13px}
+.account-actions{display:none!important}
 
