@@ -44,7 +44,7 @@
     </section>
     <section class="page" id="page-settings">
       <div class="page-head"><h1>Ustawienia</h1></div>
-      <div class="panel"><h2>Kapitał demo</h2><p class="muted" style="font-size:14px">Pozycje i historia zapisują się w tej przeglądarce. Notowania są pobierane z DEX Screener, gdy strona jest otwarta.</p><div class="form-grid"><div class="field"><label for="startingBalance">Wirtualny kapitał początkowy (SOL)</label><input id="startingBalance" type="number" min="0.01" step="0.1"></div><div class="field"><label for="buyFeePct">Symulowana opłata kupna (%)</label><input id="buyFeePct" type="number" min="0" max="5" step="0.01"><div class="field-help">Pobierana z wirtualnego salda przy każdym kupnie.</div></div></div><div class="dialog-actions"><button class="btn btn-danger" id="resetDemo">Wyczyść symulację</button></div></div>
+      <div class="panel"><h2>Saldo demo</h2><p class="muted" style="font-size:14px">Możesz zmienić dostępne saldo bez usuwania otwartych pozycji ani historii. Pozycje i historia są zapisane w tej przeglądarce.</p><div class="form-grid"><div class="field"><label for="startingBalance">Dostępne saldo wirtualne (SOL)</label><input id="startingBalance" type="number" min="0" step="0.1"><button class="btn" id="saveBalance">Zapisz saldo</button></div><div class="field"><label for="buyFeePct">Symulowana opłata kupna (%)</label><input id="buyFeePct" type="number" min="0" max="5" step="0.01"><div class="field-help">Pobierana z wirtualnego salda przy każdym kupnie.</div></div></div><div class="dialog-actions"><button class="btn btn-danger" id="resetDemo">Wyczyść pozycje i historię</button></div></div>
     </section>
   </main>
   <div class="toast" id="toast"></div>
@@ -63,7 +63,17 @@
     const toast = (message) => { const el = $("toast"); el.textContent = message; el.classList.add("show"); setTimeout(() => el.classList.remove("show"), 2600); };
     function freshState(balance = DEFAULT_BALANCE) { return { startingBalance: balance, cash: balance, positions: [], trades: [], lastUpdatedAt: null, buyFeePct: 0.3, solUsdPrice: null }; }
     function loadState() {
-      try { const saved = JSON.parse(localStorage.getItem(STORAGE_KEY)); if (saved && Number.isFinite(Number(saved.startingBalance)) && Number.isFinite(Number(saved.cash)) && Array.isArray(saved.positions) && Array.isArray(saved.trades)) return saved; } catch (_) {}
+      try {
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+        if (saved && Number.isFinite(Number(saved.startingBalance)) && Number.isFinite(Number(saved.cash)) && Array.isArray(saved.positions) && Array.isArray(saved.trades)) {
+          saved.positions = saved.positions.map((raw, index) => {
+            const p = raw && typeof raw === "object" ? raw : {};
+            return { ...p, id: String(p.id || "saved-position-" + index), mint: String(p.mint || p.address || p.tokenAddress || ""), name: String(p.name || p.symbol || "Token"), symbol: String(p.symbol || "TOKEN"), quantity: Number(p.quantity) || 0, cost: Number(p.cost) || 0, entryPriceUsd: Number(p.entryPriceUsd || p.currentPriceUsd) || 0, currentPriceUsd: Number(p.currentPriceUsd) || 0, currentPriceSol: Number(p.currentPriceSol) || 0, feesSol: Number(p.feesSol) || 0, marketCapUsd: Number(p.marketCapUsd) || 0, liquidityUsd: Number(p.liquidityUsd) || 0, volume24hUsd: Number(p.volume24hUsd) || 0, change24h: Number(p.change24h) || 0 };
+          });
+          saved.buyFeePct = Number.isFinite(Number(saved.buyFeePct)) ? Number(saved.buyFeePct) : 0.3;
+          return saved;
+        }
+      } catch (_) {}
       return freshState();
     }
     let state = loadState();
@@ -86,7 +96,9 @@
       $("totalPnl").className = "metric-value " + (pnl >= 0 ? "positive" : "negative");
       const root = $("positionsList");
       if (!state.positions.length) root.innerHTML = '<div class="empty">Brak otwartych pozycji. Wklej adres tokena powyżej i kliknij „Kup demo”.</div>';
-      else root.innerHTML = state.positions.map(p => {
+      else root.innerHTML = state.positions.map(raw => {
+        const p = raw && typeof raw === "object" ? raw : {};
+        try {
         const cost = Number(p.cost), value = Number(p.quantity) * Number(p.currentPriceSol || 0), change = Number(p.entryPriceUsd) > 0 && Number(p.currentPriceUsd) > 0 ? (Number(p.currentPriceUsd) / Number(p.entryPriceUsd) - 1) * 100 : 0;
         const color = change >= 0 ? "positive" : "negative";
         const stamp = p.stale ? "cena nieaktualna" : (p.updatedAt ? "odświeżono " + new Date(p.updatedAt).toLocaleTimeString("pl-PL") : "oczekuje na dane");
@@ -94,13 +106,17 @@
         const image = safeImageUrl(p.imageUrl), imageNode = image ? '<img class="token-image" src="' + escapeHtml(image) + '" alt="" loading="lazy" onerror="this.hidden=true;this.nextElementSibling.classList.remove(\'hidden\')"><span class="token-image-fallback hidden">' + escapeHtml((p.symbol || "?").slice(0, 2)) + '</span>' : '<span class="token-image-fallback">' + escapeHtml((p.symbol || "?").slice(0, 2)) + '</span>';
         const mc = Number(p.marketCapUsd) > 0 ? fmtUsd(p.marketCapUsd, 0) : '—';
         const rules = '<details class="rules"><summary>Ustawienia wyjścia · SL / TP / trailing stop</summary><div class="rule-state">' + (p.stopLossPct ? 'SL ' + fmt(p.stopLossPct, 2) + '%' : 'SL —') + ' · ' + (p.takeProfitPct ? 'TP ' + fmt(p.takeProfitPct, 2) + '%' : 'TP —') + ' · ' + (p.trailingStopPct ? 'trailing ' + fmt(p.trailingStopPct, 2) + '% od ATH' : 'trailing —') + '</div><form class="rules-grid" id="rules-' + escapeHtml(p.id) + '"><label>Stop loss (%)<input name="stopLossPct" type="number" min="0" max="99" step="0.1" value="' + (p.stopLossPct ?? '') + '" placeholder="wyłączony"></label><label>Take profit (%)<input name="takeProfitPct" type="number" min="0" max="9999" step="0.1" value="' + (p.takeProfitPct ?? '') + '" placeholder="wyłączony"></label><label>Trailing od ATH (%)<input name="trailingStopPct" type="number" min="0" max="99" step="0.1" value="' + (p.trailingStopPct ?? '') + '" placeholder="wyłączony"></label></form><div class="rules-actions"><button class="btn btn-small" data-save-rules="' + escapeHtml(p.id) + '">Zapisz reguły</button></div></details>';
-        return '<article class="position"><div class="pos-top"><div class="pos-identity">' + imageNode + '<div class="identity"><div class="token-name">' + escapeHtml(p.name) + '<span class="symbol">' + escapeHtml(p.symbol) + '</span></div><div class="mint-row"><div class="mint" title="' + escapeHtml(p.mint) + '">CA: ' + escapeHtml(p.mint.slice(0, 6) + '…' + p.mint.slice(-5)) + '</div><button class="btn btn-small" data-copy="' + escapeHtml(p.mint) + '">Kopiuj CA</button></div><div class="pos-links"><a href="https://axiom.trade/pulse" target="_blank" rel="noopener">Axiom ↗</a>' + (pairLink ? ' · ' + pairLink : '') + '</div></div></div><div class="value-stack"><div class="price-value">~' + fmtUsd(Number(p.quantity) * Number(p.currentPriceUsd || 0)) + '</div><div class="value-sol">' + fmt(value, 5) + ' SOL</div><div class="price-change ' + color + '">' + (change >= 0 ? '+' : '') + fmt(change, 2) + '% od zakupu</div></div></div><div class="facts"><div><div class="fact-label">Wirtualny zakup</div><div class="fact-value">' + fmt(cost, 5) + ' SOL</div></div><div><div class="fact-label">MC</div><div class="fact-value">' + mc + '</div></div><div><div class="fact-label">Ilość tokenów</div><div class="fact-value">' + fmt(p.quantity, 8) + '</div></div><div><div class="fact-label">Fee kupna (sym.)</div><div class="fact-value">' + fmt(p.feesSol || 0, 6) + ' SOL</div></div></div><div class="strategy">24h ' + (Number(p.change24h) >= 0 ? '+' : '') + fmt(p.change24h, 2) + '% · płynność ' + fmtUsd(p.liquidityUsd, 0) + ' · wolumen ' + fmtUsd(p.volume24hUsd, 0) + ' · ' + stamp + '</div>' + rules + '<div class="actions"><button class="btn btn-danger btn-small" data-sell="' + escapeHtml(p.id) + '">Zamknij pozycję teraz</button></div></article>';
+        return '<article class="position"><div class="pos-top"><div class="pos-identity">' + imageNode + '<div class="identity"><div class="token-name">' + escapeHtml(p.name || p.symbol || "Token") + '<span class="symbol">' + escapeHtml(p.symbol || "TOKEN") + '</span></div><div class="mint-row"><div class="mint" title="' + escapeHtml(p.mint || "") + '">CA: ' + escapeHtml(p.mint ? p.mint.slice(0, 6) + '…' + p.mint.slice(-5) : "brak adresu") + '</div>' + (p.mint ? '<button class="btn btn-small" data-copy="' + escapeHtml(p.mint) + '">Kopiuj CA</button>' : '') + '</div><div class="pos-links"><a href="https://axiom.trade/pulse" target="_blank" rel="noopener">Axiom ↗</a>' + (pairLink ? ' · ' + pairLink : '') + '</div></div></div><div class="value-stack"><div class="price-value">~' + fmtUsd(Number(p.quantity) * Number(p.currentPriceUsd || 0)) + '</div><div class="value-sol">' + fmt(value, 5) + ' SOL</div><div class="price-change ' + color + '">' + (change >= 0 ? '+' : '') + fmt(change, 2) + '% od zakupu</div></div></div><div class="facts"><div><div class="fact-label">Wirtualny zakup</div><div class="fact-value">' + fmt(cost, 5) + ' SOL</div></div><div><div class="fact-label">MC</div><div class="fact-value">' + mc + '</div></div><div><div class="fact-label">Ilość tokenów</div><div class="fact-value">' + fmt(p.quantity, 8) + '</div></div><div><div class="fact-label">Fee kupna (sym.)</div><div class="fact-value">' + fmt(p.feesSol || 0, 6) + ' SOL</div></div></div><div class="strategy">24h ' + (Number(p.change24h) >= 0 ? '+' : '') + fmt(p.change24h, 2) + '% · płynność ' + fmtUsd(p.liquidityUsd, 0) + ' · wolumen ' + fmtUsd(p.volume24hUsd, 0) + ' · ' + stamp + '</div>' + rules + '<div class="actions"><button class="btn btn-danger btn-small" data-sell="' + escapeHtml(p.id) + '">Zamknij pozycję teraz</button></div></article>';
+        } catch (error) {
+          console.error("Nie udało się wyświetlić pozycji", error, p);
+          return '<article class="position"><div class="token-name">' + escapeHtml(p.name || p.symbol || "Pozycja demo") + ' <span class="symbol">' + escapeHtml(p.symbol || "TOKEN") + '</span></div><div class="strategy">Zapisana pozycja · ~' + fmtUsd(Number(p.quantity) * Number(p.currentPriceUsd || 0)) + ' · ' + fmt(Number(p.quantity) * Number(p.currentPriceSol || 0), 5) + ' SOL · ' + escapeHtml(p.mint || "brak CA") + '</div></article>';
+        }
       }).join("");
       const history = $("historyList");
       if (!state.trades.length) history.innerHTML = '<div class="empty">Nie ma jeszcze transakcji demo.</div>';
       else history.innerHTML = state.trades.slice().reverse().map(t => '<article class="trade"><div><div class="trade-title">' + (t.side === "buy" ? "Kupno demo" : "Sprzedaż demo") + ' · ' + escapeHtml(t.symbol) + (t.exitReason ? ' · ' + escapeHtml(t.exitReason) : '') + '</div><div class="trade-meta">' + new Date(t.createdAt).toLocaleString("pl-PL") + ' · ' + fmt(t.amountSol, 6) + ' SOL' + (t.feeSol ? ' · fee ' + fmt(t.feeSol, 6) + ' SOL' : '') + ' · cena $' + fmt(t.priceUsd, 8) + ' · ' + fmt(t.quantity, 6) + ' tokenów</div></div><div class="trade-status ' + (t.side === "buy" ? "positive" : "muted") + '">Demo</div></article>').join("");
-      $("startingBalance").value = state.startingBalance;
-      $("buyFeePct").value = state.buyFeePct ?? 0.3; updateFeePreview();
+      if (document.activeElement !== $("startingBalance")) $("startingBalance").value = state.cash;
+      if (document.activeElement !== $("buyFeePct")) $("buyFeePct").value = state.buyFeePct ?? 0.3; updateFeePreview();
     }
     function tokenAddressOk(value) { return /^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(value); }
     async function getPairs(addresses) {
@@ -235,11 +251,10 @@
       }
       if (event.target.closest("[data-close]") || event.target.classList.contains("overlay")) event.target.closest(".overlay")?.classList.remove("open");
     });
-    $("startingBalance").addEventListener("change", () => {
+    $("saveBalance").addEventListener("click", () => {
       const value = Number($("startingBalance").value);
-      if (!Number.isFinite(value) || value <= 0) { $("startingBalance").value = state.startingBalance; toast("Kapitał musi być większy od zera"); return; }
-      if (state.positions.length || state.trades.length) { $("startingBalance").value = state.startingBalance; toast("Aby zmienić kapitał, najpierw wyczyść symulację"); return; }
-      state = freshState(value); persist(); toast("Ustawiono kapitał demo");
+      if (!Number.isFinite(value) || value < 0) { $("startingBalance").value = state.cash; toast("Saldo nie może być mniejsze od zera"); return; }
+      const difference = value - Number(state.cash); state.cash = value; state.startingBalance = Number(state.startingBalance) + difference; persist(); toast("Zapisano saldo — pozycje i historia zostały zachowane");
     });
     $("resetDemo").addEventListener("click", () => { if (!confirm("Wyczyścić pozycje i historię symulacji?")) return; state = freshState(Number(state.startingBalance) || DEFAULT_BALANCE); persist(); setMarketStatus("Oczekuję na token", false); toast("Wyczyszczono symulację"); });
     render();
