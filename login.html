@@ -3,13 +3,25 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Panel</title>
-  <meta http-equiv="refresh" content="0;url=./index.html">
+  <title>Panel · Logowanie</title>
   <link rel="stylesheet" href="./styles.css">
 </head>
-<body>
-  <p>Otwieranie panelu…</p>
-  <script>location.replace("./index.html");</script>
+<body class="auth-body">
+  <main class="auth-shell">
+    <section class="auth-card">
+      <h1 id="authTitle">Logowanie</h1>
+      <form id="authForm">
+        <label>Hasło<input id="authPassword" name="password" type="password" autocomplete="current-password" minlength="12" maxlength="256" required></label>
+        <label id="repeatPasswordField" class="hidden">Powtórz hasło<input id="repeatPassword" type="password" autocomplete="new-password" minlength="12" maxlength="256"></label>
+        <label id="setupCodeField" class="hidden">Kod konfiguracji<input id="setupCode" autocomplete="off"></label>
+        <button id="authSubmit" class="button accent wide" type="submit">Zaloguj</button>
+        <p id="authError" class="message error" role="alert"></p>
+      </form>
+    </section>
+  </main>
+  <script src="./frontend-config.js?v=20261031-4"></script>
+  <script src="./connection.js?v=20261031-4"></script>
+  <script src="./login.js?v=20261031-4"></script>
 </body>
 </html>
 
