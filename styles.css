@@ -236,4 +236,10 @@ input:focus,select:focus{border-color:#ddd;box-shadow:0 0 0 3px rgba(255,255,255
 .eyebrow,.old-copy-detail-title small,.old-copy-placeholder small{display:none!important}
 .old-copy-heading>div>p,.old-copy-empty>p,.old-copy-placeholder>p,.manager-add p{display:none!important}
 .view p:not(.message),.create-wallet-dialog p:not(.message){display:none!important}
+.positive{color:#43df8c!important}
+.negative{color:#ff6678!important}
+.stats-bucket .bucket-outcome em{color:#43df8c!important}
+.stats-bucket .bucket-outcome i{color:#ff6678!important}
+.calendar-day.positive{background:#10291d!important;border-color:#2f8b5b!important}
+.calendar-day.negative{background:#2c1419!important;border-color:#9b3d4b!important}
 
