@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#11130f">
-  <title>Solana Trading Bot</title>
+  <title>Solana Paper Trader</title>
   <style>
     :root{color-scheme:dark;--bg:#10120f;--panel:#191d18;--panel2:#20251e;--line:#343a32;--text:#f5f6f1;--muted:#adb5a8;--lime:#d0f77a;--green:#5de18a;--red:#ff8177;--amber:#f4cb72;font:16px/1.5 Inter,system-ui,-apple-system,"Segoe UI",sans-serif}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:var(--bg);color:var(--text)}button,input,select,textarea{font:inherit}button{cursor:pointer;color:inherit}.shell{max-width:1080px;margin:auto;padding:24px 20px 72px}.header{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:4px 0 20px;border-bottom:1px solid var(--line)}.brand{font-size:23px;font-weight:800;letter-spacing:-.04em}.subtitle{font-size:13px;color:var(--muted);margin-top:2px}.status{display:flex;align-items:center;gap:9px;border:1px solid var(--line);border-radius:999px;padding:8px 12px;color:var(--muted);font-size:13px}.dot{height:8px;width:8px;border-radius:50%;background:#81877c}.dot.ok{background:var(--green);box-shadow:0 0 10px #5de18a66}.dot.warn{background:var(--amber)}.nav{display:flex;gap:8px;padding:18px 0 24px;overflow:auto}.nav button,.btn{border:1px solid var(--line);border-radius:12px;background:var(--panel2);padding:10px 15px;font-size:14px;font-weight:700}.nav button{white-space:nowrap;color:var(--muted);background:transparent}.nav button.active{background:var(--lime);border-color:var(--lime);color:#161a11}.btn:hover,.nav button:hover{filter:brightness(1.12)}.btn-primary{background:var(--lime);border-color:var(--lime);color:#161a11}.btn-danger{color:#ffb1a9;border-color:#70443e;background:#291d1a}.btn-small{padding:7px 10px;font-size:12px}.page{display:none}.page.active{display:block}.page-head{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:0 0 16px}.page-head h1{font-size:27px;line-height:1.2;letter-spacing:-.035em;margin:0}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px}.metric{border:1px solid var(--line);border-radius:16px;background:var(--panel);padding:15px}.metric-label{font-size:13px;color:var(--muted)}.metric-value{font-size:20px;font-weight:800;margin-top:3px}.position-list{display:grid;gap:12px}.position{border:1px solid var(--line);border-radius:17px;background:var(--panel);padding:17px}.pos-top{display:flex;justify-content:space-between;gap:16px}.identity{min-width:0}.token-name{font-weight:800;font-size:17px}.symbol{color:var(--muted);font-size:13px;margin-left:7px}.mint{color:var(--muted);font:12px ui-monospace,SFMono-Regular,Consolas,monospace;overflow-wrap:anywhere;margin-top:4px}.price{text-align:right;flex:none}.price-value{font-size:21px;font-weight:800}.price-change{font-size:13px;font-weight:700}.positive{color:var(--green)}.negative{color:var(--red)}.facts{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:12px 0;margin:14px 0}.fact-label{font-size:12px;color:var(--muted)}.fact-value{font-size:14px;font-weight:700;margin-top:2px;overflow-wrap:anywhere}.strategy{font-size:13px;color:var(--muted)}.actions{display:flex;gap:8px;margin-top:13px}.actions button{flex:1}.empty{border:1px dashed #4a5147;border-radius:16px;padding:35px 18px;text-align:center;color:var(--muted)}.history-list{display:grid;gap:9px}.trade{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:14px}.trade-title{font-weight:750}.trade-meta{font-size:12px;color:var(--muted);margin-top:3px}.trade a{color:var(--lime);text-decoration:none}.trade-status{text-align:right;font-weight:750;font-size:13px}.panel{border:1px solid var(--line);border-radius:16px;background:var(--panel);padding:18px;margin-bottom:13px}.panel h2{font-size:18px;margin:0 0 12px}.notice{border:1px solid #5b4e31;background:#2a261a;color:#f2dda6;border-radius:13px;padding:13px 15px;font-size:13px;margin-bottom:15px}.notice.good{border-color:#315a3d;background:#17271c;color:#b6f0c4}.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:13px}.field{display:grid;gap:5px}.field.full{grid-column:1/-1}.field label{font-size:13px;color:var(--muted);font-weight:650}.field input,.field textarea,.field select{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:#0e100d;color:var(--text)}.field input:focus,.field textarea:focus{outline:2px solid #d0f77a66;border-color:var(--lime)}.field-help{font-size:12px;color:var(--muted)}.switch-row{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line)}.switch-row:last-child{border-bottom:0}.switch-label{font-weight:700}.switch-help{font-size:12px;color:var(--muted)}input[type=checkbox]{accent-color:var(--lime);height:18px;width:18px}.overlay{position:fixed;inset:0;display:none;place-items:center;padding:14px;background:#000b;z-index:5}.overlay.open{display:grid}.dialog{width:min(520px,100%);max-height:92vh;overflow:auto;padding:20px;border:1px solid #4b5347;border-radius:18px;background:#191d18;box-shadow:0 20px 70px #0009}.dialog-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:15px}.dialog h2{margin:0;font-size:21px}.close{border:0;background:transparent;color:var(--muted);font-size:27px}.dialog-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:17px}.quote-box{margin-top:14px;border:1px solid var(--line);border-radius:12px;padding:12px;background:#11140f}.quote-row{display:flex;justify-content:space-between;gap:14px;font-size:13px;padding:4px 0}.toast{position:fixed;bottom:20px;left:50%;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#e8f6ce;color:#182012;border-radius:12px;padding:11px 16px;font-weight:750;font-size:13px;transition:.2s;z-index:9;max-width:calc(100vw - 30px)}.toast.show{opacity:1;transform:translate(-50%,0)}.muted{color:var(--muted)}.danger{color:var(--red)}.hidden{display:none!important}@media(max-width:650px){.shell{padding:14px 12px 42px}.header{align-items:flex-start}.brand{font-size:20px}.status{font-size:11px;padding:7px 9px}.nav{padding:14px 0 19px}.nav button{padding:9px 12px;font-size:13px}.page-head h1{font-size:23px}.cards{grid-template-columns:1fr 1fr}.metric:last-child{grid-column:1/-1}.position{padding:14px}.token-name{font-size:15px}.price-value{font-size:18px}.facts{grid-template-columns:repeat(2,1fr)}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.actions .btn{padding:9px 7px;font-size:12px}}
   </style>
@@ -12,350 +12,113 @@
 <body>
   <main class="shell">
     <header class="header">
-      <div><div class="brand">Mój panel Solana</div><div class="subtitle">Silnik transakcji działa po stronie Supabase · Mainnet Beta</div></div>
-      <div class="status"><span class="dot" id="statusDot"></span><span id="statusText">Połącz, aby sprawdzić silnik</span></div>
+      <div><div class="brand">Solana Paper Trader</div><div class="subtitle">Symulacja transakcji · bez portfela i prawdziwych zleceń</div></div>
+      <div class="status"><span class="dot ok"></span><span>Tryb demo · dane zapisane w tej przeglądarce</span></div>
     </header>
-
-    <section id="connectPanel" class="panel" style="max-width:560px;margin:30px auto">
-      <h2>Portfel bota</h2>
-      <p class="muted" style="font-size:14px">Portfel został przygotowany. Po zapisaniu jego sekretów w Supabase możesz połączyć panel poniżej.</p>
-      <hr style="border:0;border-top:1px solid var(--line);margin:20px 0">
-      <h2>Połącz panel z botem</h2>
-      <p class="muted" style="font-size:14px">Wpisz token sterujący ustawiony w Supabase → Edge Functions → Secrets. Token zostaje tylko w tej karcie przeglądarki.</p>
-      <div class="field"><label for="controlToken">Token sterujący</label><input id="controlToken" type="password" autocomplete="off" placeholder="BOT_CONTROL_TOKEN"></div>
-      <div id="connectError" class="notice hidden" style="margin-top:12px"></div>
-      <button class="btn btn-primary" id="connectButton" style="margin-top:12px;width:100%">Połącz</button>
-      <div class="field-help" style="margin-top:12px">Nie wpisuj tutaj klucza prywatnego portfela. Klucz bota należy przechowywać wyłącznie w sekretach Supabase.</div>
+    <div class="notice good" style="margin-top:18px">To jest wyłącznie symulator. Nie łączy się z portfelem, Supabase ani siecią Solana i nie wysyła transakcji. Ceny wpisujesz ręcznie, więc wynik zależy od podanych przez Ciebie wartości.</div>
+    <nav class="nav" aria-label="Sekcje">
+      <button class="active" data-page="positions">Portfel demo</button><button data-page="history">Historia</button><button data-page="settings">Ustawienia</button>
+    </nav>
+    <section class="page active" id="page-positions">
+      <div class="cards">
+        <div class="metric"><div class="metric-label">Wirtualne saldo</div><div class="metric-value" id="cashBalance">—</div></div>
+        <div class="metric"><div class="metric-label">Wartość pozycji</div><div class="metric-value" id="positionValue">—</div></div>
+        <div class="metric"><div class="metric-label">Łączny wynik</div><div class="metric-value" id="totalPnl">—</div></div>
+      </div>
+      <div class="page-head"><h1>Pozycje demo</h1><button class="btn btn-primary" id="addToken">＋ Symuluj zakup</button></div>
+      <div id="positionsList" class="position-list"></div>
     </section>
-
-    <section id="appPanel" class="hidden">
-      <nav class="nav" aria-label="Sekcje">
-        <button class="active" data-page="positions">Pozycje</button><button data-page="history">Historia</button><button data-page="settings">Ustawienia bota</button>
-      </nav>
-      <section class="page active" id="page-positions">
-        <div id="setupNotice" class="notice hidden"></div>
-        <div class="cards">
-          <div class="metric"><div class="metric-label">Adres portfela bota</div><div class="metric-value" id="walletAddress" style="font-size:14px;overflow-wrap:anywhere">—</div></div>
-          <div class="metric"><div class="metric-label">Saldo SOL</div><div class="metric-value" id="walletBalance">—</div></div>
-          <div class="metric"><div class="metric-label">Tryb handlu</div><div class="metric-value" id="engineMode">Wyłączony</div></div>
-        </div>
-        <div class="page-head"><h1>Otwarte pozycje</h1><button class="btn btn-primary" id="addToken">＋ Kup token</button></div>
-        <div id="positionsList" class="position-list"></div>
-      </section>
-      <section class="page" id="page-history">
-        <div class="page-head"><h1>Historia transakcji</h1><button class="btn btn-small" id="refreshHistory">Odśwież</button></div>
-        <div id="historyList" class="history-list"></div>
-      </section>
-      <section class="page" id="page-settings">
-        <div class="page-head"><h1>Ustawienia bota</h1><button class="btn btn-small" id="disconnect">Odłącz panel</button></div>
-        <div id="settingsNotice" class="notice hidden"></div>
-        <div class="panel">
-          <h2>Limity i automatyzacja</h2>
-          <div class="switch-row"><div><div class="switch-label">Zezwalaj na transakcje</div><div class="switch-help">Wymagane do ręcznego kupna, sprzedaży i automatycznych wyjść.</div></div><input type="checkbox" id="tradingEnabled"></div>
-          <div class="switch-row"><div><div class="switch-label">Automatyczne wyjścia</div><div class="switch-help">Raz na minutę sprawdzaj SL, TP i trailing stop. Domyślnie wyłączone.</div></div><input type="checkbox" id="autoEnabled"></div>
-          <div class="form-grid" style="margin-top:14px">
-            <div class="field"><label for="maxTrade">Limit jednego zakupu (SOL)</label><input id="maxTrade" type="number" min="0.001" max="100" step="0.001"></div>
-            <div class="field"><label for="dailyLimit">Dzienny limit zakupów (SOL)</label><input id="dailyLimit" type="number" min="0.001" max="1000" step="0.001"></div>
-            <div class="field"><label for="slippage">Maks. poślizg (bps)</label><input id="slippage" type="number" min="1" max="5000" step="1"></div>
-          </div>
-          <div class="dialog-actions"><button class="btn btn-primary" id="saveSettings">Zapisz ustawienia</button></div>
-        </div>
-        <div class="panel"><h2>Portfel i klucz</h2><div class="muted" style="font-size:14px">Pobierz klucz prywatny skonfigurowanego portfela tylko wtedy, gdy jest Ci potrzebny. Plik daje pełny dostęp do środków — przechowuj go prywatnie.</div><button class="btn" id="downloadBotKey" style="margin-top:12px">Pobierz private key (.txt)</button><div class="field-help" style="margin-top:10px">Adres portfela: <span id="walletAddressInSettings">—</span>. Każda ręczna transakcja wymaga osobnego podglądu i potwierdzenia.</div></div>
-      </section>
+    <section class="page" id="page-history">
+      <div class="page-head"><h1>Historia symulacji</h1></div><div id="historyList" class="history-list"></div>
+    </section>
+    <section class="page" id="page-settings">
+      <div class="page-head"><h1>Ustawienia</h1></div>
+      <div class="panel"><h2>Symulator</h2><p class="muted" style="font-size:14px">Wirtualny kapitał i historia są przechowywane tylko w pamięci tej przeglądarki. Nie są synchronizowane między urządzeniami. Każdy zakup i sprzedaż wymaga ręcznego wpisania ceny.</p><div class="field" style="max-width:320px"><label for="startingBalance">Wirtualny kapitał początkowy (SOL)</label><input id="startingBalance" type="number" min="0.01" step="0.1"></div><div class="dialog-actions"><button class="btn btn-danger" id="resetDemo">Wyczyść symulację i zacznij od nowa</button></div></div>
     </section>
   </main>
-
   <div class="overlay" id="tradeDialog"><div class="dialog">
-    <div class="dialog-head"><h2 id="tradeTitle">Kup token</h2><button class="close" data-close aria-label="Zamknij">×</button></div>
-    <div id="buyFields" class="form-grid">
-      <div class="field full"><label for="mintInput">Adres tokena (mint)</label><input id="mintInput" placeholder="SPL token mint"></div>
+    <div class="dialog-head"><h2 id="tradeTitle">Symuluj zakup</h2><button class="close" data-close aria-label="Zamknij">×</button></div>
+    <div class="form-grid">
+      <div class="field full"><label for="mintInput">Adres tokena (opcjonalnie)</label><input id="mintInput" maxlength="64" placeholder="Mint Solana"></div>
       <div class="field"><label for="nameInput">Nazwa</label><input id="nameInput" maxlength="80" placeholder="Nazwa tokena"></div>
       <div class="field"><label for="symbolInput">Symbol</label><input id="symbolInput" maxlength="24" placeholder="TOKEN"></div>
-      <div class="field full"><label for="amountInput">Kwota zakupu (SOL)</label><input id="amountInput" type="number" min="0.001" step="0.001" placeholder="0.05"></div>
+      <div class="field"><label for="amountInput">Kwota wirtualna (SOL)</label><input id="amountInput" type="number" min="0.001" step="0.001" placeholder="0.05"></div>
+      <div class="field"><label for="priceInput">Cena tokena (SOL)</label><input id="priceInput" type="number" min="0.0000000001" step="any" placeholder="0.0001"></div>
     </div>
-    <div id="sellSummary" class="muted hidden" style="font-size:14px"></div>
-    <div id="quoteBox" class="quote-box hidden"></div>
+    <div class="field-help" style="margin-top:10px">W symulacji ilość tokenów jest obliczana z kwoty SOL podzielonej przez wpisaną cenę. To nie jest wycena rynkowa.</div>
     <div id="tradeError" class="notice hidden" style="margin-top:12px"></div>
-    <div class="dialog-actions"><button class="btn" data-close>Anuluj</button><button class="btn btn-primary" id="quoteButton">Pobierz wycenę</button><button class="btn btn-primary hidden" id="confirmTrade">Potwierdź transakcję</button></div>
-  </div></div>
-
-  <div class="overlay" id="strategyDialog"><div class="dialog">
-    <div class="dialog-head"><h2 id="strategyTitle">Reguły wyjścia</h2><button class="close" data-close aria-label="Zamknij">×</button></div>
-    <div class="form-grid">
-      <div class="field"><label for="stopLoss">Stop loss (%)</label><input id="stopLoss" type="number" min="0" max="99" step="0.1" placeholder="wyłączony"></div>
-      <div class="field"><label for="takeProfit">Take profit (%)</label><input id="takeProfit" type="number" min="0" max="99" step="0.1" placeholder="wyłączony"></div>
-      <div class="field full"><label for="trailingStop">Trailing stop od ATH (%)</label><input id="trailingStop" type="number" min="0" max="99" step="0.1" placeholder="wyłączony"></div>
-    </div>
-    <div class="field-help" style="margin-top:10px">Reguły sprzedają całą pozycję, gdy automatyczne wyjścia są włączone. Ceny są sprawdzane raz na minutę.</div>
-    <div id="strategyError" class="notice hidden" style="margin-top:12px"></div>
-    <div class="dialog-actions"><button class="btn" data-close>Anuluj</button><button class="btn btn-primary" id="saveStrategy">Zapisz reguły</button></div>
+    <div class="dialog-actions"><button class="btn" data-close>Anuluj</button><button class="btn btn-primary" id="confirmTrade">Zapisz symulację</button></div>
   </div></div>
   <div class="toast" id="toast"></div>
-
   <script>
-    const SUPABASE_URL = "https://odqgoejynyfqksazibwk.supabase.co";
-    const SUPABASE_KEY = "sb_publishable_6wd7RGf40ilsLR04-GixbA_o1MhHV3u";
-    const FUNCTION_URL = `${SUPABASE_URL}/functions/v1/solana-bot-engine`;
-    let controlToken = sessionStorage.getItem("solana-bot-control-token") || "";
-    let settings = null;
-    let positions = [];
-    let currentMint = null;
-    let pendingTrade = null;
-    let tradeSide = "buy";
-
+    const STORAGE_KEY = "meme-trading-paper-v1";
+    const DEFAULT_BALANCE = 5;
     const $ = (id) => document.getElementById(id);
-    const short = (value) => value ? `${value.slice(0, 7)}…${value.slice(-5)}` : "—";
     const fmt = (value, digits = 4) => Number.isFinite(Number(value)) ? Number(value).toLocaleString("pl-PL", { maximumFractionDigits: digits }) : "—";
+    const escapeHtml = (value) => String(value ?? "").replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
     const toast = (message) => { const el = $("toast"); el.textContent = message; el.classList.add("show"); setTimeout(() => el.classList.remove("show"), 2600); };
-
-    async function downloadBotKey() {
+    function freshState(balance = DEFAULT_BALANCE) { return { startingBalance: balance, cash: balance, positions: [], trades: [] }; }
+    function loadState() {
       try {
-        const data = await api("export-key");
-        const contents = `WALLET_ADDRESS=${data.wallet_address}\nSOLANA_BOT_KEYPAIR=${data.secret_key}\n`;
-        const url = URL.createObjectURL(new Blob([contents], { type: "text/plain;charset=utf-8" }));
-        const link = document.createElement("a");
-        link.href = url;
-        link.download = "solana-bot-private-key.txt";
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
-        setTimeout(() => URL.revokeObjectURL(url), 1000);
-        toast("Pobrano klucz portfela");
-      } catch (error) { toast(error.message); }
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+        if (saved && Number.isFinite(Number(saved.startingBalance)) && Number.isFinite(Number(saved.cash)) && Array.isArray(saved.positions) && Array.isArray(saved.trades)) return saved;
+      } catch (_) {}
+      return freshState();
     }
-
-    async function api(action, body = {}) {
-      const response = await fetch(FUNCTION_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", apikey: SUPABASE_KEY, Authorization: `Bearer ${controlToken}` },
-        body: JSON.stringify({ action, ...body }),
-      });
-      const data = await response.json().catch(() => ({}));
-      if (!response.ok) throw new Error(data.error || `Błąd serwera (${response.status})`);
-      return data;
-    }
-
-    function setStatus(text, state = "") {
-      $("statusText").textContent = text;
-      $("statusDot").className = `dot ${state}`;
-    }
-
-    async function connect(token) {
-      controlToken = token.trim();
-      const status = await api("status");
-      sessionStorage.setItem("solana-bot-control-token", controlToken);
-      $("connectPanel").classList.add("hidden");
-      $("appPanel").classList.remove("hidden");
-      await refreshAll(status);
-    }
-
-    async function refreshAll(initialStatus = null) {
-      try {
-        const [status, pos, trades, currentSettings] = await Promise.all([
-          initialStatus ? Promise.resolve(initialStatus) : api("status"), api("positions"), api("trades"), api("settings"),
-        ]);
-        settings = currentSettings;
-        positions = pos;
-        renderStatus(status);
-        renderPositions();
-        renderTrades(trades);
-        renderSettings(currentSettings);
-      } catch (error) {
-        setStatus("Błąd połączenia", "warn");
-        toast(error.message);
-      }
-    }
-
-    function renderStatus(data) {
-      setStatus(data.wallet_configured ? (data.trading_enabled ? (data.auto_enabled ? "Auto wyjścia aktywne" : "Portfel gotowy") : "Handel wyłączony") : "Brak sekretu portfela", data.wallet_configured && data.trading_enabled ? "ok" : "warn");
-      $("walletAddress").textContent = data.wallet_address ? `${short(data.wallet_address)} · ${data.wallet_address}` : "Nie skonfigurowano";
-      $("walletAddressInSettings").textContent = data.wallet_address || "Nie skonfigurowano";
-      $("walletBalance").textContent = data.sol_balance == null ? "—" : `${fmt(data.sol_balance, 5)} SOL`;
-      $("engineMode").textContent = data.auto_enabled ? "Auto wyjścia" : data.trading_enabled ? "Ręczny" : "Wyłączony";
-      const missing = [];
-      if (!data.wallet_configured) missing.push("Dodaj SOLANA_BOT_KEYPAIR w Supabase → Edge Functions → Secrets.");
-      if (!data.trading_enabled) missing.push("Handel jest wyłączony. Włącz go dopiero po sprawdzeniu adresu i limitów bota.");
-      $("setupNotice").textContent = missing.join(" ");
-      $("setupNotice").classList.toggle("hidden", missing.length === 0);
-      if (!data.wallet_configured) setStatus("Brak sekretu portfela", "warn");
-    }
-
-    function renderPositions() {
+    let state = loadState();
+    function persist() { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); render(); }
+    function positionValue() { return state.positions.reduce((sum, p) => sum + Number(p.quantity) * Number(p.currentPrice), 0); }
+    function render() {
+      $("cashBalance").textContent = fmt(state.cash, 5) + " SOL";
+      $("positionValue").textContent = fmt(positionValue(), 5) + " SOL";
+      const pnl = state.cash + positionValue() - Number(state.startingBalance);
+      $("totalPnl").textContent = (pnl > 0 ? "+" : "") + fmt(pnl, 5) + " SOL";
+      $("totalPnl").className = "metric-value " + (pnl >= 0 ? "positive" : "negative");
       const root = $("positionsList");
-      if (!positions.length) { root.innerHTML = '<div class="empty">Brak otwartych pozycji. Dodaj token, aby pobrać wycenę i złożyć pierwsze zlecenie.</div>'; return; }
-      root.innerHTML = positions.filter(p => p.status === "open" || p.status === "closing").map((p) => {
-        const entry = Number(p.entry_price_usd || 0), current = Number(p.current_price_usd || 0);
-        const change = entry && current ? (current / entry - 1) * 100 : null;
-        const color = change == null ? "" : change >= 0 ? "positive" : "negative";
-        return `<article class="position">
-          <div class="pos-top"><div class="identity"><div class="token-name">${escapeHtml(p.name)}<span class="symbol">${escapeHtml(p.symbol)}</span></div><div class="mint" title="${escapeHtml(p.mint)}">${escapeHtml(short(p.mint))}</div></div>
-            <div class="price"><div class="price-value">${current ? "$" + fmt(current, 8) : "—"}</div><div class="price-change ${color}">${change == null ? "Cena niedostępna" : `${change >= 0 ? "+" : ""}${fmt(change, 2)}%`}</div></div></div>
-          <div class="facts"><div><div class="fact-label">Koszt wejścia</div><div class="fact-value">${fmt(p.total_cost_sol, 5)} SOL</div></div><div><div class="fact-label">Cena wejścia</div><div class="fact-value">${entry ? "$" + fmt(entry, 8) : "—"}</div></div><div><div class="fact-label">ATH</div><div class="fact-value">${p.ath_price_usd ? "$" + fmt(p.ath_price_usd, 8) : "—"}</div></div><div><div class="fact-label">Ilość tokena</div><div class="fact-value">${fmt(Number(p.token_amount_raw) / 10 ** Number(p.token_decimals), 6)}</div></div></div>
-          <div class="strategy">SL ${p.stop_loss_pct ? p.stop_loss_pct + "%" : "—"} · TP ${p.take_profit_pct ? p.take_profit_pct + "%" : "—"} · trailing ${p.trailing_drawdown_pct ? p.trailing_drawdown_pct + "%" : "—"}</div>
-          <div class="actions"><button class="btn btn-small" data-strategy="${escapeHtml(p.mint)}">Reguły wyjścia</button><button class="btn btn-danger btn-small" data-sell="${escapeHtml(p.mint)}">Sprzedaj całość</button></div>
-        </article>`;
+      if (!state.positions.length) root.innerHTML = '<div class="empty">Nie masz jeszcze pozycji demo. Dodaj token, wpisz przykładową kwotę i cenę, aby zasymulować zakup.</div>';
+      else root.innerHTML = state.positions.map(p => {
+        const cost = Number(p.cost), value = Number(p.quantity) * Number(p.currentPrice), change = cost ? (value / cost - 1) * 100 : 0;
+        return '<article class="position"><div class="pos-top"><div class="identity"><div class="token-name">' + escapeHtml(p.name) + '<span class="symbol">' + escapeHtml(p.symbol) + '</span></div><div class="mint">' + (p.mint ? escapeHtml(p.mint) : 'bez adresu tokena') + '</div></div><div class="price"><div class="price-value">' + fmt(p.currentPrice, 10) + ' SOL</div><div class="price-change ' + (change >= 0 ? 'positive' : 'negative') + '">' + (change >= 0 ? '+' : '') + fmt(change, 2) + '%</div></div></div><div class="facts"><div><div class="fact-label">Włożono</div><div class="fact-value">' + fmt(cost, 5) + ' SOL</div></div><div><div class="fact-label">Wartość demo</div><div class="fact-value">' + fmt(value, 5) + ' SOL</div></div><div><div class="fact-label">Ilość tokenów</div><div class="fact-value">' + fmt(p.quantity, 8) + '</div></div><div><div class="fact-label">Wynik</div><div class="fact-value ' + (value >= cost ? 'positive' : 'negative') + '">' + (value >= cost ? '+' : '') + fmt(value - cost, 5) + ' SOL</div></div></div><div class="actions"><button class="btn btn-small" data-price="' + escapeHtml(p.id) + '">Zmień cenę demo</button><button class="btn btn-danger btn-small" data-sell="' + escapeHtml(p.id) + '">Zamknij pozycję</button></div></article>';
       }).join("");
+      const history = $("historyList");
+      if (!state.trades.length) history.innerHTML = '<div class="empty">Historia symulacji jest pusta.</div>';
+      else history.innerHTML = state.trades.slice().reverse().map(t => '<article class="trade"><div><div class="trade-title">' + (t.side === 'buy' ? 'Kupno demo' : 'Sprzedaż demo') + ' · ' + escapeHtml(t.symbol) + '</div><div class="trade-meta">' + new Date(t.createdAt).toLocaleString('pl-PL') + ' · ' + fmt(t.amount, 6) + ' SOL · cena ' + fmt(t.price, 10) + ' SOL</div></div><div class="trade-status ' + (t.side === 'buy' ? 'positive' : 'muted') + '">Symulacja</div></article>').join("");
+      $("startingBalance").value = state.startingBalance;
     }
-
-    function renderTrades(trades) {
-      const root = $("historyList");
-      if (!trades.length) { root.innerHTML = '<div class="empty">Historia transakcji jest pusta.</div>'; return; }
-      root.innerHTML = trades.map((t) => {
-        const label = t.side === "buy" ? "Kupno" : "Sprzedaż";
-        const statusLabel = t.status === "success" ? (t.automated ? "Auto · wykonano" : "Wykonano") : t.status === "pending" ? "W toku" : "Nieudane";
-        const when = new Date(t.created_at).toLocaleString("pl-PL");
-        const sig = t.signature ? `<a href="https://solscan.io/tx/${encodeURIComponent(t.signature)}" target="_blank" rel="noopener">Solscan ↗</a>` : escapeHtml(t.error_message || "");
-        return `<article class="trade"><div><div class="trade-title">${label} · ${escapeHtml(t.symbol || short(t.mint))}</div><div class="trade-meta">${when} · ${fmt(t.amount_sol, 5)} SOL · ${sig}</div></div><div class="trade-status ${t.status === "success" ? "positive" : t.status === "failed" ? "negative" : "muted"}">${statusLabel}</div></article>`;
-      }).join("");
-    }
-
-    function renderSettings(data) {
-      $("tradingEnabled").checked = data.trading_enabled;
-      $("autoEnabled").checked = data.auto_enabled;
-      $("maxTrade").value = data.max_per_trade_sol;
-      $("dailyLimit").value = data.daily_buy_limit_sol;
-      $("slippage").value = data.max_slippage_bps;
-    }
-
-    function escapeHtml(value) {
-      return String(value ?? "").replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
-    }
-
-    function openTrade(side, position = null) {
-      tradeSide = side;
-      pendingTrade = null;
+    function logTrade(side, symbol, amount, price) { state.trades.push({ side, symbol, amount, price, createdAt: new Date().toISOString() }); }
+    function openBuy() {
+      $("tradeTitle").textContent = "Symuluj zakup";
       $("tradeError").classList.add("hidden");
-      $("quoteBox").classList.add("hidden");
-      $("confirmTrade").classList.add("hidden");
-      $("quoteButton").classList.remove("hidden");
-      $("tradeTitle").textContent = side === "buy" ? "Kup token" : "Sprzedaj pozycję";
-      $("buyFields").classList.toggle("hidden", side === "sell");
-      $("sellSummary").classList.toggle("hidden", side !== "sell");
-      if (side === "sell" && position) {
-        currentMint = position.mint;
-        pendingTrade = { mint: position.mint, name: position.name, symbol: position.symbol };
-        $("sellSummary").textContent = `Sprzedasz całą pozycję ${position.name} (${position.symbol}), około ${fmt(Number(position.token_amount_raw) / 10 ** Number(position.token_decimals), 6)} tokenów.`;
-      } else { currentMint = null; }
+      $("mintInput").value = ""; $("nameInput").value = ""; $("symbolInput").value = "";
+      $("amountInput").value = ""; $("priceInput").value = "";
       $("tradeDialog").classList.add("open");
     }
-
-    async function requestQuote() {
-      $("tradeError").classList.add("hidden");
-      try {
-        if (tradeSide === "buy") pendingTrade = {
-          mint: $("mintInput").value.trim(), name: $("nameInput").value.trim() || "Token",
-          symbol: $("symbolInput").value.trim() || "TOKEN", amount_sol: Number($("amountInput").value),
-        };
-        const quote = await api("quote", { side: tradeSide, mint: pendingTrade.mint, amount_sol: pendingTrade.amount_sol });
-        const output = quote.expected_output == null ? `${quote.expected_output_raw} jednostek bazowych` : `${fmt(quote.expected_output, 7)} ${tradeSide === "buy" ? pendingTrade.symbol : "SOL"}`;
-        $("quoteBox").innerHTML = `<div class="quote-row"><span>Szacowany wynik</span><b>${escapeHtml(output)}</b></div><div class="quote-row"><span>Poślizg maksymalny</span><b>${fmt(quote.slippage_bps / 100, 2)}%</b></div><div class="quote-row"><span>Wpływ na cenę</span><b>${fmt(quote.price_impact_pct, 3)}%</b></div><div class="quote-row"><span>Minimalny wynik</span><b>${escapeHtml(quote.minimum_output_raw || "—")} jednostek bazowych</b></div><div class="field-help" style="margin-top:8px">Wycena może się zmienić przed wysłaniem transakcji. Silnik pobierze świeże zlecenie przy potwierdzeniu.</div>`;
-        $("quoteBox").classList.remove("hidden");
-        $("quoteButton").classList.add("hidden");
-        $("confirmTrade").classList.remove("hidden");
-      } catch (error) {
-        $("tradeError").textContent = error.message;
-        $("tradeError").classList.remove("hidden");
-      }
-    }
-
-    async function confirmTrade() {
-      if (!pendingTrade) return;
-      const side = tradeSide;
-      const text = side === "buy"
-        ? `Wykonać prawdziwy zakup ${pendingTrade.symbol} za ${fmt(pendingTrade.amount_sol, 5)} SOL? Transakcja zostanie podpisana przez portfel bota.`
-        : `Wykonać prawdziwą sprzedaż całej pozycji ${pendingTrade.symbol}? Transakcja zostanie podpisana przez portfel bota.`;
-      if (!window.confirm(text)) return;
-      const payload = { mint: pendingTrade.mint, name: pendingTrade.name, symbol: pendingTrade.symbol, amount_sol: pendingTrade.amount_sol, client_request_id: crypto.randomUUID(), confirm: true };
-      $("confirmTrade").disabled = true;
-      $("confirmTrade").textContent = "Wysyłanie…";
-      try {
-        const result = await api(side, payload);
-        $("tradeDialog").classList.remove("open");
-        toast(result.status === "success" ? "Transakcja wykonana na Solanie" : "Zlecenie przyjęte");
-        await refreshAll();
-      } catch (error) {
-        $("tradeError").textContent = error.message;
-        $("tradeError").classList.remove("hidden");
-      } finally {
-        $("confirmTrade").disabled = false;
-        $("confirmTrade").textContent = "Potwierdź transakcję";
-      }
-    }
-
-    async function saveStrategy() {
-      const payload = { mint: currentMint };
-      for (const [input, field] of [["stopLoss", "stop_loss_pct"], ["takeProfit", "take_profit_pct"], ["trailingStop", "trailing_drawdown_pct"]]) {
-        payload[field] = $(input).value === "" ? null : Number($(input).value);
-      }
-      try {
-        await api("strategy", payload);
-        $("strategyDialog").classList.remove("open");
-        toast("Reguły zapisane");
-        await refreshAll();
-      } catch (error) { $("strategyError").textContent = error.message; $("strategyError").classList.remove("hidden"); }
-    }
-
-    document.addEventListener("click", (event) => {
+    $("addToken").addEventListener("click", openBuy);
+    $("confirmTrade").addEventListener("click", () => {
+      const amount = Number($("amountInput").value), price = Number($("priceInput").value);
+      if (!Number.isFinite(amount) || amount <= 0 || !Number.isFinite(price) || price <= 0) { $("tradeError").textContent = "Wpisz poprawną kwotę SOL i cenę tokena większą od zera."; $("tradeError").classList.remove("hidden"); return; }
+      if (amount > state.cash) { $("tradeError").textContent = "Kwota przekracza dostępne wirtualne saldo."; $("tradeError").classList.remove("hidden"); return; }
+      const mint = $("mintInput").value.trim(), symbol = $("symbolInput").value.trim() || "TOKEN", name = $("nameInput").value.trim() || symbol;
+      const existing = state.positions.find(p => p.mint && mint && p.mint === mint);
+      const quantity = amount / price;
+      if (existing) { const totalCost = existing.cost + amount; existing.quantity += quantity; existing.cost = totalCost; existing.currentPrice = totalCost / existing.quantity; }
+      else state.positions.push({ id: crypto.randomUUID(), mint, symbol, name, cost: amount, quantity, currentPrice: price });
+      state.cash -= amount; logTrade("buy", symbol, amount, price); persist(); $("tradeDialog").classList.remove("open"); toast("Zapisano wirtualny zakup");
+    });
+    document.addEventListener("click", event => {
       const page = event.target.closest("[data-page]");
-      if (page) {
-        document.querySelectorAll(".nav button").forEach(button => button.classList.toggle("active", button === page));
-        document.querySelectorAll(".page").forEach(section => section.classList.toggle("active", section.id === `page-${page.dataset.page}`));
-      }
-      const sell = event.target.closest("[data-sell]");
-      if (sell) openTrade("sell", positions.find(p => p.mint === sell.dataset.sell));
-      const strategy = event.target.closest("[data-strategy]");
-      if (strategy) {
-        const position = positions.find(p => p.mint === strategy.dataset.strategy);
-        if (!position) return;
-        currentMint = position.mint;
-        $("strategyTitle").textContent = `Reguły · ${position.symbol}`;
-        $("stopLoss").value = position.stop_loss_pct ?? "";
-        $("takeProfit").value = position.take_profit_pct ?? "";
-        $("trailingStop").value = position.trailing_drawdown_pct ?? "";
-        $("strategyError").classList.add("hidden");
-        $("strategyDialog").classList.add("open");
-      }
-      if (event.target.closest("[data-close]")) event.target.closest(".overlay").classList.remove("open");
-      if (event.target.classList.contains("overlay")) event.target.classList.remove("open");
+      if (page) { document.querySelectorAll(".nav button").forEach(button => button.classList.toggle("active", button === page)); document.querySelectorAll(".page").forEach(section => section.classList.toggle("active", section.id === "page-" + page.dataset.page)); }
+      if (event.target.closest("[data-close]") || event.target.classList.contains("overlay")) event.target.closest(".overlay")?.classList.remove("open");
+      const priceButton = event.target.closest("[data-price]");
+      if (priceButton) { const p = state.positions.find(item => item.id === priceButton.dataset.price); if (!p) return; const value = prompt("Wpisz nową cenę demo tokena w SOL:", String(p.currentPrice)); if (value === null) return; const price = Number(value); if (!Number.isFinite(price) || price <= 0) { toast("Cena musi być większa od zera"); return; } p.currentPrice = price; persist(); toast("Zaktualizowano cenę demo"); }
+      const sellButton = event.target.closest("[data-sell]");
+      if (sellButton) { const index = state.positions.findIndex(item => item.id === sellButton.dataset.sell); if (index < 0) return; const p = state.positions[index], amount = Number(p.quantity) * Number(p.currentPrice); state.cash += amount; logTrade("sell", p.symbol, amount, p.currentPrice); state.positions.splice(index, 1); persist(); toast("Zamknięto pozycję w symulacji"); }
     });
-
-    $("connectButton").addEventListener("click", async () => {
-      $("connectButton").disabled = true;
-      $("connectError").classList.add("hidden");
-      try { await connect($("controlToken").value); }
-      catch (error) { $("connectError").textContent = error.message; $("connectError").classList.remove("hidden"); setStatus("Nie połączono", "warn"); }
-      finally { $("connectButton").disabled = false; }
-    });
-    $("downloadBotKey").addEventListener("click", downloadBotKey);
-    $("controlToken").addEventListener("keydown", event => { if (event.key === "Enter") $("connectButton").click(); });
-    $("addToken").addEventListener("click", () => openTrade("buy"));
-    $("quoteButton").addEventListener("click", requestQuote);
-    $("confirmTrade").addEventListener("click", confirmTrade);
-    $("saveStrategy").addEventListener("click", saveStrategy);
-    $("refreshHistory").addEventListener("click", () => refreshAll());
-    $("disconnect").addEventListener("click", () => { sessionStorage.removeItem("solana-bot-control-token"); controlToken = ""; $("appPanel").classList.add("hidden"); $("connectPanel").classList.remove("hidden"); $("controlToken").value = ""; setStatus("Odłączono", ""); });
-    $("saveSettings").addEventListener("click", async () => {
-      const notice = $("settingsNotice");
-      notice.classList.add("hidden");
-      try {
-        const updated = await api("settings", { settings: {
-          trading_enabled: $("tradingEnabled").checked, auto_enabled: $("autoEnabled").checked,
-          max_per_trade_sol: Number($("maxTrade").value), daily_buy_limit_sol: Number($("dailyLimit").value), max_slippage_bps: Number($("slippage").value),
-        }});
-        settings = updated;
-        toast("Ustawienia zapisane");
-        await refreshAll();
-      } catch (error) { notice.textContent = error.message; notice.classList.remove("hidden"); }
-    });
-    document.addEventListener("DOMContentLoaded", async () => {
-      if (controlToken) {
-        $("controlToken").value = controlToken;
-        try { await connect(controlToken); }
-        catch (error) { sessionStorage.removeItem("solana-bot-control-token"); controlToken = ""; $("controlToken").value = ""; $("connectError").textContent = error.message; $("connectError").classList.remove("hidden"); }
-      }
-    });
-    setInterval(() => { if (controlToken && !$("appPanel").classList.contains("hidden")) refreshAll(); }, 60000);
+    $("startingBalance").addEventListener("change", () => { const value = Number($("startingBalance").value); if (!Number.isFinite(value) || value <= 0) { $("startingBalance").value = state.startingBalance; toast("Kapitał musi być większy od zera"); return; } if (state.positions.length || state.trades.length) { $("startingBalance").value = state.startingBalance; toast("Aby zmienić kapitał, najpierw wyczyść symulację"); return; } state = freshState(value); persist(); toast("Ustawiono kapitał demo"); });
+    $("resetDemo").addEventListener("click", () => { if (!confirm("Wyczyścić całe demo, pozycje i historię w tej przeglądarce?")) return; state = freshState(Number(state.startingBalance) || DEFAULT_BALANCE); persist(); toast("Wyczyszczono symulację"); });
+    render();
   </script>
 </body>
 </html>
+
 
