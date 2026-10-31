@@ -246,7 +246,15 @@ async function updateMarkets(){
         token.marketCapUsd=Number(pair.marketCap);token.marketCapSol=solPriceUsd?token.marketCapUsd/solPriceUsd:null;token.mcUpdatedAt=now;token.mcSource="DEX Screener";
       }
       token.migratedFlag=token.migrated?1:0;if(token.migrated)token.bondingCurveProgressPercent=100;
-      if(token.source==="Pump.fun"&&token.marketCapUsd>0){for(const paper of portfolios.values())paper.onMarketUpdate(token);notifyMarket();}
+      // Każdy token z aktualną wyceną musi zasilać wszystkie silniki.
+      // Dzięki temu Menadżer może kontrolować także token wklejony ręcznie,
+      // nawet jeśli nie był wcześniej w puli nowych coinów Pump.fun.
+      if(token.marketCapUsd>0){
+        for(const paper of portfolios.values())paper.onMarketUpdate(token);
+        for(const manager of managers.values())manager.onMarketUpdate(token);
+        for(const copy of copies.values())copy.onMarketUpdate(token);
+        notifyMarket();
+      }
     }
     status.marketError=false;
   }catch{status.marketError=true;}finally{marketBusy=false;}
