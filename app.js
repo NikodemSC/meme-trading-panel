@@ -63,6 +63,7 @@ initializePaperSubviews();
 $$('[data-view]').forEach(button=>button.addEventListener('click',()=>setView(button.dataset.view)));
 $$('[data-paper-view]').forEach(button=>button.addEventListener('click',()=>setPaperView(button.dataset.paperView)));
 $$('[data-manager-view]').forEach(button=>button.addEventListener('click',()=>setManagerView(button.dataset.managerView)));
+$("#managerHistoryTab")?.addEventListener("click",()=>setManagerView("stats"));
 setView(location.hash.slice(1));window.addEventListener("hashchange",()=>setView(location.hash.slice(1)));
 
 function updateCard(node,token){
@@ -231,7 +232,7 @@ function renderManager(){
   for(const [id,value] of [["#managerEquity",wallet.equityUsd],["#managerCash",wallet.cashUsd],["#managerOpenValue",wallet.openValueUsd]])$(id).textContent=money(value);
   $("#managerTotalPnl").textContent=signedMoney(wallet.totalPnlUsd);$("#managerTotalPnl").className=pnlClass(wallet.totalPnlUsd);
   $("#managerPositionCount").textContent=`${manager.positions.length} ${manager.positions.length===1?"pozycja":"pozycji"}`;
-  $("#managerTrackedCount").textContent=manager.positions.length;$("#managerHistoryBadge").textContent=`Historia (${manager.history.length})`;
+  $("#managerTrackedCount").textContent=manager.positions.length;$("#managerHistoryBadge").textContent=manager.history.length;
   const rows=manager.positions.map(position=>`<article class="trade-row position-row"><div class="trade-asset"><span class="mini-avatar">${tokenAvatar(position)}</span><div><strong>${escapeHtml(position.name||position.symbol||"Token")}</strong><button class="copy-mint" data-mint="${escapeHtml(position.mint)}">${escapeHtml(shortMint(position.mint))} ⧉</button></div></div><div><span>Wartość</span><b>${money(position.currentValueUsd)}</b></div><div><span>Wejście / teraz</span><b>${compactMoney(position.entryMarketCapUsd)} → ${compactMoney(position.currentMarketCapUsd)}</b></div><div><span>PnL</span><b class="${pnlClass(position.unrealizedPnlUsd)}">${signedMoney(position.unrealizedPnlUsd)} · ${Number(position.pnlPercent||0).toFixed(2)}%</b></div><div><span>Akcja</span><button class="button danger-soft manager-remove" data-mint="${escapeHtml(position.mint)}" type="button">Usuń</button></div></article>`).join("");
   $("#managerPositions").innerHTML=rows||'<div class="empty compact">Nie obserwujesz jeszcze żadnego tokena.</div>';
   $$(".manager-remove").forEach(button=>button.addEventListener("click",async()=>{try{manager=await request(`${managerUrl("/api/manager/tokens")}&mint=${encodeURIComponent(button.dataset.mint)}`,{method:"DELETE"});renderManager();showMessage("#managerMessage","Token usunięty z Menadżera.");}catch(error){showMessage("#managerMessage",error.message,true);}}));
