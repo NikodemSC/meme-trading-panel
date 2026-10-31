@@ -116,4 +116,7 @@ body{background:radial-gradient(circle at 50% -25%,#142633 0,#0b111a 42%,#070b12
 .old-copy-actions .danger{color:#ff9aaa;border-color:#5a303c;background:#25151c}
 .old-copy-toggle{color:#d6c58e}
 .old-copy-toggle.running{color:#a8f5d0;border-color:#2f6e5d;background:#102b27}
+.old-copy-panel-head span{background:#123c3b;color:#b8fff5}
+.old-copy-toggle{color:#b9c8d5}
+.old-copy-type-tabs button:disabled{color:#566879;background:#0b1119}
 
