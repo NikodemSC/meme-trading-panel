@@ -52,7 +52,7 @@
   }
   window.MemeConnection = {
     fetch: request, saveToken, remote, get online() { return online; },
-    login() { location.replace(new URL("index.html", location.href)); },
+    login() { location.replace(new URL("login.html", location.href)); },
     home() { location.replace(new URL("index.html", location.href)); },
   };
   state(false);
