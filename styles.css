@@ -167,3 +167,30 @@ input:focus,select:focus{border-color:#ddd;box-shadow:0 0 0 3px rgba(255,255,255
 .old-copy-toggle{color:#ddd}
 .old-copy-toggle.running{color:#fff;border-color:#666;background:#202020}
 
+/* Finalnie usuwamy resztki fioletu i niebieskiego z całego panelu. */
+.brand,.brand-mark{color:#fff;background:#151515}
+.brand-mark{border:1px solid #555}
+.icon,.mini-avatar,.section-title>span,.future-card .section-title>span{background:#1c1c1c;color:#fff}
+.badge,.tx,.log-type,.stats-total-count,.copy-mint{color:#e5e5e5}
+.mc-state,.mc-state.stale{color:#d0d0d0}
+.bot-status.running,.bot-status.paused{color:#fff;border-color:#555;background:#1b1b1b}
+.bot-status.running i,.bot-status.paused i{background:#fff;box-shadow:none}
+.side.buy{color:#fff;background:#242424}
+.side.sell{color:#ffb5b5;background:#251515}
+.positive{color:#fff!important}.negative{color:#ffb5b5!important}
+.panel-tab span{background:#333;color:#fff}
+.paper-area-tab.active{color:#fff;border-color:#fff}
+.time-unit{background:#222;color:#eee}
+.calendar-day:hover{border-color:#999}
+.calendar-day.active{outline-color:#fff}
+.calendar-day.today{box-shadow:inset 0 0 0 1px #aaa}
+.calendar-day.positive{background:#1c1c1c;border-color:#555}
+.calendar-day.negative{background:#251515;border-color:#714646}
+.chart-current strong,#statsChart .chart-line{color:#fff;stroke:#fff}
+#statsChart .chart-dot{fill:#fff}
+.bucket-track i{background:#eee}
+.engine-status{background:#1d1d1d;color:#eee;border-bottom-color:#555}
+.create-wallet-dialog{background:#0b0b0b;border-color:#444}
+.create-wallet-dialog::backdrop{background:#000d}
+.old-copy-close{color:#ddd}
+
