@@ -2,267 +2,315 @@
 <html lang="pl">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#12151b">
-  <title>Solana Paper Trader</title>
-  <style>
-    :root{color-scheme:dark;--bg:#12151b;--panel:#191e27;--panel2:#242b37;--line:#353d4b;--text:#f3f5f8;--muted:#aeb7c6;--lime:#adbed8;--green:#75c99b;--red:#f18484;--amber:#e4bc72;font:16px/1.5 Inter,system-ui,-apple-system,"Segoe UI",sans-serif}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:var(--bg);color:var(--text)}button,input,select,textarea{font:inherit}button{cursor:pointer;color:inherit}.shell{max-width:1080px;margin:auto;padding:24px 20px 72px}.header{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:4px 0 20px;border-bottom:1px solid var(--line)}.brand{font-size:23px;font-weight:800;letter-spacing:-.04em}.subtitle{font-size:13px;color:var(--muted);margin-top:2px}.status{display:flex;align-items:center;gap:9px;border:1px solid var(--line);border-radius:999px;padding:8px 12px;color:var(--muted);font-size:13px}.dot{height:8px;width:8px;border-radius:50%;background:#81877c}.dot.ok{background:var(--green);box-shadow:0 0 10px #75c99b66}.dot.warn{background:var(--amber)}.nav{display:flex;gap:8px;padding:18px 0 24px;overflow:auto}.nav button,.btn{border:1px solid var(--line);border-radius:12px;background:var(--panel2);padding:10px 15px;font-size:14px;font-weight:700}.nav button{white-space:nowrap;color:var(--muted);background:transparent}.nav button.active{background:var(--lime);border-color:var(--lime);color:#171c25}.btn:hover,.nav button:hover{filter:brightness(1.12)}.btn-primary{background:var(--lime);border-color:var(--lime);color:#171c25}.btn-danger{color:#ffb1a9;border-color:#70443e;background:#291d1a}.btn-small{padding:7px 10px;font-size:12px}.page{display:none}.page.active{display:block}.page-head{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:0 0 16px}.page-head h1{font-size:27px;line-height:1.2;letter-spacing:-.035em;margin:0}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px}.metric{border:1px solid var(--line);border-radius:16px;background:var(--panel);padding:15px}.metric-label{font-size:13px;color:var(--muted)}.metric-value{font-size:20px;font-weight:800;margin-top:3px}.position-list{display:grid;gap:12px}.position{border:1px solid var(--line);border-radius:17px;background:var(--panel);padding:17px}.pos-top{display:flex;justify-content:space-between;gap:16px}.identity{min-width:0}.token-name{font-weight:800;font-size:17px}.symbol{color:var(--muted);font-size:13px;margin-left:7px}.mint{color:var(--muted);font:12px ui-monospace,SFMono-Regular,Consolas,monospace;overflow-wrap:anywhere;margin-top:4px}.price{text-align:right;flex:none}.price-value{font-size:21px;font-weight:800}.price-change{font-size:13px;font-weight:700}.positive{color:var(--green)}.negative{color:var(--red)}.facts{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:12px 0;margin:14px 0}.fact-label{font-size:12px;color:var(--muted)}.fact-value{font-size:14px;font-weight:700;margin-top:2px;overflow-wrap:anywhere}.strategy{font-size:13px;color:var(--muted)}.actions{display:flex;gap:8px;margin-top:13px}.actions button{flex:1}.empty{border:1px dashed #485164;border-radius:16px;padding:35px 18px;text-align:center;color:var(--muted)}.history-list{display:grid;gap:9px}.trade{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:14px}.trade-title{font-weight:750}.trade-meta{font-size:12px;color:var(--muted);margin-top:3px}.trade a{color:var(--lime);text-decoration:none}.trade-status{text-align:right;font-weight:750;font-size:13px}.panel{border:1px solid var(--line);border-radius:16px;background:var(--panel);padding:18px;margin-bottom:13px}.panel h2{font-size:18px;margin:0 0 12px}.notice{border:1px solid #5b4e31;background:#2a261a;color:#f2dda6;border-radius:13px;padding:13px 15px;font-size:13px;margin-bottom:15px}.notice.good{border-color:#315a3d;background:#17271c;color:#b6f0c4}.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:13px}.field{display:grid;gap:5px}.field.full{grid-column:1/-1}.field label{font-size:13px;color:var(--muted);font-weight:650}.field input,.field textarea,.field select{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:#11151d;color:var(--text)}.field input:focus,.field textarea:focus{outline:2px solid #adbed866;border-color:var(--lime)}.field-help{font-size:12px;color:var(--muted)}.switch-row{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line)}.switch-row:last-child{border-bottom:0}.switch-label{font-weight:700}.switch-help{font-size:12px;color:var(--muted)}input[type=checkbox]{accent-color:var(--lime);height:18px;width:18px}.overlay{position:fixed;inset:0;display:none;place-items:center;padding:14px;background:#000b;z-index:5}.overlay.open{display:grid}.dialog{width:min(520px,100%);max-height:92vh;overflow:auto;padding:20px;border:1px solid #4b5347;border-radius:18px;background:#191e27;box-shadow:0 20px 70px #0009}.dialog-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:15px}.dialog h2{margin:0;font-size:21px}.close{border:0;background:transparent;color:var(--muted);font-size:27px}.dialog-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:17px}.quote-box{margin-top:14px;border:1px solid var(--line);border-radius:12px;padding:12px;background:#141922}.quote-row{display:flex;justify-content:space-between;gap:14px;font-size:13px;padding:4px 0}.toast{position:fixed;bottom:20px;left:50%;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#e5edf7;color:#18212b;border-radius:12px;padding:11px 16px;font-weight:750;font-size:13px;transition:.2s;z-index:9;max-width:calc(100vw - 30px)}.toast.show{opacity:1;transform:translate(-50%,0)}.muted{color:var(--muted)}.danger{color:var(--red)}.hidden{display:none!important}@media(max-width:650px){.shell{padding:14px 12px 42px}.header{align-items:flex-start}.brand{font-size:20px}.status{font-size:11px;padding:7px 9px}.nav{padding:14px 0 19px}.nav button{padding:9px 12px;font-size:13px}.page-head h1{font-size:23px}.cards{grid-template-columns:1fr 1fr}.metric:last-child{grid-column:1/-1}.position{padding:14px}.token-name{font-size:15px}.price-value{font-size:18px}.facts{grid-template-columns:repeat(2,1fr)}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.actions .btn{padding:9px 7px;font-size:12px}}
-    .cards{grid-template-columns:repeat(4,1fr)}.metric-subvalue{font-size:13px;color:var(--muted);margin-top:2px}.pos-identity{display:flex;gap:12px;align-items:center;min-width:0}.token-image,.token-image-fallback{width:46px;height:46px;flex:none;border-radius:13px;border:1px solid var(--line);background:#11151d;object-fit:cover}.token-image-fallback{display:grid;place-items:center;font-weight:800;color:var(--lime)}.pos-links{display:flex;gap:12px;flex-wrap:wrap;margin-top:4px;font-size:12px}.pos-links a{color:var(--lime);text-decoration:none}.mint-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.mint-row .mint{margin:4px 0 0}.value-stack{text-align:right}.value-stack .price-value{font-size:22px}.value-sol{font-size:13px;color:var(--muted)}.rules{border-top:1px solid var(--line);margin-top:13px;padding-top:9px}.rules summary{cursor:pointer;color:var(--lime);font-weight:700;font-size:13px}.rules-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}.rules-grid label{display:grid;gap:4px;color:var(--muted);font-size:12px}.rules-grid input{width:100%;padding:8px;border:1px solid var(--line);border-radius:8px;background:#11151d;color:var(--text)}.rules-actions{display:flex;justify-content:flex-end;margin-top:10px}.rule-state{font-size:12px;color:var(--muted);margin-top:7px}.fee-preview{font-size:12px;color:var(--muted);grid-column:1/-1}.price-change{margin-top:2px}@media(max-width:800px){.cards{grid-template-columns:repeat(2,1fr)}}@media(max-width:650px){.cards{grid-template-columns:repeat(2,1fr)}.metric:last-child{grid-column:auto}.pos-top{align-items:flex-start}.pos-identity{gap:9px}.token-image,.token-image-fallback{width:38px;height:38px;border-radius:11px}.value-stack .price-value{font-size:17px}.rules-grid{grid-template-columns:1fr}}
-  </style>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>MemePilot · Paper Bot</title>
+  <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
-  <main class="shell">
-    <header class="header">
-      <div><div class="brand">Solana Paper Trader</div><div class="subtitle">Wklej adres tokena · aktualizacja co sekundę, gdy strona jest otwarta</div></div>
-      <div class="status"><span class="dot warn" id="marketDot"></span><span id="marketStatus">Oczekuję na token</span></div>
-    </header>
-    <nav class="nav" aria-label="Sekcje">
-      <button class="active" data-page="positions">Portfel demo</button><button data-page="history">Historia</button><button data-page="settings">Ustawienia</button>
+  <header class="topbar">
+    <a class="brand" href="#scanner"><span class="brand-mark">M</span><span>MemePilot</span></a>
+    <nav aria-label="Główna nawigacja">
+      <button class="nav-button active" data-view="scanner">Scanner</button>
+      <button class="nav-button" data-view="paper">Paper Trading</button>
+      <button class="nav-button" data-view="manager">Menadżer</button>
+      <button class="nav-button" data-view="copy">Copy</button>
     </nav>
-    <section class="page active" id="page-positions">
-      <div class="cards">
-        <div class="metric"><div class="metric-label">Wirtualne saldo</div><div class="metric-value" id="cashBalance">—</div><div class="metric-subvalue" id="cashUsd">—</div></div>
-        <div class="metric"><div class="metric-label">Wartość pozycji</div><div class="metric-value" id="positionValue">—</div><div class="metric-subvalue" id="positionValueSol">—</div></div>
-        <div class="metric"><div class="metric-label">Portfel razem</div><div class="metric-value" id="walletValue">—</div><div class="metric-subvalue" id="walletValueSol">—</div></div>
-        <div class="metric"><div class="metric-label">Łączny wynik</div><div class="metric-value" id="totalPnl">—</div><div class="metric-subvalue" id="totalPnlUsd">—</div></div>
+    <span id="connection">Łączenie…</span>
+    <div class="account-actions"><strong id="accountName"></strong><button id="logout" class="button ghost" type="button">Zmień konto</button></div>
+  </header>
+
+  <main>
+    <section class="view active" data-view-panel="scanner">
+      <div class="heading">
+        <div><span class="eyebrow">PUMP.FUN · LIVE</span><h1>Nowe coiny <i></i></h1><p>Strumień nowych tokenów i zmian market capu.</p></div>
+        <div class="counter"><strong id="count">0</strong><span id="countLabel">widocznych tokenów</span></div>
       </div>
-      <div class="panel">
-        <h2>Nowy zakup demo</h2>
-        <div class="form-grid">
-          <div class="field full"><label for="mintInput">Adres tokena Solana</label><input id="mintInput" maxlength="64" autocomplete="off" spellcheck="false" placeholder="Wklej adres tokena"></div>
-          <div class="field"><label for="amountInput">Kwota wirtualna (SOL)</label><input id="amountInput" type="number" min="0.001" step="0.001" value="0.1"></div>
-          <div class="field" style="align-self:end"><button class="btn btn-primary" id="buyToken">Kup demo</button></div>
-          <div class="fee-preview" id="feePreview">Szacowana opłata symulowana: —</div>
+      <div class="toolbar">
+        <label class="search-box"><span>⌕</span><input id="search" placeholder="Szukaj po adresie lub nazwie" autocomplete="off"></label>
+        <div class="market-filters">
+          <label class="mc-filter" for="minMc"><span>Min. market cap · USD</span><input id="minMc" type="number" min="0" step="any" inputmode="decimal" placeholder="Bez minimum" aria-describedby="filterError"></label>
+          <button class="button ghost" id="clearFilters" type="button" disabled>Wyczyść</button>
         </div>
-        <div id="tradeError" class="notice hidden" style="margin-top:12px;margin-bottom:0"></div>
+        <span id="queue" title="Transakcje oczekujące na odczyt danych z Solany."></span>
       </div>
-      <div class="page-head"><h1>Otwarte pozycje</h1><span class="field-help">Wartość pozycji · USD / SOL</span></div>
-      <div id="positionsList" class="position-list"></div>
+      <div id="filterError" role="alert"></div><div id="notice" role="status"></div>
+      <section class="feed">
+        <div class="columns"><span>TOKEN / ADRES</span><span>MARKET CAP</span><span>ŹRÓDŁO</span><span>UTWORZONO</span><span>TRANSAKCJA</span></div>
+        <div id="tokens"><div class="empty">Oczekiwanie na nowe tokeny…</div></div>
+      </section>
     </section>
-    <section class="page" id="page-history">
-      <div class="page-head"><h1>Historia demo</h1></div><div id="historyList" class="history-list"></div>
+
+    <section class="view" data-view-panel="paper">
+      <div class="paper-head">
+        <div><span class="eyebrow">WIRTUALNY PORTFEL</span><h1>Paper Trading</h1></div>
+        <div class="bot-control">
+          <span class="bot-status stopped" id="botStatus"><i></i><b>Stopped</b></span>
+          <button class="button success" data-bot-status="running">Start</button>
+          <button class="button" data-bot-status="paused">Pauza</button>
+          <button class="button danger-soft" data-bot-status="stopped">Stop</button>
+        </div>
+      </div>
+      <div class="paper-wallet-bar">
+        <label for="paperWalletSelect">Testowany portfel</label>
+        <select id="paperWalletSelect" aria-label="Wybierz portfel paper"></select>
+        <button id="newPaperWallet" class="button accent" type="button">+ Nowy portfel</button>
+        <button id="deletePaperWallet" class="button danger-soft" type="button">Usuń portfel</button>
+      </div>
+      <div class="paper-area-tabs" role="tablist" aria-label="Widok wybranego portfela">
+        <button class="paper-area-tab active" data-paper-view="overview" type="button">Portfel</button>
+        <button class="paper-area-tab" data-paper-view="stats" type="button">Statystyki</button>
+        <button class="paper-area-tab" data-paper-view="settings" type="button">Bot Settings</button>
+      </div>
+      <div id="paperOverview" class="paper-subview active" data-paper-subview="overview">
+      <div id="paperMessage" class="message" role="status"></div>
+      <div class="stat-grid">
+        <article class="stat primary"><span>Wartość portfela</span><strong id="paperEquity">$0.00</strong><small id="paperTotalPnl">$0.00</small></article>
+        <article class="stat"><span>Wolne środki</span><strong id="paperCash">$0.00</strong><small id="paperCashSol">— SOL</small></article>
+        <article class="stat"><span>Otwarte pozycje</span><strong id="paperPositionsValue">$0.00</strong><small id="paperPositionCount">0 pozycji</small></article>
+        <article class="stat"><span>Realized PnL</span><strong id="paperRealized">$0.00</strong><small>Zamknięte pozycje</small></article>
+        <article class="stat"><span>Unrealized PnL</span><strong id="paperUnrealized">$0.00</strong><small>Aktualna wycena</small></article>
+      </div>
+
+      <div class="paper-layout">
+        <section class="panel activity-panel">
+          <div class="panel-tabs" role="tablist">
+            <button class="panel-tab active" data-paper-tab="positions">Pozycje <span id="positionBadge">0</span></button>
+            <button class="panel-tab" data-paper-tab="history">Historia <span id="historyBadge">0</span></button>
+            <button class="panel-tab" data-paper-tab="logs">Dziennik</button>
+          </div>
+          <div id="positionsPanel" class="table-wrap paper-tab-panel"></div>
+          <div id="historyPanel" class="table-wrap paper-tab-panel hidden"></div>
+          <div id="logsPanel" class="table-wrap paper-tab-panel hidden"></div>
+        </section>
+        <aside class="panel wallet-panel">
+          <div><span class="eyebrow">PORTFEL TESTOWY</span><h2>Saldo początkowe</h2><p>Zmiana salda rozpoczyna nową, czystą sesję.</p></div>
+          <form id="walletForm">
+            <div class="amount-row"><input id="walletBalance" type="number" min="0.01" step="any" value="1000" required><select id="walletCurrency"><option value="USD">USD</option><option value="SOL">SOL</option></select></div>
+            <small id="walletConversion">—</small>
+            <button class="button accent wide" type="submit">Ustaw i zresetuj</button>
+          </form>
+          <button id="clearSession" class="button ghost wide" type="button">Wyczyść sesję</button>
+        </aside>
+      </div>
+      </div>
     </section>
-    <section class="page" id="page-settings">
-      <div class="page-head"><h1>Ustawienia</h1></div>
-      <div class="panel"><h2>Saldo demo</h2><p class="muted" style="font-size:14px">Możesz zmienić dostępne saldo bez usuwania otwartych pozycji ani historii. Pozycje i historia są zapisane w tej przeglądarce.</p><div class="form-grid"><div class="field"><label for="startingBalance">Dostępne saldo wirtualne (SOL)</label><input id="startingBalance" type="number" min="0" step="0.1"><button class="btn" id="saveBalance">Zapisz saldo</button></div><div class="field"><label for="buyFeePct">Symulowana opłata kupna (%)</label><input id="buyFeePct" type="number" min="0" max="5" step="0.01"><div class="field-help">Pobierana z wirtualnego salda przy każdym kupnie.</div></div></div><div class="dialog-actions"><button class="btn btn-danger" id="resetDemo">Wyczyść pozycje i historię</button></div></div>
+
+    <section class="view" data-view-panel="manager">
+      <div class="paper-head">
+        <div><span class="eyebrow">RĘCZNE ZAKUPY PAPER</span><h1>Menadżer</h1><p>Wklej adres tokena, kup go symulacyjnie i pozwól botowi pilnować sprzedaży.</p></div>
+      </div>
+      <div class="paper-wallet-bar"><label for="managerWalletSelect">Portfel Menadżera</label><select id="managerWalletSelect" aria-label="Wybierz portfel Menadżera"></select><button id="newManagerWallet" class="button accent" type="button">+ Nowy Menadżer</button><button id="deleteManagerWallet" class="button danger-soft" type="button">Usuń</button></div>
+      <form id="managerAddForm" class="manager-add panel"><div><span class="eyebrow">NOWY ZAKUP</span><h2>Wklej adres tokena</h2><p>Po kliknięciu kupna Menadżer wykona symulowany BUY i przejmie zarządzanie sprzedażą.</p></div><div class="manager-add-row"><input id="managerMint" type="text" placeholder="Adres tokena Solana" autocomplete="off" spellcheck="false" required><button class="button accent" type="submit">Kup token</button></div></form>
+      <div class="paper-area-tabs" role="tablist" aria-label="Widok menadżera"><button class="paper-area-tab active" data-manager-view="overview" type="button">Pozycje</button><button class="paper-area-tab" data-manager-view="stats" type="button">Statystyki</button><button class="paper-area-tab" data-manager-view="settings" type="button">Bot Settings</button></div>
+      <div class="manager-subview active" data-manager-subview="overview"><div id="managerMessage" class="message" role="status"></div><div class="stat-grid"><article class="stat primary"><span>Wartość portfela</span><strong id="managerEquity">$0.00</strong><small id="managerTotalPnl">$0.00</small></article><article class="stat"><span>Wolne środki</span><strong id="managerCash">$0.00</strong><small>Saldo symulacyjne</small></article><article class="stat"><span>Otwarte pozycje</span><strong id="managerOpenValue">$0.00</strong><small id="managerPositionCount">0 pozycji</small></article><article class="stat"><span>W kupionych tokenach</span><strong id="managerTrackedCount">0</strong><small>Ręcznie kupione</small></article></div><section class="panel activity-panel manager-positions-panel"><div class="panel-tabs"><span class="panel-tab active">Pozycje menadżera</span><span id="managerHistoryBadge" class="panel-tab">Historia</span></div><div id="managerPositions" class="table-wrap"></div></section></div>
+      <div class="manager-subview" data-manager-subview="stats"><div id="managerStatsMessage" class="message" role="status"></div><div class="stats-summary"><article class="panel stats-number"><span>Łączny wynik</span><strong id="managerStatsTotalPnl">—</strong><small>W tym otwarte pozycje</small></article><article class="panel stats-number"><span>Zrealizowany PnL</span><strong id="managerStatsRealized">—</strong><small>Po sprzedażach</small></article><article class="panel stats-number"><span>Transakcje</span><strong id="managerStatsEntries">0</strong><small>Wszystkie działania</small></article><article class="panel stats-number"><span>Win rate</span><strong id="managerStatsWinRate">—</strong><small>Zamknięte pozycje</small></article></div><section class="panel mc-stats-panel"><div class="stats-panel-head"><div><h2>Historia menadżera</h2><p>Ostatnie kupna i sprzedaże zarządzanych tokenów.</p></div></div><div id="managerHistory" class="table-wrap"></div></section></div>
+      <div class="manager-subview" data-manager-subview="settings"><div class="settings-head"><div><span class="eyebrow">REGUŁY ZARZĄDZANIA</span><h1>Bot Settings</h1><p>Te ustawienia dotyczą wyłącznie tokenów kupionych w Menadżerze.</p></div><div class="settings-actions"><button id="clearManagerSettings" class="button ghost" type="button">Wyczyść ustawienia</button><button class="button accent" form="managerSettingsForm" type="submit">Zapisz ustawienia</button></div></div><div id="managerSettingsMessage" class="message" role="status"></div><form id="managerSettingsForm" class="settings-grid manager-settings-grid"><section class="panel settings-card"><div class="section-title"><span>01</span><div><h2>Wielkość pozycji</h2><p>Parametry symulowanego wejścia.</p></div></div><div class="field-grid"><label><span>Kwota wejścia</span><div class="input-unit"><input name="entryAmountUsd" type="number" min="0.01" step="any"><b>USD</b></div></label><label><span>Maks. otwartych pozycji</span><input name="maxOpenPositions" type="number" min="1" max="100" step="1"></label></div></section><section class="panel settings-card"><div class="section-title"><span>02</span><div><h2>Sprzedaż</h2><p>Automatyczne wyjścia z pozycji.</p></div></div><div class="field-grid"><label><span>Take profit</span><div class="input-unit"><input name="takeProfitPercent" type="number" min="0" step="any"><b>%</b></div></label><label><span>Stop loss</span><div class="input-unit"><input name="stopLossPercent" type="number" min="0" step="any"><b>%</b></div></label><label><span>Trailing stop</span><div class="input-unit"><input name="trailingStopPercent" type="number" min="0" step="any"><b>%</b></div></label><label><span>Maks. czas pozycji</span><div class="input-unit time-input"><input name="maxHoldSeconds" type="number" min="0" step="any"><select class="time-unit" data-time-unit-for="maxHoldSeconds" aria-label="Jednostka maksymalnego czasu pozycji"><option value="seconds">sek.</option><option value="hours">godz.</option></select></div></label><label><span>Sprzedaj po braku ruchu</span><div class="input-unit time-input"><input name="stagnationExitSeconds" type="number" min="1" step="any" placeholder="Wyłączone"><select class="time-unit" data-time-unit-for="stagnationExitSeconds" aria-label="Jednostka czasu bez ruchu"><option value="seconds">sek.</option><option value="hours">godz.</option></select></div></label><label><span>Ruch resetujący licznik</span><div class="input-unit"><input name="stagnationMovementPercent" type="number" min="0.01" step="any"><b>%</b></div></label></div></section></form></div>
+    </section>
+
+    <section class="view" data-view-panel="copy">
+      <div class="old-copy-heading"><div><span class="eyebrow">COPY TRADING · PAPER</span><h1>Copy Trading</h1><p>Skonfiguruj kopiowanie wybranych portfeli w trybie symulacji.</p></div><button id="openCopyConfig" class="button accent" type="button"><span>+</span> Dodaj konfigurację</button></div>
+      <div id="copyMessage" class="message" role="status"></div>
+      <div class="old-copy-layout">
+        <section class="panel old-copy-list-panel"><div class="old-copy-panel-head"><h2>Moje konfiguracje</h2><span id="copyConfigCount">0</span></div><div class="old-copy-type-tabs"><button class="active" type="button">Paper</button><button type="button" disabled>Money</button></div><div id="copyConfigList" class="old-copy-list"></div><div id="emptyCopyConfigs" class="old-copy-empty"><div>◈</div><strong>Nie masz jeszcze konfiguracji Paper</strong><p>Wskaż portfel i procent jego transakcji, który ma kopiować symulacja.</p><button id="emptyAddCopy" class="button ghost" type="button"><span>+</span> Dodaj konfigurację</button></div></section>
+        <aside id="copyDetail" class="panel old-copy-detail"><div class="old-copy-placeholder"><span>◈</span><small>COPY TRADING · PAPER</small><h2>Wybierz konfigurację</h2><p>Po jej utworzeniu zobaczysz tu saldo symulacji, otwarte pozycje i historię kopiowania.</p></div></aside>
+      </div>
+    </section>
+
+    <section class="view" data-view-panel="stats">
+      <div class="stats-head"><div><span class="eyebrow">WYNIKI BOTÓW</span><h1>Statystyki</h1><p id="statsWalletName"></p></div></div>
+      <div id="statsMessage" class="message" role="status"></div>
+      <div class="stats-summary">
+        <article class="panel stats-number"><span>Łączny wynik</span><strong id="statsTotalPnl">—</strong><small>W tym otwarte pozycje</small></article>
+        <article class="panel stats-number"><span>Zrealizowany PnL</span><strong id="statsRealized">—</strong><small>Po sprzedażach</small></article>
+        <article class="panel stats-number"><span>Niezrealizowany PnL</span><strong id="statsUnrealized">—</strong><small>Ostatnia dostępna wycena</small></article>
+        <article class="panel stats-number"><span>Win rate</span><strong id="statsWinRate">—</strong><small id="statsWinLoss">Zamknięte pozycje</small></article>
+      </div>
+      <div class="stats-layout">
+        <section class="panel calendar-panel">
+          <div class="stats-panel-head"><div><h2>Kalendarz wyników</h2><p>Zrealizowany PnL z każdego dnia · czas polski</p></div><div class="calendar-nav"><button id="prevStatsMonth" class="button ghost" type="button" aria-label="Poprzedni miesiąc">‹</button><strong id="statsMonthLabel"></strong><button id="nextStatsMonth" class="button ghost" type="button" aria-label="Następny miesiąc">›</button></div></div>
+          <div class="calendar-weekdays"><span>Pn</span><span>Wt</span><span>Śr</span><span>Cz</span><span>Pt</span><span>So</span><span>Nd</span></div>
+          <div id="statsCalendar" class="stats-calendar"></div>
+          <div id="statsDayDetail" class="stats-day-detail">Wybierz dzień, żeby zobaczyć szczegóły.</div>
+        </section>
+        <section class="panel chart-panel">
+          <div class="stats-panel-head"><div><h2>Jak idzie botowi</h2><p>Skumulowany zrealizowany PnL · ostatnie 30 dni</p></div></div>
+          <div class="chart-current"><strong id="chartResult">—</strong><span>ostatnie 30 dni</span></div>
+          <svg id="statsChart" viewBox="0 0 600 230" role="img" aria-label="Wykres skumulowanego zrealizowanego PnL"></svg>
+          <div class="chart-axis"><span id="chartStart"></span><span id="chartEnd"></span></div>
+        </section>
+      </div>
+      <section class="panel mc-stats-panel">
+        <div class="stats-panel-head"><div><h2>Wejścia według market capu</h2><p>Udział wejść oraz wynik pozycji w każdym przedziale.</p></div><span id="statsEntriesCount" class="stats-total-count">0 wejść</span></div>
+        <div id="statsBuckets" class="stats-buckets"></div>
+      </section>
+    </section>
+
+    <section class="view" data-view-panel="settings">
+      <div class="settings-head"><div><span class="eyebrow">STRATEGIA I REALIZM</span><h1>Bot Settings</h1><p>Puste pole oznacza, że dany warunek nie jest brany pod uwagę.</p></div><div class="settings-actions"><button id="clearStrategySettings" class="button ghost" type="button">Wyczyść ustawienia</button><button class="button accent" form="strategyForm" type="submit">Zapisz ustawienia</button></div></div>
+      <div class="settings-wallet-label"><span>Ustawienia bota:</span><strong id="settingsWalletName">Paper 1</strong></div>
+      <div id="settingsMessage" class="message" role="status"></div>
+      <form id="strategyForm" class="settings-grid">
+        <section class="panel settings-card wide-settings settings-order-1">
+          <div class="section-title"><span>01</span><div><h2>Wejście</h2><p>Wielkość pozycji i filtry BUY.</p></div></div>
+          <div class="field-grid">
+            <label><span>Kwota wejścia</span><div class="input-unit"><input name="entryAmountUsd" type="number" min="0.01" step="any" required><b>USD</b></div></label>
+            <label><span>Maks. otwartych pozycji</span><input name="maxOpenPositions" type="number" min="1" max="100" step="1" required></label>
+            <label><span>Min. market cap</span><div class="input-unit"><input name="minMarketCapUsd" type="number" min="0" step="any"><b>USD</b></div></label>
+            <label><span>Maks. market cap</span><div class="input-unit"><input name="maxMarketCapUsd" type="number" min="0" step="any"><b>USD</b></div></label>
+            <label><span>Min. cena tokena</span><div class="input-unit"><input name="minPriceUsd" type="number" min="0" step="any"><b>USD</b></div></label>
+            <label><span>Maks. cena tokena</span><div class="input-unit"><input name="maxPriceUsd" type="number" min="0" step="any"><b>USD</b></div></label>
+            <label><span>Min. FDV</span><div class="input-unit"><input name="minFdvUsd" type="number" min="0" step="any"><b>USD</b></div></label>
+            <label><span>Maks. FDV</span><div class="input-unit"><input name="maxFdvUsd" type="number" min="0" step="any"><b>USD</b></div></label>
+            <label><span>Min. MC przy starcie</span><div class="input-unit"><input name="minLaunchMarketCapUsd" type="number" min="0" step="any"><b>USD</b></div></label>
+            <label><span>Maks. MC przy starcie</span><div class="input-unit"><input name="maxLaunchMarketCapUsd" type="number" min="0" step="any"><b>USD</b></div></label>
+            <label><span>Maks. wzrost od startu</span><div class="input-unit"><input name="maxLaunchGrowthPercent" type="number" min="0" step="any"><b>%</b></div></label>
+            <label><span>Min. postęp bonding curve</span><div class="input-unit"><input name="minBondingProgressPercent" type="number" min="0" max="100" step="any"><b>%</b></div></label>
+            <label><span>Maks. postęp bonding curve</span><div class="input-unit"><input name="maxBondingProgressPercent" type="number" min="0" max="100" step="any"><b>%</b></div></label>
+            <label><span>Etap tokena</span><select name="migrationState"><option value="">Dowolny</option><option value="0">Bonding curve</option><option value="1">Po migracji</option></select></label>
+            <label><span>Min. wiek tokena</span><div class="input-unit time-input"><input name="minAgeSeconds" type="number" min="0" step="any"><select class="time-unit" data-time-unit-for="minAgeSeconds" aria-label="Jednostka minimalnego wieku tokena"><option value="seconds">sek.</option><option value="hours">godz.</option></select></div></label>
+            <label><span>Maks. wiek tokena</span><div class="input-unit time-input"><input name="maxAgeSeconds" type="number" min="0" step="any"><select class="time-unit" data-time-unit-for="maxAgeSeconds" aria-label="Jednostka maksymalnego wieku tokena"><option value="seconds">sek.</option><option value="hours">godz.</option></select></div></label>
+            <label><span>Min. wiek pary DEX</span><div class="input-unit"><input name="minDexPairAgeMinutes" type="number" min="0" step="any"><b>min</b></div></label>
+            <label><span>Maks. wiek pary DEX</span><div class="input-unit"><input name="maxDexPairAgeMinutes" type="number" min="0" step="any"><b>min</b></div></label>
+          </div>
+          <label class="check"><input name="onePositionPerToken" type="checkbox"><span><b>Jeden zakup tokena na sesję</b><small>Bot nie wróci do tokena po jego sprzedaży.</small></span></label>
+        </section>
+
+        <section class="panel settings-card settings-order-2">
+          <div class="section-title"><span>02</span><div><h2>Wyjście</h2><p>Reguły automatycznego SELL.</p></div></div>
+          <div class="field-grid">
+            <label><span>Take profit</span><div class="input-unit"><input name="takeProfitPercent" type="number" min="0" step="any"><b>%</b></div></label>
+            <label><span>Częściowy take profit przy zysku</span><div class="input-unit"><input name="partialTakeProfitPercent" type="number" min="0" step="any" placeholder="Wyłączone"><b>%</b></div></label>
+            <label><span>Sprzedaj z pozycji</span><div class="input-unit"><input name="partialSellPercent" type="number" min="0.01" max="100" step="any" placeholder="Np. 25"><b>%</b></div></label>
+            <label><span>Stop loss</span><div class="input-unit"><input name="stopLossPercent" type="number" min="0" step="any"><b>%</b></div></label>
+            <label><span>Trailing stop</span><div class="input-unit"><input name="trailingStopPercent" type="number" min="0" step="any"><b>%</b></div></label>
+            <label><span>Sprzedaj po braku ruchu</span><div class="input-unit time-input"><input name="stagnationExitSeconds" type="number" min="1" step="any" placeholder="Wyłączone"><select class="time-unit" data-time-unit-for="stagnationExitSeconds" aria-label="Jednostka czasu bez ruchu"><option value="seconds">sek.</option><option value="hours">godz.</option></select></div></label>
+            <label><span>Ruch resetujący licznik</span><div class="input-unit"><input name="stagnationMovementPercent" type="number" min="0.01" step="any"><b>%</b></div></label>
+            <label><span>Maks. czas pozycji</span><div class="input-unit time-input"><input name="maxHoldSeconds" type="number" min="0" step="any"><select class="time-unit" data-time-unit-for="maxHoldSeconds" aria-label="Jednostka maksymalnego czasu pozycji"><option value="seconds">sek.</option><option value="hours">godz.</option></select></div></label>
+          </div>
+        </section>
+
+        <section class="panel settings-card wide-settings settings-order-6">
+          <div class="section-title"><span>06</span><div><h2>Dłuższe przedziały</h2><p>Dane z Dexscreenera. Ustaw dolny limit, górny limit albo oba.</p></div></div>
+          <div class="timeframe-grid">
+            <div class="timeframe-block"><strong>1 H</strong><div class="field-grid">
+              <label><span>Wolumen od</span><div class="input-unit"><input name="minVolume1hUsd" type="number" min="0" step="any"><b>USD</b></div></label>
+              <label><span>Wolumen do</span><div class="input-unit"><input name="maxVolume1hUsd" type="number" min="0" step="any"><b>USD</b></div></label>
+              <label><span>Transakcje od</span><input name="minTransactions1h" type="number" min="0" step="1"></label>
+              <label><span>Transakcje do</span><input name="maxTransactions1h" type="number" min="0" step="1"></label>
+              <label><span>Kupna od</span><input name="minBuys1h" type="number" min="0" step="1"></label>
+              <label><span>Kupna do</span><input name="maxBuys1h" type="number" min="0" step="1"></label>
+              <label><span>Sprzedaże od</span><input name="minSells1h" type="number" min="0" step="1"></label>
+              <label><span>Sprzedaże do</span><input name="maxSells1h" type="number" min="0" step="1"></label>
+              <label><span>Zmiana od</span><div class="input-unit"><input name="minPriceChange1h" type="number" step="any"><b>%</b></div></label>
+              <label><span>Zmiana do</span><div class="input-unit"><input name="maxPriceChange1h" type="number" step="any"><b>%</b></div></label>
+            </div></div>
+            <div class="timeframe-block"><strong>6 H</strong><div class="field-grid">
+              <label><span>Wolumen od</span><div class="input-unit"><input name="minVolume6hUsd" type="number" min="0" step="any"><b>USD</b></div></label>
+              <label><span>Wolumen do</span><div class="input-unit"><input name="maxVolume6hUsd" type="number" min="0" step="any"><b>USD</b></div></label>
+              <label><span>Transakcje od</span><input name="minTransactions6h" type="number" min="0" step="1"></label>
+              <label><span>Transakcje do</span><input name="maxTransactions6h" type="number" min="0" step="1"></label>
+              <label><span>Kupna od</span><input name="minBuys6h" type="number" min="0" step="1"></label>
+              <label><span>Kupna do</span><input name="maxBuys6h" type="number" min="0" step="1"></label>
+              <label><span>Sprzedaże od</span><input name="minSells6h" type="number" min="0" step="1"></label>
+              <label><span>Sprzedaże do</span><input name="maxSells6h" type="number" min="0" step="1"></label>
+              <label><span>Zmiana od</span><div class="input-unit"><input name="minPriceChange6h" type="number" step="any"><b>%</b></div></label>
+              <label><span>Zmiana do</span><div class="input-unit"><input name="maxPriceChange6h" type="number" step="any"><b>%</b></div></label>
+            </div></div>
+            <div class="timeframe-block"><strong>24 H</strong><div class="field-grid">
+              <label><span>Wolumen od</span><div class="input-unit"><input name="minVolume24hUsd" type="number" min="0" step="any"><b>USD</b></div></label>
+              <label><span>Wolumen do</span><div class="input-unit"><input name="maxVolume24hUsd" type="number" min="0" step="any"><b>USD</b></div></label>
+              <label><span>Transakcje od</span><input name="minTransactions24h" type="number" min="0" step="1"></label>
+              <label><span>Transakcje do</span><input name="maxTransactions24h" type="number" min="0" step="1"></label>
+              <label><span>Kupna od</span><input name="minBuys24h" type="number" min="0" step="1"></label>
+              <label><span>Kupna do</span><input name="maxBuys24h" type="number" min="0" step="1"></label>
+              <label><span>Sprzedaże od</span><input name="minSells24h" type="number" min="0" step="1"></label>
+              <label><span>Sprzedaże do</span><input name="maxSells24h" type="number" min="0" step="1"></label>
+              <label><span>Zmiana od</span><div class="input-unit"><input name="minPriceChange24h" type="number" step="any"><b>%</b></div></label>
+              <label><span>Zmiana do</span><div class="input-unit"><input name="maxPriceChange24h" type="number" step="any"><b>%</b></div></label>
+            </div></div>
+          </div>
+        </section>
+
+        <section class="panel settings-card wide-settings settings-order-7">
+          <div class="section-title"><span>07</span><div><h2>Profil tokena</h2><p>Linki społecznościowe i aktywne boosty widoczne w Dexscreenerze.</p></div></div>
+          <div class="field-grid">
+            <label><span>Strona internetowa</span><select name="requireWebsite"><option value="">Bez znaczenia</option><option value="1">Wymagana</option></select></label>
+            <label><span>X / Twitter</span><select name="requireTwitter"><option value="">Bez znaczenia</option><option value="1">Wymagany</option></select></label>
+            <label><span>Telegram</span><select name="requireTelegram"><option value="">Bez znaczenia</option><option value="1">Wymagany</option></select></label>
+            <label><span>Uzupełniony profil</span><select name="requireProfile"><option value="">Bez znaczenia</option><option value="1">Wymagany</option></select></label>
+            <label><span>Min. aktywne boosty</span><input name="minActiveBoosts" type="number" min="0" step="1"></label>
+            <label><span>Maks. aktywne boosty</span><input name="maxActiveBoosts" type="number" min="0" step="1"></label>
+          </div>
+        </section>
+
+        <section class="panel settings-card wide-settings settings-order-8">
+          <div class="section-title"><span>08</span><div><h2>Holderzy</h2><p>Dane z kont tokena na blockchainie Solany; koncentracja obejmuje także pule i bonding curve. Puste pole wyłącza warunek.</p></div></div>
+          <div class="field-grid">
+            <label><span>Holderzy od</span><input name="minHolders" type="number" min="0" step="1"></label>
+            <label><span>Holderzy do</span><input name="maxHolders" type="number" min="0" step="1"></label>
+            <label><span>Największy holder od</span><div class="input-unit"><input name="minTopHolderPercent" type="number" min="0" max="100" step="any"><b>%</b></div></label>
+            <label><span>Największy holder do</span><div class="input-unit"><input name="maxTopHolderPercent" type="number" min="0" max="100" step="any"><b>%</b></div></label>
+            <label><span>Top 10 holderów od</span><div class="input-unit"><input name="minTop10HoldersPercent" type="number" min="0" max="100" step="any"><b>%</b></div></label>
+            <label><span>Top 10 holderów do</span><div class="input-unit"><input name="maxTop10HoldersPercent" type="number" min="0" max="100" step="any"><b>%</b></div></label>
+          </div>
+        </section>
+
+        <section class="panel settings-card settings-order-3">
+          <div class="section-title"><span>03</span><div><h2>Symulacja wykonania</h2><p>Koszty i opóźnienie uwzględniane w każdym trade.</p></div></div>
+          <div class="field-grid">
+            <label><span>Fee sieciowe</span><div class="input-unit"><input name="networkFeeUsd" type="number" min="0" step="any"><b>USD</b></div></label>
+            <label><span>Fee platformy</span><div class="input-unit"><input name="platformFeePercent" type="number" min="0" max="100" step="any"><b>%</b></div></label>
+            <label><span>Slippage · limit ruchu ceny</span><div class="input-unit"><input name="slippagePercent" type="number" min="0" max="100" step="any"><b>%</b></div></label>
+            <label><span>Price impact</span><div class="input-unit"><input name="priceImpactPercent" type="number" min="0" max="100" step="any"><b>%</b></div></label>
+            <label class="full"><span>Execution delay</span><div class="input-unit"><input name="executionDelayMs" type="number" min="0" max="60000" step="1"><b>ms</b></div></label>
+          </div>
+        </section>
+
+        <section class="panel settings-card settings-order-4">
+          <div class="section-title"><span>04</span><div><h2>Rynek</h2><p>Płynność, wolumen i liczba transakcji z ostatnich 5 minut.</p></div></div>
+          <div class="field-grid">
+            <label><span>Min. płynność</span><div class="input-unit"><input name="minLiquidityUsd" type="number" min="0" step="any"><b>USD</b></div></label>
+            <label><span>Maks. płynność</span><div class="input-unit"><input name="maxLiquidityUsd" type="number" min="0" step="any"><b>USD</b></div></label>
+            <label><span>Min. wolumen 5 min</span><div class="input-unit"><input name="minVolume5mUsd" type="number" min="0" step="any"><b>USD</b></div></label>
+            <label><span>Maks. wolumen 5 min</span><div class="input-unit"><input name="maxVolume5mUsd" type="number" min="0" step="any"><b>USD</b></div></label>
+            <label><span>Min. transakcje 5 min</span><input name="minTransactions5m" type="number" min="0" step="any"></label>
+            <label><span>Maks. transakcje 5 min</span><input name="maxTransactions5m" type="number" min="0" step="any"></label>
+          </div>
+        </section>
+
+        <section class="panel settings-card settings-order-5">
+          <div class="section-title"><span>05</span><div><h2>Aktywność kupujących</h2><p>Kierunek transakcji i tempo zmiany ceny.</p></div></div>
+          <div class="field-grid">
+            <label><span>Min. kupna 5 min</span><input name="minBuys5m" type="number" min="0" step="1"></label>
+            <label><span>Maks. kupna 5 min</span><input name="maxBuys5m" type="number" min="0" step="1"></label>
+            <label><span>Min. sprzedaże 5 min</span><input name="minSells5m" type="number" min="0" step="1"></label>
+            <label><span>Maks. sprzedaże 5 min</span><input name="maxSells5m" type="number" min="0" step="1"></label>
+            <label><span>Min. udział kupna</span><div class="input-unit"><input name="minBuyRatio5mPercent" type="number" min="0" max="100" step="any"><b>%</b></div></label>
+            <label><span>Maks. udział kupna</span><div class="input-unit"><input name="maxBuyRatio5mPercent" type="number" min="0" max="100" step="any"><b>%</b></div></label>
+            <label><span>Min. zmiana 5 min</span><div class="input-unit"><input name="minPriceChange5m" type="number" step="any"><b>%</b></div></label>
+            <label><span>Maks. zmiana 5 min</span><div class="input-unit"><input name="maxPriceChange5m" type="number" step="any"><b>%</b></div></label>
+            <label><span>Min. momentum</span><div class="input-unit"><input name="minMomentum" type="number" step="any"><b>%</b></div></label>
+            <label><span>Maks. momentum</span><div class="input-unit"><input name="maxMomentum" type="number" step="any"><b>%</b></div></label>
+          </div>
+        </section>
+      </form>
     </section>
   </main>
-  <div class="toast" id="toast"></div>
-  <script>
-    const STORAGE_KEY = "meme-trading-paper-v2";
-    const DEFAULT_BALANCE = 5;
-    const SOL_MINT = "So11111111111111111111111111111111111111112";
-    const SUPABASE_URL = "https://odqgoejynyfqksazibwk.supabase.co";
-    const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_6wd7RGf40ilsLR04-GixbA_o1MhHV3u";
-    const SUPABASE_ANON_JWT = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9kcWdvZWp5bnlmcWtzYXppYndrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMyMDc5NTcsImV4cCI6MjEwODc4Mzk1N30.JxSXLMSIVjMUU85Di60xn0jAl_4535Icxk3VL4rxt-w";
-    const MARKET_FUNCTION = SUPABASE_URL + "/functions/v1/paper-market-data";
-    const MAX_TRACKED_TOKENS = 29;
-    const $ = (id) => document.getElementById(id);
-    const fmt = (value, digits = 4) => Number.isFinite(Number(value)) ? Number(value).toLocaleString("pl-PL", { maximumFractionDigits: digits }) : "—";
-    const escapeHtml = (value) => String(value ?? "").replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
-    const toast = (message) => { const el = $("toast"); el.textContent = message; el.classList.add("show"); setTimeout(() => el.classList.remove("show"), 2600); };
-    function freshState(balance = DEFAULT_BALANCE) { return { startingBalance: balance, cash: balance, positions: [], trades: [], lastUpdatedAt: null, buyFeePct: 0.3, solUsdPrice: null }; }
-    function loadState() {
-      try {
-        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
-        if (saved && Number.isFinite(Number(saved.startingBalance)) && Number.isFinite(Number(saved.cash)) && Array.isArray(saved.positions) && Array.isArray(saved.trades)) {
-          saved.positions = saved.positions.map((raw, index) => {
-            const p = raw && typeof raw === "object" ? raw : {};
-            return { ...p, id: String(p.id || "saved-position-" + index), mint: String(p.mint || p.address || p.tokenAddress || ""), name: String(p.name || p.symbol || "Token"), symbol: String(p.symbol || "TOKEN"), quantity: Number(p.quantity) || 0, cost: Number(p.cost) || 0, entryPriceUsd: Number(p.entryPriceUsd || p.currentPriceUsd) || 0, currentPriceUsd: Number(p.currentPriceUsd) || 0, currentPriceSol: Number(p.currentPriceSol) || 0, feesSol: Number(p.feesSol) || 0, marketCapUsd: Number(p.marketCapUsd) || 0, liquidityUsd: Number(p.liquidityUsd) || 0, volume24hUsd: Number(p.volume24hUsd) || 0, change24h: Number(p.change24h) || 0 };
-          });
-          saved.buyFeePct = Number.isFinite(Number(saved.buyFeePct)) ? Number(saved.buyFeePct) : 0.3;
-          return saved;
-        }
-      } catch (_) {}
-      return freshState();
-    }
-    let state = loadState();
-    let refreshBusy = false, buyBusy = false, rateLimitedUntil = 0, lastEmptyRefreshAt = 0;
-    function setMarketStatus(text, ok) { $("marketStatus").textContent = text; $("marketDot").className = "dot " + (ok ? "ok" : "warn"); }
-    function persist() { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); render(); }
-    function positionValue() { return state.positions.reduce((sum, p) => sum + Number(p.quantity) * Number(p.currentPriceSol || 0), 0); }
-    const fmtUsd = (value, digits = 2) => Number.isFinite(Number(value)) ? "$" + Number(value).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: digits }) : "—";
-    const fmtSignedUsd = (value) => (Number(value) > 0 ? "+$" : Number(value) < 0 ? "-$" : "$" ) + Math.abs(Number(value)).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    function safeImageUrl(value) { try { const url = new URL(value); return url.protocol === "https:" && /(^|\.)dexscreener\.com$/i.test(url.hostname) ? url.href : ""; } catch (_) { return ""; } }
-    function updateFeePreview() { const amount = Number($("amountInput").value), pct = Number(state.buyFeePct ?? 0.3); $("feePreview").textContent = "Szacowana symulowana opłata kupna: " + fmt(Number.isFinite(amount) ? amount * pct / 100 : 0, 6) + " SOL (" + fmt(pct, 2) + "%)"; }
-    function render() {
-      const holdingsValue = positionValue(), solUsd = Number(state.solUsdPrice) || 0, holdingsUsd = state.positions.reduce((sum, p) => sum + Number(p.quantity) * Number(p.currentPriceUsd || 0), 0);
-      const walletSol = Number(state.cash) + holdingsValue, walletUsd = solUsd > 0 ? walletSol * solUsd : 0;
-      $("cashBalance").textContent = fmt(state.cash, 5) + " SOL"; $("cashUsd").textContent = solUsd > 0 ? fmtUsd(Number(state.cash) * solUsd) : "Kurs SOL: —";
-      $("positionValue").textContent = fmtUsd(holdingsUsd); $("positionValueSol").textContent = fmt(holdingsValue, 5) + " SOL";
-      $("walletValue").textContent = solUsd > 0 ? fmtUsd(walletUsd) : "—"; $("walletValueSol").textContent = fmt(walletSol, 5) + " SOL";
-      const pnl = walletSol - Number(state.startingBalance), pnlUsd = solUsd > 0 ? pnl * solUsd : 0;
-      $("totalPnl").textContent = (pnl > 0 ? "+" : "") + fmt(pnl, 5) + " SOL"; $("totalPnlUsd").textContent = solUsd > 0 ? fmtSignedUsd(pnlUsd) : "Kurs SOL: —";
-      $("totalPnl").className = "metric-value " + (pnl >= 0 ? "positive" : "negative");
-      const root = $("positionsList");
-      if (!state.positions.length) root.innerHTML = '<div class="empty">Brak otwartych pozycji. Wklej adres tokena powyżej i kliknij „Kup demo”.</div>';
-      else root.innerHTML = state.positions.map(raw => {
-        const p = raw && typeof raw === "object" ? raw : {};
-        try {
-        const cost = Number(p.cost), value = Number(p.quantity) * Number(p.currentPriceSol || 0), change = Number(p.entryPriceUsd) > 0 && Number(p.currentPriceUsd) > 0 ? (Number(p.currentPriceUsd) / Number(p.entryPriceUsd) - 1) * 100 : 0;
-        const color = change >= 0 ? "positive" : "negative";
-        const stamp = p.stale ? "cena nieaktualna" : (p.updatedAt ? "odświeżono " + new Date(p.updatedAt).toLocaleTimeString("pl-PL") : "oczekuje na dane");
-        const pairLink = p.pairAddress ? '<a href="https://dexscreener.com/solana/' + encodeURIComponent(p.pairAddress) + '" target="_blank" rel="noopener">DEX Screener ↗</a>' : '';
-        const image = safeImageUrl(p.imageUrl), imageNode = image ? '<img class="token-image" src="' + escapeHtml(image) + '" alt="" loading="lazy" onerror="this.hidden=true;this.nextElementSibling.classList.remove(\'hidden\')"><span class="token-image-fallback hidden">' + escapeHtml((p.symbol || "?").slice(0, 2)) + '</span>' : '<span class="token-image-fallback">' + escapeHtml((p.symbol || "?").slice(0, 2)) + '</span>';
-        const mc = Number(p.marketCapUsd) > 0 ? fmtUsd(p.marketCapUsd, 0) : '—';
-        const rules = '<details class="rules"><summary>Ustawienia wyjścia · SL / TP / trailing stop</summary><div class="rule-state">' + (p.stopLossPct ? 'SL ' + fmt(p.stopLossPct, 2) + '%' : 'SL —') + ' · ' + (p.takeProfitPct ? 'TP ' + fmt(p.takeProfitPct, 2) + '%' : 'TP —') + ' · ' + (p.trailingStopPct ? 'trailing ' + fmt(p.trailingStopPct, 2) + '% od ATH' : 'trailing —') + '</div><form class="rules-grid" id="rules-' + escapeHtml(p.id) + '"><label>Stop loss (%)<input name="stopLossPct" type="number" min="0" max="99" step="0.1" value="' + (p.stopLossPct ?? '') + '" placeholder="wyłączony"></label><label>Take profit (%)<input name="takeProfitPct" type="number" min="0" max="9999" step="0.1" value="' + (p.takeProfitPct ?? '') + '" placeholder="wyłączony"></label><label>Trailing od ATH (%)<input name="trailingStopPct" type="number" min="0" max="99" step="0.1" value="' + (p.trailingStopPct ?? '') + '" placeholder="wyłączony"></label></form><div class="rules-actions"><button class="btn btn-small" data-save-rules="' + escapeHtml(p.id) + '">Zapisz reguły</button></div></details>';
-        return '<article class="position"><div class="pos-top"><div class="pos-identity">' + imageNode + '<div class="identity"><div class="token-name">' + escapeHtml(p.name || p.symbol || "Token") + '<span class="symbol">' + escapeHtml(p.symbol || "TOKEN") + '</span></div><div class="mint-row"><div class="mint" title="' + escapeHtml(p.mint || "") + '">CA: ' + escapeHtml(p.mint ? p.mint.slice(0, 6) + '…' + p.mint.slice(-5) : "brak adresu") + '</div>' + (p.mint ? '<button class="btn btn-small" data-copy="' + escapeHtml(p.mint) + '">Kopiuj CA</button>' : '') + '</div><div class="pos-links"><a href="https://axiom.trade/pulse" target="_blank" rel="noopener">Axiom ↗</a>' + (pairLink ? ' · ' + pairLink : '') + '</div></div></div><div class="value-stack"><div class="price-value">~' + fmtUsd(Number(p.quantity) * Number(p.currentPriceUsd || 0)) + '</div><div class="value-sol">' + fmt(value, 5) + ' SOL</div><div class="price-change ' + color + '">' + (change >= 0 ? '+' : '') + fmt(change, 2) + '% od zakupu</div></div></div><div class="facts"><div><div class="fact-label">Wirtualny zakup</div><div class="fact-value">' + fmt(cost, 5) + ' SOL</div></div><div><div class="fact-label">MC</div><div class="fact-value">' + mc + '</div></div><div><div class="fact-label">Ilość tokenów</div><div class="fact-value">' + fmt(p.quantity, 8) + '</div></div><div><div class="fact-label">Fee kupna (sym.)</div><div class="fact-value">' + fmt(p.feesSol || 0, 6) + ' SOL</div></div></div><div class="strategy">24h ' + (Number(p.change24h) >= 0 ? '+' : '') + fmt(p.change24h, 2) + '% · płynność ' + fmtUsd(p.liquidityUsd, 0) + ' · wolumen ' + fmtUsd(p.volume24hUsd, 0) + ' · ' + stamp + '</div>' + rules + '<div class="actions"><button class="btn btn-danger btn-small" data-sell="' + escapeHtml(p.id) + '">Zamknij pozycję teraz</button></div></article>';
-        } catch (error) {
-          console.error("Nie udało się wyświetlić pozycji", error, p);
-          return '<article class="position"><div class="token-name">' + escapeHtml(p.name || p.symbol || "Pozycja demo") + ' <span class="symbol">' + escapeHtml(p.symbol || "TOKEN") + '</span></div><div class="strategy">Zapisana pozycja · ~' + fmtUsd(Number(p.quantity) * Number(p.currentPriceUsd || 0)) + ' · ' + fmt(Number(p.quantity) * Number(p.currentPriceSol || 0), 5) + ' SOL · ' + escapeHtml(p.mint || "brak CA") + '</div></article>';
-        }
-      }).join("");
-      const history = $("historyList");
-      if (!state.trades.length) history.innerHTML = '<div class="empty">Nie ma jeszcze transakcji demo.</div>';
-      else history.innerHTML = state.trades.slice().reverse().map(t => '<article class="trade"><div><div class="trade-title">' + (t.side === "buy" ? "Kupno demo" : "Sprzedaż demo") + ' · ' + escapeHtml(t.symbol) + (t.exitReason ? ' · ' + escapeHtml(t.exitReason) : '') + '</div><div class="trade-meta">' + new Date(t.createdAt).toLocaleString("pl-PL") + ' · ' + fmt(t.amountSol, 6) + ' SOL' + (t.feeSol ? ' · fee ' + fmt(t.feeSol, 6) + ' SOL' : '') + ' · cena $' + fmt(t.priceUsd, 8) + ' · ' + fmt(t.quantity, 6) + ' tokenów</div></div><div class="trade-status ' + (t.side === "buy" ? "positive" : "muted") + '">Demo</div></article>').join("");
-      if (document.activeElement !== $("startingBalance")) $("startingBalance").value = state.cash;
-      if (document.activeElement !== $("buyFeePct")) $("buyFeePct").value = state.buyFeePct ?? 0.3; updateFeePreview();
-    }
-    function tokenAddressOk(value) { return /^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(value); }
-    async function getPairs(addresses) {
-      const list = Array.from(new Set(addresses.map(value => value.trim())));
-      if (!list.length || list.length > 30) throw new Error("Można sprawdzać maksymalnie 30 adresów naraz.");
-      const controller = new AbortController(), timeout = setTimeout(() => controller.abort(), 10000);
-      let response;
-      try {
-        response = await fetch(MARKET_FUNCTION, {
-          method: "POST",
-          headers: { "Content-Type": "application/json", apikey: SUPABASE_PUBLISHABLE_KEY, Authorization: "Bearer " + SUPABASE_ANON_JWT },
-          body: JSON.stringify({ addresses: list }),
-          cache: "no-store",
-          signal: controller.signal,
-        });
-      } catch (error) { if (error.name === "AbortError") throw new Error("Supabase nie odpowiedziało na czas."); throw new Error("Nie można połączyć się z serwisem notowań."); }
-      finally { clearTimeout(timeout); }
-      if (response.status === 429) { rateLimitedUntil = Date.now() + 10000; throw new Error("Limit zapytań do notowań. Spróbuję ponownie za kilka sekund."); }
-      const data = await response.json().catch(() => ({}));
-      if (!response.ok) throw new Error(data.error || "Serwis notowań odpowiedział błędem " + response.status + ".");
-      return Array.isArray(data) ? data : [];
-    }
-    function bestQuote(pairs, address) {
-      const key = address.toLowerCase();
-      const candidates = pairs.filter(pair => pair.chainId === "solana" && (pair.baseToken?.address?.toLowerCase() === key || pair.quoteToken?.address?.toLowerCase() === key)).map(pair => {
-        const isBase = pair.baseToken?.address?.toLowerCase() === key;
-        const baseUsd = Number(pair.priceUsd), native = Number(pair.priceNative);
-        const priceUsd = isBase ? baseUsd : (native > 0 ? baseUsd / native : 0);
-        const token = isBase ? pair.baseToken : pair.quoteToken;
-        return { mint: address, name: token?.name || "Token", symbol: token?.symbol || "TOKEN", priceUsd, liquidityUsd: Number(pair.liquidity?.usd || 0), volume24hUsd: Number(pair.volume?.h24 || 0), change24h: Number(pair.priceChange?.h24 || 0), marketCapUsd: Number(pair.marketCap || 0), imageUrl: safeImageUrl(pair.info?.imageUrl || ""), pairAddress: pair.pairAddress || "", dexId: pair.dexId || "" };
-      }).filter(q => Number.isFinite(q.priceUsd) && q.priceUsd > 0).sort((a,b) => b.liquidityUsd - a.liquidityUsd);
-      return candidates[0] || null;
-    }
-    async function currentQuotes(addresses) {
-      const pairs = await getPairs(addresses);
-      return new Map(addresses.map(address => [address, bestQuote(pairs, address)]));
-    }
-    function setTradeError(text) { $("tradeError").textContent = text; $("tradeError").classList.remove("hidden"); }
-    async function buyPaper() {
-      if (buyBusy) return;
-      const mint = $("mintInput").value.trim(), amount = Number($("amountInput").value);
-      $("tradeError").classList.add("hidden");
-      if (!tokenAddressOk(mint)) { setTradeError("Wklej poprawny adres tokena Solana (mint)."); return; }
-      if (!Number.isFinite(amount) || amount <= 0) { setTradeError("Wpisz wirtualną kwotę SOL większą od zera."); return; }
-      const feePct = Number(state.buyFeePct ?? 0.3), fee = amount * feePct / 100, debit = amount + fee;
-      if (debit > state.cash) { setTradeError("Kwota razem z opłatą jest większa niż dostępne saldo demo."); return; }
-      if (!state.positions.some(p => p.mint.toLowerCase() === mint.toLowerCase()) && state.positions.length >= MAX_TRACKED_TOKENS) { setTradeError("Możesz mieć jednocześnie maksymalnie 29 śledzonych pozycji."); return; }
-      buyBusy = true; $("buyToken").disabled = true; $("buyToken").textContent = "Sprawdzam token…"; setMarketStatus("Pobieram aktualne notowania…", false);
-      try {
-        const quotes = await currentQuotes([mint, SOL_MINT]);
-        const token = quotes.get(mint), sol = quotes.get(SOL_MINT);
-        if (!token) throw new Error("Nie znaleziono aktywnej puli z ceną dla tego adresu. Sprawdź mint tokena i spróbuj później.");
-        if (!sol || sol.priceUsd <= 0) throw new Error("Nie udało się pobrać aktualnej ceny SOL. Spróbuj ponownie za chwilę.");
-        const quantity = amount * sol.priceUsd / token.priceUsd;
-        const existing = state.positions.find(p => p.mint.toLowerCase() === mint.toLowerCase());
-        if (existing) {
-          const newQuantity = Number(existing.quantity) + quantity, newCost = Number(existing.cost) + debit;
-          existing.entryPriceUsd = (Number(existing.entryPriceUsd) * Number(existing.quantity) + token.priceUsd * quantity) / newQuantity;
-          existing.quantity = newQuantity; existing.cost = newCost; existing.feesSol = Number(existing.feesSol || 0) + fee;
-        } else {
-          state.positions.push({ id: crypto.randomUUID(), mint, name: token.name, symbol: token.symbol, imageUrl: token.imageUrl, quantity, cost: debit, feesSol: fee, entryPriceUsd: token.priceUsd, currentPriceUsd: token.priceUsd, currentPriceSol: token.priceUsd / sol.priceUsd, marketCapUsd: token.marketCapUsd, liquidityUsd: token.liquidityUsd, volume24hUsd: token.volume24hUsd, change24h: token.change24h, pairAddress: token.pairAddress, athPriceUsd: token.priceUsd, updatedAt: new Date().toISOString() });
-        }
-        const position = state.positions.find(p => p.mint.toLowerCase() === mint.toLowerCase());
-        position.name = token.name; position.imageUrl = token.imageUrl || position.imageUrl; position.currentPriceUsd = token.priceUsd; position.currentPriceSol = token.priceUsd / sol.priceUsd; position.marketCapUsd = token.marketCapUsd; position.liquidityUsd = token.liquidityUsd; position.volume24hUsd = token.volume24hUsd; position.change24h = token.change24h; position.pairAddress = token.pairAddress; position.athPriceUsd = Math.max(Number(position.athPriceUsd || 0), token.priceUsd); position.updatedAt = new Date().toISOString();
-        state.cash -= debit; state.solUsdPrice = sol.priceUsd;
-        state.trades.push({ side: "buy", mint, symbol: token.symbol, amountSol: amount, feeSol: fee, quantity, priceUsd: token.priceUsd, createdAt: new Date().toISOString() });
-        $("mintInput").value = ""; persist(); setMarketStatus("Dane live · ostatni odczyt " + new Date().toLocaleTimeString("pl-PL"), true); toast("Kupno demo zapisane po aktualnej cenie");
-      } catch (error) { setMarketStatus("Nie udało się pobrać notowań", false); setTradeError(error.name === "AbortError" ? "Serwis notowań nie odpowiedział na czas. Spróbuj ponownie." : error.message || "Nie można połączyć się z serwisem notowań."); }
-      finally { buyBusy = false; $("buyToken").disabled = false; $("buyToken").textContent = "Kup demo"; }
-    }
-    async function refreshPrices() {
-      if (refreshBusy || document.hidden || Date.now() < rateLimitedUntil) return;
-      if (!state.positions.length && Date.now() - lastEmptyRefreshAt < 5000) return;
-      if (!state.positions.length) lastEmptyRefreshAt = Date.now();
-      refreshBusy = true;
-      try {
-        const addresses = state.positions.map(p => p.mint);
-        const quotes = await currentQuotes([...addresses, SOL_MINT]);
-        const sol = quotes.get(SOL_MINT);
-        if (!sol || sol.priceUsd <= 0) throw new Error("Nie udało się pobrać notowania SOL.");
-        let updated = true;
-        state.solUsdPrice = sol.priceUsd;
-        const kept = [];
-        for (const p of state.positions) {
-          const q = quotes.get(p.mint);
-          if (!q) { p.stale = true; kept.push(p); continue; }
-          p.name = q.name; p.imageUrl = q.imageUrl || p.imageUrl; p.currentPriceUsd = q.priceUsd; p.currentPriceSol = q.priceUsd / sol.priceUsd; p.marketCapUsd = q.marketCapUsd; p.liquidityUsd = q.liquidityUsd; p.volume24hUsd = q.volume24hUsd; p.change24h = q.change24h; p.pairAddress = q.pairAddress; p.updatedAt = new Date().toISOString(); p.stale = false; p.athPriceUsd = Math.max(Number(p.athPriceUsd || p.entryPriceUsd || 0), q.priceUsd); updated = true;
-          const slHit = Number(p.stopLossPct) > 0 && q.priceUsd <= Number(p.entryPriceUsd) * (1 - Number(p.stopLossPct) / 100);
-          const tpHit = Number(p.takeProfitPct) > 0 && q.priceUsd >= Number(p.entryPriceUsd) * (1 + Number(p.takeProfitPct) / 100);
-          const trailingHit = Number(p.trailingStopPct) > 0 && Number(p.athPriceUsd) > Number(p.entryPriceUsd) && q.priceUsd <= Number(p.athPriceUsd) * (1 - Number(p.trailingStopPct) / 100);
-          if (slHit || tpHit || trailingHit) {
-            const proceeds = Number(p.quantity) * Number(p.currentPriceSol || 0), reason = slHit ? "Stop loss" : tpHit ? "Take profit" : "Trailing stop";
-            state.cash += proceeds; state.trades.push({ side: "sell", mint: p.mint, symbol: p.symbol, amountSol: proceeds, quantity: p.quantity, priceUsd: q.priceUsd, exitReason: reason, createdAt: new Date().toISOString() });
-            toast(reason + " uruchomiony dla " + p.symbol); continue;
-          }
-          kept.push(p);
-        }
-        state.positions = kept;
-        state.lastUpdatedAt = new Date().toISOString(); localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); render();
-        setMarketStatus((updated ? "Aktualizacja live · " : "Brak świeżej ceny · ") + new Date().toLocaleTimeString("pl-PL"), updated);
-      } catch (error) { setMarketStatus(error.message || "Błąd pobierania notowań", false); }
-      finally { refreshBusy = false; }
-    }
-    $("buyToken").addEventListener("click", buyPaper);
-    $("mintInput").addEventListener("keydown", event => { if (event.key === "Enter") buyPaper(); });
-    $("amountInput").addEventListener("input", updateFeePreview);
-    $("buyFeePct").addEventListener("change", () => {
-      const value = Number($("buyFeePct").value);
-      if (!Number.isFinite(value) || value < 0 || value > 5) { $("buyFeePct").value = state.buyFeePct ?? 0.3; toast("Opłata musi mieścić się w zakresie 0–5%"); return; }
-      state.buyFeePct = value; persist(); toast("Zapisano symulowaną opłatę kupna");
-    });
-    document.addEventListener("click", event => {
-      const page = event.target.closest("[data-page]");
-      if (page) { document.querySelectorAll(".nav button").forEach(button => button.classList.toggle("active", button === page)); document.querySelectorAll(".page").forEach(section => section.classList.toggle("active", section.id === "page-" + page.dataset.page)); }
-      const sell = event.target.closest("[data-sell]");
-      if (sell) {
-        const index = state.positions.findIndex(p => p.id === sell.dataset.sell); if (index < 0) return;
-        const p = state.positions[index], proceeds = Number(p.quantity) * Number(p.currentPriceSol || 0);
-        if (!(proceeds > 0)) { toast("Brak dostępnej ceny do zamknięcia pozycji"); return; }
-        state.cash += proceeds; state.trades.push({ side: "sell", mint: p.mint, symbol: p.symbol, amountSol: proceeds, quantity: p.quantity, priceUsd: p.currentPriceUsd, createdAt: new Date().toISOString() });
-        state.positions.splice(index, 1); persist(); toast("Pozycja demo zamknięta po ostatniej cenie");
-      }
-      const copy = event.target.closest("[data-copy]");
-      if (copy) navigator.clipboard.writeText(copy.dataset.copy).then(() => toast("Adres CA skopiowany"), () => toast("Nie udało się skopiować CA"));
-      const saveRules = event.target.closest("[data-save-rules]");
-      if (saveRules) {
-        const p = state.positions.find(item => item.id === saveRules.dataset.saveRules), form = $("rules-" + saveRules.dataset.saveRules); if (!p || !form) return;
-        const read = name => { const raw = form.elements[name].value.trim(); if (!raw) return null; const value = Number(raw); if (!Number.isFinite(value) || value < 0) return NaN; return value; };
-        const sl = read("stopLossPct"), tp = read("takeProfitPct"), trail = read("trailingStopPct");
-        if ([sl, tp, trail].some(value => Number.isNaN(value)) || sl > 99 || tp > 9999 || trail > 99) { toast("Sprawdź wartości procentowe reguł"); return; }
-        p.stopLossPct = sl; p.takeProfitPct = tp; p.trailingStopPct = trail; persist(); toast("Zapisano reguły wyjścia");
-      }
-      if (event.target.closest("[data-close]") || event.target.classList.contains("overlay")) event.target.closest(".overlay")?.classList.remove("open");
-    });
-    $("saveBalance").addEventListener("click", () => {
-      const value = Number($("startingBalance").value);
-      if (!Number.isFinite(value) || value < 0) { $("startingBalance").value = state.cash; toast("Saldo nie może być mniejsze od zera"); return; }
-      const difference = value - Number(state.cash); state.cash = value; state.startingBalance = Number(state.startingBalance) + difference; persist(); toast("Zapisano saldo — pozycje i historia zostały zachowane");
-    });
-    $("resetDemo").addEventListener("click", () => { if (!confirm("Wyczyścić pozycje i historię symulacji?")) return; state = freshState(Number(state.startingBalance) || DEFAULT_BALANCE); persist(); setMarketStatus("Oczekuję na token", false); toast("Wyczyszczono symulację"); });
-    render();
-    refreshPrices();
-    setInterval(refreshPrices, 1000);
-    document.addEventListener("visibilitychange", () => { if (!document.hidden) refreshPrices(); });
-  </script>
+  <dialog id="createWalletDialog" class="create-wallet-dialog">
+    <form id="createWalletForm" method="dialog">
+      <h2>Nowy portfel paper</h2>
+      <label>Nazwa<input id="newWalletName" maxlength="50" placeholder="Np. Strategia A" required></label>
+      <label>Saldo początkowe · USD<input id="newWalletBalance" type="number" min="0.01" step="any" value="1000" required></label>
+      <label class="check"><input id="cloneSettings" type="checkbox" checked><span><b>Skopiuj ustawienia obecnego bota</b><small>Nowy bot będzie potem działał niezależnie.</small></span></label>
+      <div class="dialog-actions"><button id="cancelCreateWallet" class="button ghost" type="button">Anuluj</button><button class="button accent" type="submit">Utwórz portfel</button></div>
+      <p id="createWalletError" class="message error" role="alert"></p>
+    </form>
+  </dialog>
+  <dialog id="createManagerDialog" class="create-wallet-dialog"><form id="createManagerForm" method="dialog"><h2>Nowy portfel Menadżera</h2><label>Nazwa<input id="newManagerName" maxlength="50" placeholder="Np. Memecoiny" required></label><label>Saldo początkowe · USD<input id="newManagerBalance" type="number" min="0.01" step="any" value="1000" required></label><label class="check"><input id="cloneManagerSettings" type="checkbox" checked><span><b>Skopiuj obecne ustawienia</b><small>Nowy Menadżer będzie potem niezależny.</small></span></label><div class="dialog-actions"><button id="cancelCreateManager" class="button ghost" type="button">Anuluj</button><button class="button accent" type="submit">Utwórz</button></div><p id="createManagerError" class="message error" role="alert"></p></form></dialog>
+  <dialog id="copyConfigDialog" class="create-wallet-dialog old-copy-dialog"><form id="copyConfigForm" method="dialog"><button id="closeCopyConfig" class="old-copy-close" type="button" aria-label="Zamknij">×</button><span class="eyebrow">COPY TRADING</span><h2 id="copyConfigTitle">Dodaj konfigurację</h2><p>Symulacja reaguje po wykryciu transakcji. Żadna transakcja nie trafia do sieci.</p><label>Nazwa<input id="copyConfigName" maxlength="50" placeholder="np. Copy Smart Money" required></label><label>Kopiowany wallet<input id="copyConfigSource" placeholder="Adres portfela Solana" autocomplete="off" spellcheck="false" required></label><label>Kapitał początkowy · USD<input id="copyConfigBalance" type="number" min="0.01" step="any" value="1000" required></label><label>Skala kopiowania · % wartości źródłowej<input id="copyConfigScale" type="number" min="0.01" max="1000" step="any" value="25" required></label><div class="old-copy-form-grid"><label>Execution delay · ms<input id="copyConfigDelay" type="number" min="0" max="60000" step="1" value="750" required></label><label>Prowizja · % / transakcję<input id="copyConfigFee" type="number" min="0" max="100" step="any" value="0.5" required></label><label>Stałe fee · USD<input id="copyConfigFixedFee" type="number" min="0" step="any" value="0.001" required></label><label>Poślizg · %<input id="copyConfigSlippage" type="number" min="0" max="100" step="any" value="1" required></label></div><p id="copyConfigError" class="message error" role="alert"></p><button id="saveCopyConfig" class="button accent wide" type="submit"><span>+</span> Zapisz konfigurację</button></form></dialog>
+  <script src="./frontend-config.js"></script>
+  <script src="./connection.js"></script>
+  <script src="./app.js"></script>
 </body>
 </html>
-
 
