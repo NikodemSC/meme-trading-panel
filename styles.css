@@ -199,3 +199,26 @@ input:focus,select:focus{border-color:#ddd;box-shadow:0 0 0 3px rgba(255,255,255
 .old-copy-type-tabs button.active{background:#f1f1f1!important;color:#050505!important}
 .old-copy-row.selected{background:#181818!important;box-shadow:inset 3px 0 #fff!important}
 
+/* Jednolite drobne elementy we wszystkich zakładkach. */
+.stat,.stats-number,.stats-number strong,.stat strong,.stat small,.stat>span{color:#fff!important}
+.stat.primary{background:#111!important;border-color:#444!important}
+.stat-grid .stat small,.stats-summary small{color:#bdbdbd!important}
+.positive,.negative,.old-copy-performance strong,.old-copy-card-values strong{color:#fff!important}
+.panel-tab span,.stats-total-count,.old-copy-panel-head span{background:#333!important;color:#fff!important}
+.paper-area-tab,.panel-tab,.paper-area-tab.active,.panel-tab.active{color:#eee!important}
+.paper-area-tab.active,.panel-tab.active{background:#292929!important;border-color:#fff!important}
+.bot-status,.bot-status.running,.bot-status.paused,.bot-status.stopped{color:#eee!important;background:#151515!important;border-color:#555!important}
+.bot-status i,.bot-status.running i,.bot-status.paused i,.bot-status.stopped i{background:#fff!important;box-shadow:none!important}
+.side.buy,.side.sell{color:#fff!important;background:#242424!important}
+.calendar-day,.calendar-day.positive,.calendar-day.negative,.calendar-day.today{background:#151515!important;border-color:#444!important;color:#fff!important;box-shadow:none!important}
+.calendar-day.active{outline:2px solid #fff!important}
+.bucket-track{background:#2a2a2a!important}
+.bucket-track i{background:#eee!important}
+.chart-current strong{color:#fff!important}
+#statsChart .chart-line{stroke:#fff!important}
+#statsChart .chart-dot{fill:#fff!important}
+.time-unit{background:#222!important;color:#fff!important}
+.check{background:#151515!important}
+.check input{accent-color:#fff!important}
+.input-unit b,.time-unit{color:#ddd!important}
+
