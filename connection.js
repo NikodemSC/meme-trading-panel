@@ -1,9 +1,13 @@
 (() => {
   const configured = String(window.MEME_PILOT_CONFIG?.apiBase || "").replace(/\/$/, "");
   const local = ["localhost", "127.0.0.1", "[::1]"].includes(location.hostname);
+  // GitHub Pages can briefly serve an older cached config file. Keep a safe
+  // public fallback so the static panel still reaches the hosted backend.
+  const githubPages = location.hostname.endsWith(".github.io");
+  const hostedFallback = githubPages ? "https://meme-pilot-backend.onrender.com" : "";
   // A full app deployment serves the panel and API from the same origin.
   // A GitHub Pages build sets staticPanel=true and must use the configured API URL.
-  const base = configured || (!window.MEME_PILOT_CONFIG?.staticPanel ? location.origin : "");
+  const base = configured || hostedFallback || (!window.MEME_PILOT_CONFIG?.staticPanel ? location.origin : "");
   const remote = Boolean(base && new URL(base).origin !== location.origin);
   const key = `meme-pilot:session:${base}`;
   let token = "";
