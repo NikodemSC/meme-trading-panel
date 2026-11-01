@@ -12,6 +12,7 @@ import { evaluateEntry, strategyFieldCatalog } from "./strategy-engine.mjs";
 import { RollingMarketMetrics } from "./live-metrics.mjs";
 import { AccountStore, sessionToken, sessionCookie, clearSessionCookie } from "./auth.mjs";
 import { applyCors } from "./cors.mjs";
+import { restorePublicSnapshot, savePublicSnapshot } from "./supabase-state.mjs";
 const root = new URL("./", import.meta.url), env = {};
 if (existsSync(new URL(".env",root))) for (const line of readFileSync(new URL(".env",root),"utf8").split(/\r?\n/)) {
   const m = line.match(/^([A-Z_]+)\s*=\s*(.*)$/); if(m) env[m[1]]=m[2].trim().replace(/^['"]|['"]$/g,"");
@@ -81,6 +82,7 @@ function importLegacyPaperData(userId){
     if(/^paper-(?:trading|wallets|wallet-[a-f0-9-]+)\.json$/.test(name))copyFileSync(join(dataDir,name),join(destination,name));
   }
 }
+await restorePublicSnapshot(dataDir);
 for(const userId of accounts.userIds()){portfolioFor(userId);managerFor(userId);copyFor(userId);}
 function upsertToken(values) {
   let token=byMint.get(values.mint);
@@ -429,17 +431,19 @@ const server=createServer(async(req,res)=>{
 });
 server.on("error",e=>{console.error(e.code==="EADDRINUSE"?"Port jest zajęty — serwer jest już uruchomiony.":"Błąd uruchomienia serwera.");process.exit(1)});
 let shuttingDown=false;
-function shutdown(){
+async function shutdown(){
   if(shuttingDown)return;shuttingDown=true;
   for(const portfolio of portfolios.values())portfolio.close();
   for(const portfolio of managers.values())portfolio.close();
   for(const portfolio of copies.values())portfolio.close();
+  await savePublicSnapshot(dataDir);
   server.close(()=>process.exit(0));
   setTimeout(()=>process.exit(0),2000).unref?.();
 }
 process.on("SIGTERM",shutdown);process.on("SIGINT",shutdown);
 server.listen(Number(config.MEME_PILOT_PORT||config.PORT||8787),config.MEME_PILOT_HOST||(config.PORT?"0.0.0.0":"127.0.0.1"),()=>{
   console.log("Nowe coiny: http://localhost:"+server.address().port);connect();setInterval(decode,300);
+  setInterval(()=>{void savePublicSnapshot(dataDir)},5000).unref?.();
   updateMarkets();setInterval(updateMarkets,5000);setInterval(pollCopyWallets,5000);setInterval(loadMetadata,250);setInterval(updateOneHolderMetric,800);
   setInterval(()=>{if(socket?.readyState===WebSocket.OPEN&&Date.now()-lastMessage>45000)socket.close()},10000);
 });
