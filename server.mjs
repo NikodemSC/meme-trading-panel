@@ -428,6 +428,16 @@ const server=createServer(async(req,res)=>{
   }catch(error){json(res,400,{error:error?.message||"Nie udało się wykonać operacji."});}
 });
 server.on("error",e=>{console.error(e.code==="EADDRINUSE"?"Port jest zajęty — serwer jest już uruchomiony.":"Błąd uruchomienia serwera.");process.exit(1)});
+let shuttingDown=false;
+function shutdown(){
+  if(shuttingDown)return;shuttingDown=true;
+  for(const portfolio of portfolios.values())portfolio.close();
+  for(const portfolio of managers.values())portfolio.close();
+  for(const portfolio of copies.values())portfolio.close();
+  server.close(()=>process.exit(0));
+  setTimeout(()=>process.exit(0),2000).unref?.();
+}
+process.on("SIGTERM",shutdown);process.on("SIGINT",shutdown);
 server.listen(Number(config.MEME_PILOT_PORT||config.PORT||8787),config.MEME_PILOT_HOST||(config.PORT?"0.0.0.0":"127.0.0.1"),()=>{
   console.log("Nowe coiny: http://localhost:"+server.address().port);connect();setInterval(decode,300);
   updateMarkets();setInterval(updateMarkets,5000);setInterval(pollCopyWallets,5000);setInterval(loadMetadata,250);setInterval(updateOneHolderMetric,800);
