@@ -37,6 +37,18 @@ export class ManagerEngine extends PaperEngine {
     return this.publicState();
   }
 
+  sellToken(mint) {
+    const clean = String(mint || "").trim();
+    const position = this.state.positions.find(item => item.mint === clean && item.status === "OPEN");
+    if (!position) throw Error("Nie znaleziono otwartej pozycji dla tego tokena.");
+    // Ręczna sprzedaż działa niezależnie od tego, czy automat był zatrzymany.
+    this.state.status = "running";
+    this.schedule("SELL", clean, "MANUAL_SELL");
+    this.log(`${position.symbol || clean}: zlecono ręczny SELL.`, "SELL");
+    this.emit("manager-sell-pending");
+    return this.publicState();
+  }
+
   onMarketUpdate(token) {
     if (!token?.mint || !this.state.trackedMints.includes(token.mint) || !(Number(token.marketCapUsd) > 0)) return;
     let changed = false;
