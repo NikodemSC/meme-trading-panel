@@ -1,14 +1,14 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
-const projectUrl = process.env.SUPABASE_URL || "https://odqgoejynyfqksazibwk.supabase.co";
+const projectUrl = process.env.SUPABASE_URL || "";
 const secretKey = process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY || "";
 const tableUrl = `${projectUrl.replace(/\/$/, "")}/rest/v1/meme_pilot_state`;
 let warned = false;
 
 function enabled() {
-  if (secretKey) return true;
-  if (!warned) { warned = true; console.warn("Supabase persistence is disabled: set SUPABASE_SECRET_KEY on the backend."); }
+  if (projectUrl && secretKey) return true;
+  if (!warned) { warned = true; console.warn("Supabase persistence is disabled: set SUPABASE_URL and SUPABASE_SECRET_KEY on the backend."); }
   return false;
 }
 
